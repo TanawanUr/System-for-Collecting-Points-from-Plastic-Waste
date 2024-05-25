@@ -1,6 +1,6 @@
-// import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
+
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -8,8 +8,25 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(),
-    );
+        appBar: appBar(),
+        body: Center(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 35,
+              ),
+              AppButtons(
+                textColor: Color(0xffFFFFFF),
+                backgroundColor: Color(0xffF9CA10),
+                borderColor: Color(0xffEEC004),
+                text: 'แลกของรางวัล',
+                width: 160,
+                height: 140,
+                icon: "assets/svg/present.svg",
+              ),
+            ],
+          ),
+        ));
   }
 
   PreferredSize appBar() {
