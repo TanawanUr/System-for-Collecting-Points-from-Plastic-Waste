@@ -13,22 +13,61 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('แผนที่'),
-      ),
+      appBar: appBar(),
       body: Stack(
         children: [
-          FlutterMap(options: MapOptions(
-            center: LatLng(51.5, -0.09),
-            zoom: 3.2,
-          ), children: [
-            TileLayer(
-              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-              userAgentPackageName: 'com.example.app',
-            )
-          ])
+          FlutterMap(
+              options: MapOptions(
+                center: LatLng(7.201325, 100.6011093),
+                zoom: 16.75,
+              ),
+              children: [
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'com.example.app',
+                )
+              ])
         ],
       ),
+    );
+  }
+
+  PreferredSize appBar() {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(100),
+      child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(35),
+            ),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color.fromARGB(255, 0, 18, 63),
+                Color.fromARGB(255, 0, 30, 105)
+              ],
+            ),
+          ),
+          child: SafeArea(
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 15, 0, 25),
+                  child: Text(
+                    'ตำแหน่งเครื่องแลก',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 34,
+                      fontWeight: FontWeight.w700,
+                      height: 1,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )),
     );
   }
 }

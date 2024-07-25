@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -41,79 +41,6 @@ class HomePage extends StatelessWidget {
               icon: "assets/svg/present.svg",
             ),
           ],
-        ),
-      ),
-
-
-
-      
-      extendBody: true,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/qrscan');
-        },
-        child: Icon(Icons.qr_code_scanner, color: Colors.white, size: 40),
-        backgroundColor: Color(0xff00154B),
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-            color: Color(0xffD9D9D9),
-        ),
-        // bottomNavigationBar: BottomAppBar(
-        // height: 50,
-        // padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-        // shape: BoxShape.rectangle,
-        // borderRadius: BorderRadius.vertical(
-        //   bottom: Radius.circular(35),
-        // ),
-
-        // color: Color(0xffD9D9D9),
-        child: SafeArea(
-          child: ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30.0),
-              topRight: Radius.circular(30.0),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/home');
-                  },
-                  icon: FaIcon(FontAwesomeIcons.home),
-                  color: Color(0xff6C6C6C),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/map');
-                  },
-                  icon: FaIcon(FontAwesomeIcons.mapMarkedAlt),
-                  color: Color(0xff6C6C6C),
-                ),
-                SizedBox(
-                  width: 40,
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/history');
-                  },
-                  icon: FaIcon(FontAwesomeIcons.solidListAlt),
-                  color: Color(0xff6C6C6C),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/profile');
-                  },
-                  icon: FaIcon(FontAwesomeIcons.solidUser),
-                  color: Color(0xff6C6C6C),
-                ),
-              ],
-            ),
-          ),
         ),
       ),
     );
@@ -200,3 +127,4 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
