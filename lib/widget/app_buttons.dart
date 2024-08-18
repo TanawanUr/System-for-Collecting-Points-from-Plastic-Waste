@@ -4,61 +4,75 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class AppButtons extends StatelessWidget {
   final Color textColor;
+  final Color iconColor;
   final Color backgroundColor;
   final Color borderColor;
   final String text;
   final String icon;
+  final VoidCallback onPressed;
+  double textSize;
+  double iconSize;
   double width;
   double height;
+  double blurRadius;
   AppButtons(
-    {super.key,
-    required this.textColor,
-    required this.backgroundColor,
-    required this.borderColor,
-    required this.text,
-    required this.width,
-    required this.height,
-    required this.icon}
-  );
+      {super.key,
+      required this.textColor,
+      required this.iconColor,
+      required this.backgroundColor,
+      required this.borderColor,
+      required this.text,
+      required this.textSize,
+      required this.iconSize,
+      required this.width,
+      required this.height,
+      required this.blurRadius,
+      required this.icon,
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      child: Center(
-          child: Column(
-        children: [
-          SizedBox(
-            height: 30,
-          ),
-          SvgPicture.asset(icon ,color: textColor , width: 60, height: 60),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            text,
-            style: TextStyle(
-              color: textColor,
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        width: width,
+        height: height,
+        child: Center(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 10,
             ),
-          ),
-        ],
-      )),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.vertical(
-            top: Radius.circular(35), bottom: Radius.circular(35)),
-        boxShadow: [
-          BoxShadow(
-            color: borderColor,
-            spreadRadius: 1,
-            blurRadius: 0,
-            offset: const Offset(0, 6),
-          )
-        ]
+            SvgPicture.asset(icon,
+                color: iconColor, width: iconSize, height: iconSize),
+            SizedBox(
+              height: 15,
+            ),
+            Text(
+              text,
+              style: TextStyle(
+                color: textColor,
+                fontSize: textSize,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ],
+        )),
+        decoration: BoxDecoration(
+            color: backgroundColor,
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.vertical(
+                top: Radius.circular(35), bottom: Radius.circular(35)),
+            boxShadow: [
+              BoxShadow(
+                color: borderColor,
+                spreadRadius: 1,
+                blurRadius: blurRadius,
+                offset: const Offset(0, 6),
+              )
+            ]),
       ),
     );
   }
