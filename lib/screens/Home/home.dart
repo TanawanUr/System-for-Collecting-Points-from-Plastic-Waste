@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Home/prize.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
 
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class Home_Screen extends StatelessWidget {
+  const Home_Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,33 +17,30 @@ class HomePage extends StatelessWidget {
             SizedBox(
               height: 35,
             ),
-            // GestureDetector(
-            //   onTap: () {
-            //     Navigator.pushNamed(context, '/map');
-            //   },
-            //   child: AppButtons(
-            //     textColor: Color(0xffFFFFFF),
-            //     backgroundColor: Color(0xffF9CA10),
-            //     borderColor: Color(0xffEEC004),
-            //     text: 'สแกน QR Code',
-            //     width: 160,
-            //     height: 140,
-            //     icon: "assets/svg/qr-code.svg",
-            //   ),
-            // ),
-
             AppButtons(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PrizeListPage()),
+                );
+              },
               textColor: Color(0xffFFFFFF),
+              iconColor: Color(0xffFFFFFF),
               backgroundColor: Color(0xffF9CA10),
               borderColor: Color(0xffEEC004),
               text: 'แลกของรางวัล',
+              textSize: 20,
+              iconSize: 60,
               width: 160,
               height: 140,
+              blurRadius: 0,
               icon: "assets/svg/present.svg",
             ),
+
           ],
         ),
       ),
+      backgroundColor: Color(0xffEAEAEA),
     );
   }
 
@@ -127,4 +125,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-

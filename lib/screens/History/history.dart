@@ -1,34 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
 
-class MapPage extends StatefulWidget {
-  const MapPage({super.key});
+class History_Screen extends StatefulWidget {
+  const History_Screen({super.key});
 
   @override
-  State<MapPage> createState() => _MapPageState();
+  State<History_Screen> createState() => _History_ScreenState();
 }
 
-class _MapPageState extends State<MapPage> {
+class _History_ScreenState extends State<History_Screen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+      return Scaffold(
       appBar: appBar(),
-      body: Stack(
-        children: [
-          FlutterMap(
-              options: MapOptions(
-                center: LatLng(7.201325, 100.6011093),
-                zoom: 16.75,
-              ),
-              children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.example.app',
-                )
-              ])
-        ],
+      body: Center(
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.fromLTRB(35, 30, 0, 0),
+                alignment: Alignment.centerLeft,
+                child: Text(
+                    'รายการล่าสุด', 
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      height: 1,
+                    ),
+                  ),
+              )
+            ],
+          ),
       ),
+      
     );
   }
 
@@ -56,7 +60,7 @@ class _MapPageState extends State<MapPage> {
                 Container(
                   margin: EdgeInsets.fromLTRB(0, 15, 0, 25),
                   child: Text(
-                    'ตำแหน่งเครื่องแลก',
+                    'ประวัติการใช้งาน',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 34,

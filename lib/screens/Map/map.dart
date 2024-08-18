@@ -1,38 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
-class HistoryPage extends StatefulWidget {
-  const HistoryPage({super.key});
+class Map_Screen extends StatefulWidget {
+  const Map_Screen({super.key});
 
   @override
-  State<HistoryPage> createState() => _HistoryPageState();
+  State<Map_Screen> createState() => _Map_ScreenState();
 }
 
-class _HistoryPageState extends State<HistoryPage> {
+class _Map_ScreenState extends State<Map_Screen> {
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
+    return Scaffold(
       appBar: appBar(),
-      body: Center(
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.fromLTRB(35, 30, 0, 0),
-                alignment: Alignment.centerLeft,
-                child: Text(
-                    'รายการล่าสุด', 
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      height: 1,
-                    ),
-                  ),
-              )
-            ],
-          ),
+      body: Stack(
+        children: [
+          FlutterMap(
+              options: MapOptions(
+                center: LatLng(7.201325, 100.6011093),
+                zoom: 16.75,
+              ),
+              children: [
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'com.example.app',
+                )
+              ])
+        ],
       ),
-      
     );
   }
 
@@ -60,7 +56,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 Container(
                   margin: EdgeInsets.fromLTRB(0, 15, 0, 25),
                   child: Text(
-                    'ประวัติการใช้งาน',
+                    'ตำแหน่งเครื่องแลก',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 34,
