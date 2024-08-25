@@ -41,14 +41,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
         backgroundColor: Color(0xff00154B),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
-            Radius.circular(24),
+            Radius.circular(23),
           ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         elevation: 1,
-        height: 50,
+        height: 60,
         color: Color.fromARGB(255, 255, 255, 255),
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: Row(
