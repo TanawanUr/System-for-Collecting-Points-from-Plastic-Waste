@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/widget/ItemsWidget.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/widget/CertificateWidget.dart';
 
-class Stationery_Screen extends StatelessWidget {
-  const Stationery_Screen({super.key});
+class Certificate_Screen extends StatelessWidget {
+  const Certificate_Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+      return Scaffold(
       backgroundColor: Color(0xff00154B),
       appBar: AppBar(
         backgroundColor: Color(0xff00154B),
@@ -17,7 +17,7 @@ class Stationery_Screen extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'อุปกรณ์การเรียน',
+          'เกียจติบัตร',
           style: TextStyle(
             color: Colors.white,
             fontSize: 32,
@@ -29,7 +29,6 @@ class Stationery_Screen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            // ItemsWidget(),
             SizedBox(
               height: 10,
             ),
@@ -44,9 +43,9 @@ class Stationery_Screen extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 5,
+                      height: 25,
                     ),
-                        ItemsWidget(),
+                    CertificateWidget(),
                   ],
                 ),
               ),
@@ -55,5 +54,6 @@ class Stationery_Screen extends StatelessWidget {
         ),
       ),
     );
+
   }
 }
