@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/navbar.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void main() {
@@ -16,6 +16,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: 'NotoSansThai'),
-        home: const BottomNavBar());
+        home: LoginPage());
   }
 }
