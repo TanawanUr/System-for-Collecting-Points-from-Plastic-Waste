@@ -71,6 +71,8 @@ class PrizeListPage extends StatelessWidget {
                             blurRadius: 2,
                             icon: "assets/svg/tools.svg",
                           ),
+
+                          
                         ],
                       ),
                       SizedBox(

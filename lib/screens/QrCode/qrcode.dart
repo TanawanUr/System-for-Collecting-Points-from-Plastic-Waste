@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/QrCode/CountingBottle.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
 
-
 class QrCode_Screen extends StatefulWidget {
   const QrCode_Screen({super.key});
 
@@ -17,7 +16,6 @@ class _QrCode_ScreenState extends State<QrCode_Screen> {
       body: Center(
         child: Column(
           children: [
-
             SizedBox(
               height: 105,
             ),
@@ -29,7 +27,8 @@ class _QrCode_ScreenState extends State<QrCode_Screen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const CountingBottle()),
+                  MaterialPageRoute(
+                      builder: (context) => const CountingBottle()),
                 );
               },
               textColor: Color(0xffFFFFFF),
@@ -44,11 +43,8 @@ class _QrCode_ScreenState extends State<QrCode_Screen> {
               blurRadius: 0,
               icon: "assets/svg/present.svg",
             ),
-            
           ],
-        ),       
-        
-
+        ),
       ),
     );
   }

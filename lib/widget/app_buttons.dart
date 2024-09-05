@@ -38,7 +38,7 @@ class AppButtons extends StatelessWidget {
         width: width,
         height: height,
         child: Center(
-            child: Column(
+          child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
