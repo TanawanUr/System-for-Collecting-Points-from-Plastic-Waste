@@ -27,21 +27,24 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: RawMaterialButton(
         onPressed: () {
           setState(() {
             currentIndex = 2;
           });
         },
-        child: FaIcon(
-          FontAwesomeIcons.qrcode,
-          size: 30,
-          color: Color.fromARGB(255, 255, 255, 255),
-        ),
-        backgroundColor: Color(0xff00154B),
+        child: 
+        Image.asset(
+            'assets/images/qrcode.png',
+            height: 55,
+            width: 55,
+            color: Color.fromARGB(255, 255, 255, 255),   
+          ),
+        fillColor: Color(0xff00154B),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
-            Radius.circular(23),
+            Radius.circular(30),
           ),
         ),
       ),
