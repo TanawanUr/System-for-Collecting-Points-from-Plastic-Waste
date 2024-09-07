@@ -58,8 +58,8 @@ class LoginPage extends StatelessWidget {
                       BoxShadow(
                         color: const Color.fromARGB(255, 151, 151, 151),
                         spreadRadius: 0.1,
-                        blurRadius: 10,
-                        offset: const Offset(0, 6),
+                        blurRadius: 5,
+                        offset: const Offset(0, 2),
                       )
                     ]),
                 child: Padding(
