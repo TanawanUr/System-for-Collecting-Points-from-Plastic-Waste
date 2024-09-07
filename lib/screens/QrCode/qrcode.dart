@@ -13,13 +13,13 @@ class _QrCode_ScreenState extends State<QrCode_Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffEAEAEA),
       body: Center(
         child: Column(
           children: [
             SizedBox(
               height: 105,
             ),
-            Text("QrCode"),
             SizedBox(
               height: 105,
             ),
