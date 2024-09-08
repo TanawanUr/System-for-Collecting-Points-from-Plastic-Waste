@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/History/history.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/Home/home.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/Map/map.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/Profile/profile.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/QrCode/qrcode.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/History/history.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/Home/home.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/Map/map.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/Profile/profile.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/QrCode/qrcode.dart';
 
-class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({super.key});
+class StudentHomePage extends StatefulWidget {
+  const StudentHomePage({super.key});
 
   @override
-  State<BottomNavBar> createState() => _BottomNavBarState();
+  State<StudentHomePage> createState() => _StudentHomePageState();
 }
 
-class _BottomNavBarState extends State<BottomNavBar> {
+class _StudentHomePageState extends State<StudentHomePage> {
   int currentIndex = 0;
 
   List screens = [
@@ -33,13 +33,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
             currentIndex = 2;
           });
         },
-        child: 
-        Image.asset(
-            'assets/images/qrcode.png',
-            height: 55,
-            width: 55,
-            color: Color.fromARGB(255, 255, 255, 255),   
-          ),
+        child: Image.asset(
+          'assets/images/qrcode.png',
+          height: 55,
+          width: 55,
+          color: Color.fromARGB(255, 255, 255, 255),
+        ),
         fillColor: Color(0xff00154B),
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         shape: const RoundedRectangleBorder(

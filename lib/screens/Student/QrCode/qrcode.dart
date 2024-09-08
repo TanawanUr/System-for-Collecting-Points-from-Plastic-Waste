@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/QrCode/CountingBottle.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/QrCode/CountingBottle.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
 
 class QrCode_Screen extends StatefulWidget {

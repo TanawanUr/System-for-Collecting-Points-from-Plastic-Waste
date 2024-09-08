@@ -1,8 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Admin/admin_home.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Professor/professor_home.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/staff_home.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/navbar.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  final ApiService _apiService = ApiService();
+
+  Future<void> _login() async {
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+
+    try {
+      final response = await _apiService.login(username, password);
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('authToken', response['token']);
+      await prefs.setString('role', response['role']);
+
+      if (response['role'] == 'admin') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => AdminHomePage()),
+        );
+      } else if (response['role'] == 'staff') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => StaffHomePage()),
+        );
+      } else if (response['role'] == 'professor') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => ProfessorHomePage()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => StudentHomePage()),
+        );
+      }
+    } catch (e) {
+      print('Login failed: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +121,7 @@ class LoginPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextField(
+                        controller: _usernameController,
                         decoration: InputDecoration(
                           labelText: 'e-Passport',
                           labelStyle: TextStyle(
@@ -78,6 +131,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       TextField(
+                        controller: _passwordController,
                         decoration: InputDecoration(
                           labelText: 'password',
                           labelStyle: TextStyle(
@@ -87,13 +141,7 @@ class LoginPage extends StatelessWidget {
                         obscureText: true,
                       ),
                       InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const BottomNavBar()),
-                          );
-                        },
+                        onTap: (_login),
                         child: Container(
                           width: 200,
                           height: 50,

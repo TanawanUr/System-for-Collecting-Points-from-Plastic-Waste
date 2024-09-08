@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/PrizeList/Certificate.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/PrizeList/Certificate.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/PrizeList/Stationery.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/PrizeList/Stationery.dart';
 
 class PrizeListPage extends StatelessWidget {
   const PrizeListPage({super.key});
@@ -57,7 +57,8 @@ class PrizeListPage extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const Stationery_Screen()),
+                                      builder: (context) =>
+                                          const Stationery_Screen()),
                                 );
                               },
                               textColor: Color(0xff000000),
@@ -72,8 +73,6 @@ class PrizeListPage extends StatelessWidget {
                               blurRadius: 2,
                               icon: "assets/svg/tools.svg",
                             ),
-                    
-                            
                           ],
                         ),
                         SizedBox(
@@ -115,7 +114,8 @@ class PrizeListPage extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const Certificate_Screen()),
+                                      builder: (context) =>
+                                          const Certificate_Screen()),
                                 );
                               },
                               textColor: Color(0xff000000),
