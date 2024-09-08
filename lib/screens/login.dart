@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Admin/admin_home.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Professor/professor_home.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/staff_home.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/navbar.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/navbar.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

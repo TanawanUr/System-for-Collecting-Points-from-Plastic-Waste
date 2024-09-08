@@ -5,8 +5,7 @@ import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/st
 import 'package:system_for_collecting_points_from_plastic_waste/screens/login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/login.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/navbar.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/navbar.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Admin/admin_home.dart';
 
 void main() {
@@ -49,6 +48,13 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'NotoSansThai'),
+      // routes: {
+      //   '/login': (context) => LoginPage(),
+      //   '/student': (context) => StudentHomePage(),
+      //   '/professor': (context) => ProfessorHomePage(),
+      //   '/staff': (context) => StaffHomePage(),
+      //   '/admin': (context) => AdminHomePage(),
+      // },
       home: _isLoggedIn
           ? _role == 'admin'
               ? AdminHomePage()

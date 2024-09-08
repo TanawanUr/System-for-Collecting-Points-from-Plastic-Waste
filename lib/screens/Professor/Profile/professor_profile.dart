@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/login.dart';
 
-class Profile_Screen extends StatelessWidget {
-  const Profile_Screen({super.key});
+class ProfessorProfilePage extends StatelessWidget {
+  const ProfessorProfilePage({super.key});
 
   Future<void> _logout(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
@@ -15,9 +15,7 @@ class Profile_Screen extends StatelessWidget {
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => LoginPage()),
-        (Route<dynamic> route) => false
-      );
-    
+        (Route<dynamic> route) => false);
   }
 
   @override
@@ -26,7 +24,7 @@ class Profile_Screen extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            width: double.infinity ,
+            width: double.infinity,
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.vertical(
@@ -34,67 +32,96 @@ class Profile_Screen extends StatelessWidget {
                 ),
                 color: Color(0xff00154B)),
             child: SafeArea(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    SizedBox(
-                      height: 150,
-                      width: 150,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: Image(
-                          image: AssetImage("assets/images/profile.png"),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: 25,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                         ),
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: SizedBox(
+                            height: 150,
+                            width: 150,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Image(
+                                image: AssetImage(
+                                    "assets/images/person/nattapon_noorit.png"),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 50,
+                        ),
+                        // IconButton(
+                        //   icon: Icon(
+                        //     Icons.logout,
+                        //     color: Colors.white,
+                        //   ),
+                        //   onPressed: () => _logout(context),
+                        // ),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 15,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Column(
+                      children: [
+                        Text(
+                          "ณัฐพล  หนูฤทธิ",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 34,
+                            fontWeight: FontWeight.w700,
+                            height: 1.7,
+                          ),
+                        ),
+                        Text(
+                          "อาจารย์,\nหัวหน้าหลักสูตรสาขาวิศวกรรมคอมพิวเตอร์",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            height: 1.2,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      "ธนวันต์ อุรามา",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 34,
-                        fontWeight: FontWeight.w700,
-                        height: 1.7,
-                      ),
-                    ),
-                    Text(
-                      "164404140076",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        height: 1.2,
-                      ),
-                    ),
-                    Text(
-                      "คณะ วิศวกรรมศาสตร์",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        height: 1.2,
-                      ),
-                    ),
-                    Text(
-                      "สาขา วิศวกรรมคอมพิวเตอร์",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        height: 1.2,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  // Text(
+                  //   "สาขา วิศวกรรมคอมพิวเตอร์",
+                  //   style: TextStyle(
+                  //     color: Colors.white,
+                  //     fontSize: 20,
+                  //     fontWeight: FontWeight.w700,
+                  //     height: 1.2,
+                  //   ),
+                  // ),
+                ],
               ),
             ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
             child: Column(
