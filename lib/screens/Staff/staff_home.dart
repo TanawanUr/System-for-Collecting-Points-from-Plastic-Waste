@@ -10,34 +10,39 @@ class StaffHomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xff00154B),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
-        child: AppBar(
-          backgroundColor: Color(0xff00154B),
-          title: Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Text('เจ้าหน้าที่',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 40,
-                  fontWeight: FontWeight.w700,
-                  height: 1,
-                )),
-          ),
-          centerTitle: false,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 15),
-              child: IconButton(
-                icon: CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/profile.png'),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => StaffProfilePage()));
-                },
+        preferredSize: Size.fromHeight(80),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AppBar(
+              backgroundColor: Color(0xff00154B),
+              title: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text('เจ้าหน้าที่',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 40,
+                      fontWeight: FontWeight.w700,
+                      height: 1,
+                    )),
               ),
+              centerTitle: false,
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 15),
+                  child: IconButton(
+                    icon: CircleAvatar(
+                      backgroundImage: AssetImage('assets/images/profile.png'),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => StaffProfilePage()));
+                    },
+                  ),
+                ),
+              ],
             ),
           ],
         ),
