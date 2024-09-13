@@ -50,12 +50,17 @@ class AppButtons extends StatelessWidget {
             SizedBox(
               height: 15,
             ),
-            Text(
-              text,
-              style: TextStyle(
-                color: textColor,
-                fontSize: textSize,
-                fontWeight: FontWeight.w800,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: textSize,
+                  fontWeight: FontWeight.w800,
+                  height: 1.0,
+                ),
               ),
             ),
           ],
