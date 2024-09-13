@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Admin/Home/admin_manage_rule.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Admin/Home/admin_summary.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Admin/Profile/admin_profile.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
 
@@ -10,34 +12,39 @@ class AdminHomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xff00154B),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
-        child: AppBar(
-          backgroundColor: Color(0xff00154B),
-          title: Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Text('ผู้ดูแลระบบ',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 40,
-                  fontWeight: FontWeight.w700,
-                  height: 1,
-                )),
-          ),
-          centerTitle: false,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 15),
-              child: IconButton(
-                icon: CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/profile.png'),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AdminProfilePage()));
-                },
+        preferredSize: Size.fromHeight(80),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AppBar(
+              backgroundColor: Color(0xff00154B),
+              title: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text('ผู้ดูแลระบบ',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 40,
+                      fontWeight: FontWeight.w700,
+                      height: 1,
+                    )),
               ),
+              centerTitle: false,
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 15),
+                  child: IconButton(
+                    icon: CircleAvatar(
+                      backgroundImage: AssetImage('assets/images/profile.png'),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AdminProfilePage()));
+                    },
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -73,8 +80,7 @@ class AdminHomePage extends StatelessWidget {
                               iconColor: Colors.white,
                               backgroundColor: Color(0xffF9CA10),
                               borderColor: Color(0xffEEC004),
-                              text:
-                                  'จัดการสิทธิ์เจ้าหน้าที่ผู้จัดการแต้มสะสม',
+                              text: 'จัดการสิทธิ์เจ้าหน้าที่ผู้จัดการแต้มสะสม',
                               textSize: 16,
                               iconSize: 60,
                               width: 165,
@@ -82,11 +88,12 @@ class AdminHomePage extends StatelessWidget {
                               blurRadius: 0,
                               icon: 'assets/svg/manage_icon.svg',
                               onPressed: () {
-                                // Navigator.push(
-                                // context,
-                                // MaterialPageRoute(
-                                // builder: (context) => const PrizeListPage()),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const AdminManageRulePage()),
+                                );
                               },
                             ),
                             AppButtons(
@@ -102,11 +109,12 @@ class AdminHomePage extends StatelessWidget {
                               blurRadius: 0,
                               icon: 'assets/svg/summary_icon.svg',
                               onPressed: () {
-                                // Navigator.push(
-                                // context,
-                                // MaterialPageRoute(
-                                // builder: (context) => const PrizeListPage()),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const AdminSummaryPage()),
+                                );
                               },
                             ),
                           ],
