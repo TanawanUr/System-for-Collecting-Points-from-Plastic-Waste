@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/login.dart';
 
@@ -41,10 +42,9 @@ class ProfessorProfilePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         IconButton(
-                          icon: Icon(
-                            Icons.arrow_back,
-                            color: Colors.white,
-                            size: 25,
+                          icon: FaIcon(FontAwesomeIcons.angleLeft,
+                          color: Colors.white, 
+                          size: 25
                           ),
                           onPressed: () {
                             Navigator.pop(context);
