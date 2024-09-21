@@ -9,8 +9,9 @@ class CertificateWidget extends StatelessWidget {
         child : Column(
           children: [
             Container(
+              width: 450,
               padding: EdgeInsets.only(left: 20, right: 20, top: 7, bottom: 7),
-              margin: EdgeInsets.symmetric(vertical: 8, horizontal: 40),
+              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 255, 255, 255),
                 borderRadius: BorderRadius.circular(20),
@@ -26,7 +27,7 @@ class CertificateWidget extends StatelessWidget {
               child: Column(
                 children: [
                   Image.asset(
-                    'assets/images/certificate.png',
+                    'assets/icons/certificate.png',
                     width: 230,
                     height: 230,
                   ),

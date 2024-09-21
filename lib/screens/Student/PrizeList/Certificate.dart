@@ -34,6 +34,7 @@ class Certificate_Screen extends StatelessWidget {
             ),
             Expanded(
               child: Container(
+                width: double.infinity,
                 decoration: BoxDecoration(
                   color: Color(0xffEAEAEA),
                   borderRadius: BorderRadius.vertical(
@@ -43,7 +44,7 @@ class Certificate_Screen extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 25,
+                      height: 30,
                     ),
                     CertificateWidget(),
                   ],

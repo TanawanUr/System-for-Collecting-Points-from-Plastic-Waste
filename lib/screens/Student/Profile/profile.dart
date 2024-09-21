@@ -108,7 +108,7 @@ class Profile_Screen extends StatelessWidget {
                     // );
                   },
                   child: Container(
-                    width: 400,
+                    width: 360,
                     height: 50,
                     child: Center(
                         child: Column(
