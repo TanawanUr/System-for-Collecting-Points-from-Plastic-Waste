@@ -52,6 +52,9 @@ class _LoginPageState extends State<LoginPage> {
       }
     } catch (e) {
       print('Login failed: $e');
+
+       ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('e-Passprot หรือ password ไม่ถูกต้อง')));
     }
   }
 
@@ -100,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
               child: Container(
                 height: 300,
-                width: 600,
+                width: 500,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.rectangle,
