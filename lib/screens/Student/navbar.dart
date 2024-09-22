@@ -7,7 +7,11 @@ import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/QrCode/qrcode.dart';
 
 class StudentHomePage extends StatefulWidget {
-  const StudentHomePage({super.key});
+  final Map<String, dynamic> userDetails;
+
+  const StudentHomePage({super.key, required this.userDetails});
+
+  // StudentHomePage({required this.userDetails});
 
   @override
   State<StudentHomePage> createState() => _StudentHomePageState();
@@ -16,13 +20,19 @@ class StudentHomePage extends StatefulWidget {
 class _StudentHomePageState extends State<StudentHomePage> {
   int currentIndex = 0;
 
-  List screens = [
-    Home_Screen(),
-    Map_Screen(),
-    QrCode_Screen(),
-    History_Screen(),
-    Profile_Screen(),
-  ];
+  late List screens;
+
+  @override
+  void initState() {
+    super.initState();
+    screens = [
+      Home_Screen(userDetails: widget.userDetails),
+      Map_Screen(),
+      QrCode_Screen(),
+      History_Screen(),
+      Profile_Screen(userDetails: widget.userDetails),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {

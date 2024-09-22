@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Professor/professor_home.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/staff_home.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/login.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/navbar.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Admin/admin_home.dart';
@@ -61,9 +60,9 @@ class _MyAppState extends State<MyApp> {
               : _role == 'staff'
                   ? StaffHomePage()
                   : _role == 'professor'
-                      ? ProfessorHomePage()
+                      ? ProfessorHomePage(userDetails: {},)
                       : _role == 'student'
-                          ? StudentHomePage()
+                          ? StudentHomePage(userDetails: {},)
                           : LoginPage()
           : LoginPage(),
     );

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/login.dart';
+// import 'package:system_for_collecting_points_from_plastic_waste/services/api-users-details.dart';
 
 class Profile_Screen extends StatelessWidget {
-  const Profile_Screen({super.key});
+  final Map<String, dynamic> userDetails;
+
+  const Profile_Screen({super.key, required this.userDetails});
 
   Future<void> _logout(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
@@ -15,9 +18,7 @@ class Profile_Screen extends StatelessWidget {
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => LoginPage()),
-        (Route<dynamic> route) => false
-      );
-    
+        (Route<dynamic> route) => false);
   }
 
   @override
@@ -26,7 +27,7 @@ class Profile_Screen extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            width: double.infinity ,
+            width: double.infinity,
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.vertical(
@@ -34,67 +35,67 @@ class Profile_Screen extends StatelessWidget {
                 ),
                 color: Color(0xff00154B)),
             child: SafeArea(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    SizedBox(
-                      height: 150,
-                      width: 150,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: Image(
-                          image: AssetImage("assets/images/profile.png"),
-                        ),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  SizedBox(
+                    height: 150,
+                    width: 150,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image(
+                        image: AssetImage("assets/images/profile.png"),
                       ),
                     ),
-                    const SizedBox(
-                      height: 15,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    '${userDetails['full_name']}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 34,
+                      fontWeight: FontWeight.w700,
+                      height: 1.7,
                     ),
-                    Text(
-                      "ธนวันต์ อุรามา",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 34,
-                        fontWeight: FontWeight.w700,
-                        height: 1.7,
-                      ),
+                  ),
+                  Text(
+                    '${userDetails['e_passport']}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      height: 1.2,
                     ),
-                    Text(
-                      "164404140076",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        height: 1.2,
-                      ),
+                  ),
+                  Text(
+                    "คณะ วิศวกรรมศาสตร์",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      height: 1.2,
                     ),
-                    Text(
-                      "คณะ วิศวกรรมศาสตร์",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        height: 1.2,
-                      ),
+                  ),
+                  Text(
+                    "สาขา วิศวกรรมคอมพิวเตอร์",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      height: 1.2,
                     ),
-                    Text(
-                      "สาขา วิศวกรรมคอมพิวเตอร์",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        height: 1.2,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                ],
               ),
             ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
             child: Column(

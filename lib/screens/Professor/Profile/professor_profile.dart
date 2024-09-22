@@ -3,9 +3,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/login.dart';
 
-class ProfessorProfilePage extends StatelessWidget {
-  const ProfessorProfilePage({super.key});
+class ProfessorProfilePage extends StatefulWidget {
+  final Map<String, dynamic> userDetails;
 
+  const ProfessorProfilePage({super.key, required this.userDetails});
+
+  @override
+  State<ProfessorProfilePage> createState() => _ProfessorProfilePageState();
+}
+
+class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
   Future<void> _logout(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -43,9 +50,7 @@ class ProfessorProfilePage extends StatelessWidget {
                       children: [
                         IconButton(
                           icon: FaIcon(FontAwesomeIcons.angleLeft,
-                          color: Colors.white, 
-                          size: 25
-                          ),
+                              color: Colors.white, size: 25),
                           onPressed: () {
                             Navigator.pop(context);
                           },
@@ -85,7 +90,7 @@ class ProfessorProfilePage extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          "ณัฐพล  หนูฤทธิ",
+                          '${widget.userDetails['full_name']}',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 34,

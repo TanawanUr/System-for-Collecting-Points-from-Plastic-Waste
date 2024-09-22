@@ -13,21 +13,26 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _e_passportController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   final ApiService _apiService = ApiService();
 
   Future<void> _login() async {
-    final username = _usernameController.text;
+    final e_passport = _e_passportController.text;
     final password = _passwordController.text;
 
     try {
-      final response = await _apiService.login(username, password);
+      final response = await _apiService.login(e_passport, password);
 
       final prefs = await SharedPreferences.getInstance();
+      final userId = response['id'].toString();
+
+      await prefs.setString('userId', userId);
       await prefs.setString('authToken', response['token']);
       await prefs.setString('role', response['role']);
+
+      final userDetails = await _apiService.getUserDetails(userId);
 
       if (response['role'] == 'admin') {
         Navigator.pushReplacement(
@@ -42,18 +47,19 @@ class _LoginPageState extends State<LoginPage> {
       } else if (response['role'] == 'professor') {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ProfessorHomePage()),
+          MaterialPageRoute(builder: (context) => ProfessorHomePage(userDetails: userDetails)),
         );
       } else {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => StudentHomePage()),
+          MaterialPageRoute(
+              builder: (context) => StudentHomePage(userDetails: userDetails)),
         );
       }
     } catch (e) {
       print('Login failed: $e');
 
-       ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('e-Passprot หรือ password ไม่ถูกต้อง')));
     }
   }
@@ -124,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextField(
-                        controller: _usernameController,
+                        controller: _e_passportController,
                         decoration: InputDecoration(
                           labelText: 'e-Passport',
                           labelStyle: TextStyle(

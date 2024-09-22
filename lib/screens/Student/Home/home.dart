@@ -4,7 +4,9 @@ import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
 
 class Home_Screen extends StatelessWidget {
-  const Home_Screen({super.key});
+  final Map<String, dynamic> userDetails;
+
+  const Home_Screen({super.key, required this.userDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -52,14 +54,7 @@ class Home_Screen extends StatelessWidget {
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(35),
             ),
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color.fromARGB(255, 0, 18, 63),
-                Color.fromARGB(255, 0, 30, 105)
-              ],
-            ),
+            color: Color(0xff00154B),
           ),
           child: SafeArea(
             child: Column(
@@ -79,7 +74,7 @@ class Home_Screen extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
                   child: Text(
-                    '120',
+                    '${userDetails['total_points']}',
                     style: TextStyle(
                       color: Color(0xffFCCA00),
                       fontSize: 44,
