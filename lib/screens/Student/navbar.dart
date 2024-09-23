@@ -58,71 +58,83 @@ class _StudentHomePageState extends State<StudentHomePage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        elevation: 1,
-        height: 60,
-        color: Color.fromARGB(255, 255, 255, 255),
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  currentIndex = 0;
-                });
-              },
-              icon: FaIcon(
-                FontAwesomeIcons.home,
-                size: 25,
-                color:
-                    currentIndex == 0 ? Color(0xff00154B) : Color(0xff6C6C6C),
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  currentIndex = 1;
-                });
-              },
-              icon: FaIcon(
-                FontAwesomeIcons.mapMarkedAlt,
-                size: 25,
-                color:
-                    currentIndex == 1 ? Color(0xff00154B) : Color(0xff6C6C6C),
-              ),
-            ),
-            SizedBox(
-              width: 50,
-            ),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  currentIndex = 3;
-                });
-              },
-              icon: FaIcon(
-                FontAwesomeIcons.solidListAlt,
-                size: 25,
-                color:
-                    currentIndex == 3 ? Color(0xff00154B) : Color(0xff6C6C6C),
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  currentIndex = 4;
-                });
-              },
-              icon: FaIcon(
-                FontAwesomeIcons.solidUser,
-                size: 25,
-                color:
-                    currentIndex == 4 ? Color(0xff00154B) : Color(0xff6C6C6C),
-              ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1), // Shadow color
+              spreadRadius: 10,
+              blurRadius: 10,
+              offset: Offset(0, 1), // Shadow position
             ),
           ],
+        ),
+        child: BottomAppBar(
+          elevation: 1,
+          height: 60,
+          color: Colors.white,
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    currentIndex = 0;
+                  });
+                },
+                icon: FaIcon(
+                  FontAwesomeIcons.home,
+                  size: 25,
+                  color:
+                      currentIndex == 0 ? Color(0xff00154B) : Color(0xff6C6C6C),
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    currentIndex = 1;
+                  });
+                },
+                icon: FaIcon(
+                  FontAwesomeIcons.mapMarkedAlt,
+                  size: 25,
+                  color:
+                      currentIndex == 1 ? Color(0xff00154B) : Color(0xff6C6C6C),
+                ),
+              ),
+              SizedBox(
+                width: 50,
+              ),
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    currentIndex = 3;
+                  });
+                },
+                icon: FaIcon(
+                  FontAwesomeIcons.solidListAlt,
+                  size: 25,
+                  color:
+                      currentIndex == 3 ? Color(0xff00154B) : Color(0xff6C6C6C),
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    currentIndex = 4;
+                  });
+                },
+                icon: FaIcon(
+                  FontAwesomeIcons.solidUser,
+                  size: 25,
+                  color:
+                      currentIndex == 4 ? Color(0xff00154B) : Color(0xff6C6C6C),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       body: screens[currentIndex],
