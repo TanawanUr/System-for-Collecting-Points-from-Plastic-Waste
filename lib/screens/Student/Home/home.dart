@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/Home/prize.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/Home/reward.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
 
 class Home_Screen extends StatelessWidget {
@@ -23,7 +23,7 @@ class Home_Screen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const PrizeListPage()),
+                      builder: (context) => const RewardListPage()),
                 );
               },
               textColor: Color(0xffFFFFFF),
@@ -36,7 +36,7 @@ class Home_Screen extends StatelessWidget {
               width: 160,
               height: 140,
               blurRadius: 0,
-              icon: "assets/svg/present.svg",
+              icon: "assets/svg/reward.svg",
             ),
           ],
         ),

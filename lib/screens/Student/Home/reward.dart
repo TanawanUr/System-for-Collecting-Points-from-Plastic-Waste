@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/PrizeList/Certificate.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/RewardList/Certificate.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/PrizeList/Stationery.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/RewardList/Stationery.dart';
 
-class PrizeListPage extends StatelessWidget {
-  const PrizeListPage({super.key});
+class RewardListPage extends StatelessWidget {
+  const RewardListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
