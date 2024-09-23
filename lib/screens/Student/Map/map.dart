@@ -129,8 +129,9 @@ class _Map_ScreenState extends State<Map_Screen> {
                 right: 15,
                 child: GestureDetector(
                   onTap: () {
-                    moveToMarker(
-                        selectedMarkerLatitude, selectedMarkerLongitude);
+                    //tap on selected marker
+                    // moveToMarker(
+                    //     selectedMarkerLatitude, selectedMarkerLongitude);
                   },
                   child: Stack(
                     children: [
