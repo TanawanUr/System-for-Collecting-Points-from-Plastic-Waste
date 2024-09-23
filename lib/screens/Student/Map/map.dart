@@ -19,7 +19,6 @@ class _Map_ScreenState extends State<Map_Screen> {
   double selectedMarkerLongitude = 0.0;
   bool isMarkerSelected = false;
 
-  // Method to handle marker tap and update UI
   void _onMarkerTapped(
       String name, String name1, String status, String svgPath) {
     setState(() {
@@ -39,13 +38,11 @@ class _Map_ScreenState extends State<Map_Screen> {
         return Colors.red;
       case 'Pending':
         return Colors.orange;
-      // Add more cases as needed
       default:
-        return Colors.grey; // Default color
+        return Colors.grey; 
     }
   }
 
-  // Method to handle map tap and hide marker info popup
   void _onMapTapped() {
     setState(() {
       isMarkerSelected = false;
@@ -55,8 +52,10 @@ class _Map_ScreenState extends State<Map_Screen> {
   final MapController mapController = MapController();
 
   void moveToMarker(double latitude, double longitude) {
-    mapController.move(LatLng(latitude, longitude),
-        19.0,); // Adjust zoom level if needed
+    mapController.move(
+      LatLng(latitude, longitude),
+      18.0,
+    ); 
   }
 
   @override
@@ -74,16 +73,17 @@ class _Map_ScreenState extends State<Map_Screen> {
                   initialCenter: LatLng(7.198925, 100.6024488),
                   initialZoom: 17.00,
                   interactionOptions: const InteractionOptions(
-                      flags: ~InteractiveFlag.doubleTapZoom),
+                    flags: ~InteractiveFlag.rotate 
+                  ),
                   onTap: (tapPosition, latLng) {
-                    _onMapTapped(); // Hide the pop-up when tapping on the map
+                    _onMapTapped(); 
                   },
                 ),
                 children: [
                   TileLayer(
                     urlTemplate:
-                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                    subdomains: ['a', 'b', 'c'],
+                        "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    subdomains: ['a', 'b', 'c', 'd'],
                   ),
                   MarkerLayer(
                     markers: [
@@ -100,7 +100,6 @@ class _Map_ScreenState extends State<Map_Screen> {
                           },
                           child: Image.asset(
                               'assets/icons/bottle_location_icon.png'
-                              // 'assets/icons/present_location_icon.png',
                               ),
                         ),
                       ),
@@ -112,12 +111,11 @@ class _Map_ScreenState extends State<Map_Screen> {
                         child: GestureDetector(
                           onTap: () {
                             _onMarkerTapped("อาคาร 59 ICT", "มทร. สงขลา",
-                                "Inactive", 'assets/svg/present_icon.svg');
+                                "Inactive", 'assets/svg/reward_icon.svg');
                             moveToMarker(7.198125, 100.6027788);
                           },
                           child: Image.asset(
-                            // 'assets/icons/location_bottle_icon.png'
-                            'assets/icons/present_location_icon.png',
+                            'assets/icons/reward_location_icon.png',
                           ),
                         ),
                       ),
@@ -131,7 +129,6 @@ class _Map_ScreenState extends State<Map_Screen> {
                 right: 15,
                 child: GestureDetector(
                   onTap: () {
-                    // _onMapTapped(); // Optionally, also hide popup when tapping on the popup itself
                     moveToMarker(
                         selectedMarkerLatitude, selectedMarkerLongitude);
                   },
@@ -157,6 +154,7 @@ class _Map_ScreenState extends State<Map_Screen> {
                                     selectedName,
                                     style: TextStyle(
                                       fontSize: 22,
+                                      letterSpacing: 0,
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
@@ -165,6 +163,7 @@ class _Map_ScreenState extends State<Map_Screen> {
                                     selectedName1,
                                     style: TextStyle(
                                         fontSize: 18,
+                                        letterSpacing: 0,
                                         fontWeight: FontWeight.w700),
                                   ),
                                 ],
@@ -182,7 +181,7 @@ class _Map_ScreenState extends State<Map_Screen> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: getStatusColor(
-                                selectedStatus), // A function to determine color based on status
+                                selectedStatus),
                           ),
                         ),
                       ),
@@ -198,27 +197,27 @@ class _Map_ScreenState extends State<Map_Screen> {
 
   PreferredSize appBar() {
     return PreferredSize(
-      preferredSize: Size.fromHeight(100),
+      preferredSize: Size.fromHeight(85),
       child: Container(
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(35),
             ),
-            // color: Colors.transparent
             color: Color(0xff00154B),
           ),
           child: SafeArea(
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.fromLTRB(0, 15, 0, 25),
+                  margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
                   child: Text(
                     'ตำแหน่งเครื่องแลก',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 34,
                       fontWeight: FontWeight.w700,
+                      letterSpacing: -0.5,
                       height: 1,
                     ),
                   ),
