@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
       print('Login failed: $e');
 
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('e-Passprot หรือ password ไม่ถูกต้อง')));
+          SnackBar(content: Text('e-Passprot หรือ Password ไม่ถูกต้อง'), behavior: SnackBarBehavior.floating,));
     }
   }
 
@@ -97,6 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.white,
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
+                          letterSpacing: -0.5
                         ),
                       ),
                     ],
@@ -142,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                       TextField(
                         controller: _passwordController,
                         decoration: InputDecoration(
-                          labelText: 'password',
+                          labelText: 'Password',
                           labelStyle: TextStyle(
                             fontSize: 17,
                           ),
