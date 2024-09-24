@@ -39,7 +39,7 @@ class _Map_ScreenState extends State<Map_Screen> {
       case 'Pending':
         return Colors.orange;
       default:
-        return Colors.grey; 
+        return Colors.grey;
     }
   }
 
@@ -55,7 +55,7 @@ class _Map_ScreenState extends State<Map_Screen> {
     mapController.move(
       LatLng(latitude, longitude),
       18.0,
-    ); 
+    );
   }
 
   @override
@@ -72,11 +72,10 @@ class _Map_ScreenState extends State<Map_Screen> {
                 options: MapOptions(
                   initialCenter: LatLng(7.198925, 100.6024488),
                   initialZoom: 17.00,
-                  interactionOptions: const InteractionOptions(
-                    flags: ~InteractiveFlag.rotate 
-                  ),
+                  interactionOptions:
+                      const InteractionOptions(flags: ~InteractiveFlag.rotate),
                   onTap: (tapPosition, latLng) {
-                    _onMapTapped(); 
+                    _onMapTapped();
                   },
                 ),
                 children: [
@@ -94,13 +93,15 @@ class _Map_ScreenState extends State<Map_Screen> {
                         alignment: Alignment.centerLeft,
                         child: GestureDetector(
                           onTap: () {
-                            _onMarkerTapped("สาขาวิศวคอมพิวเตอร์", "มทร. สงขลา",
-                                "Active", 'assets/svg/bottle_icon.svg');
+                            _onMarkerTapped(
+                                "สาขาวิศวคอมพิวเตอร์",
+                                "มทร. สงขลา",
+                                "Active",
+                                'assets/svg/bottle_icon.svg');
                             moveToMarker(7.198425, 100.6023688);
                           },
                           child: Image.asset(
-                              'assets/icons/bottle_location_icon.png'
-                              ),
+                              'assets/icons/bottle_location_icon.png'),
                         ),
                       ),
                       Marker(
@@ -142,32 +143,36 @@ class _Map_ScreenState extends State<Map_Screen> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(15),
+                          padding: const EdgeInsets.only(left: 15, top: 15, bottom: 15),
                           child: Row(
                             children: [
                               SvgPicture.asset(selectedSvgPath),
                               SizedBox(width: 10),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    selectedName,
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    selectedName1,
-                                    style: TextStyle(
-                                        fontSize: 18,
+                              Expanded(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      selectedName,
+                                      style: TextStyle(
+                                        fontSize: 22,
                                         letterSpacing: 0,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                ],
+                                        fontWeight: FontWeight.w700,
+                                        height: 1.1
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      selectedName1,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -181,8 +186,7 @@ class _Map_ScreenState extends State<Map_Screen> {
                           height: 22,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: getStatusColor(
-                                selectedStatus),
+                            color: getStatusColor(selectedStatus),
                           ),
                         ),
                       ),
