@@ -46,7 +46,20 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'NotoSansThai'),
+      theme: ThemeData(
+          fontFamily: 'NotoSansThai',
+          colorScheme: ColorScheme(
+            primary: const Color(0xff00154B),
+            secondary: const Color(0xffFFD700),
+            brightness: Brightness.light,
+            onPrimary: Colors.white,
+            onSecondary: Colors.black,
+            error: Colors.red,
+            onError: Colors.white,
+            surface: Colors.white,
+            onSurface: Color.fromARGB(255, 44, 44, 44),
+          )),
+
       // routes: {
       //   '/login': (context) => LoginPage(),
       //   '/student': (context) => StudentHomePage(),
@@ -60,9 +73,13 @@ class _MyAppState extends State<MyApp> {
               : _role == 'staff'
                   ? StaffHomePage()
                   : _role == 'professor'
-                      ? ProfessorHomePage(userDetails: {},)
+                      ? ProfessorHomePage(
+                          userDetails: {},
+                        )
                       : _role == 'student'
-                          ? StudentHomePage(userDetails: {},)
+                          ? StudentHomePage(
+                              userDetails: {},
+                            )
                           : LoginPage()
           : LoginPage(),
     );
