@@ -22,6 +22,24 @@ class _LoginPageState extends State<LoginPage> {
     final e_passport = _e_passportController.text;
     final password = _passwordController.text;
 
+    if (e_passport.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('กรุณากรอก e-Passport'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    } else if (password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('กรุณากรอก Password'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
     try {
       final response = await _apiService.login(e_passport, password);
 
@@ -47,7 +65,9 @@ class _LoginPageState extends State<LoginPage> {
       } else if (response['role'] == 'professor') {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ProfessorHomePage(userDetails: userDetails)),
+          MaterialPageRoute(
+              builder: (context) =>
+                  ProfessorHomePage(userDetails: userDetails)),
         );
       } else {
         Navigator.pushReplacement(
@@ -55,12 +75,18 @@ class _LoginPageState extends State<LoginPage> {
           MaterialPageRoute(
               builder: (context) => StudentHomePage(userDetails: userDetails)),
         );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Login สำเร็จ'),
+          behavior: SnackBarBehavior.floating,
+        ));
       }
     } catch (e) {
       print('Login failed: $e');
-
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('e-Passprot หรือ Password ไม่ถูกต้อง'), behavior: SnackBarBehavior.floating,));
+      // _showErrorDialog();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('e-Passprot หรือ Password ไม่ถูกต้อง'),
+        behavior: SnackBarBehavior.floating,
+      ));
     }
   }
 
@@ -94,11 +120,10 @@ class _LoginPageState extends State<LoginPage> {
                         'ระบบสะสมแต้ม\nขยะพลาสติก',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: -0.5
-                        ),
+                            color: Colors.white,
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: -0.5),
                       ),
                     ],
                   ),
@@ -196,4 +221,24 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  // void _showErrorDialog() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: Text("Login Error"),
+  //         content: Text("Incorrect username or password. Please try again."),
+  //         actions: [
+  //           TextButton(
+  //             child: Text("OK"),
+  //             onPressed: () {
+  //               Navigator.of(context).pop(); // Close the dialog
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     }
+  //   );
+  // }
 }
