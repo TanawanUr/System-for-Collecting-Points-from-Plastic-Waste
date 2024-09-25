@@ -56,7 +56,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                           },
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 12),
                           child: SizedBox(
                             height: 150,
                             width: 150,
@@ -72,13 +72,6 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                         SizedBox(
                           width: 50,
                         ),
-                        // IconButton(
-                        //   icon: Icon(
-                        //     Icons.logout,
-                        //     color: Colors.white,
-                        //   ),
-                        //   onPressed: () => _logout(context),
-                        // ),
                       ],
                     ),
                   ),
@@ -96,6 +89,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                             fontSize: 34,
                             fontWeight: FontWeight.w700,
                             height: 1.7,
+                            letterSpacing: -0.5,
                           ),
                         ),
                         Text(
@@ -106,29 +100,22 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                             height: 1.2,
+                            letterSpacing: -0.5,
                           ),
                         ),
                       ],
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 30,
                   ),
-                  // Text(
-                  //   "สาขา วิศวกรรมคอมพิวเตอร์",
-                  //   style: TextStyle(
-                  //     color: Colors.white,
-                  //     fontSize: 20,
-                  //     fontWeight: FontWeight.w700,
-                  //     height: 1.2,
-                  //   ),
-                  // ),
                 ],
               ),
             ),
           ),
+          Spacer(),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             child: Column(
               children: [
                 InkWell(
@@ -140,7 +127,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                     // );
                   },
                   child: Container(
-                    width: 400,
+                    width: 360,
                     height: 50,
                     child: Center(
                         child: Column(
@@ -153,6 +140,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                             color: Colors.black,
                             fontSize: 22,
                             fontWeight: FontWeight.w800,
+                            letterSpacing: -0.2,
                           ),
                         ),
                       ],
@@ -192,6 +180,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                             color: Colors.black,
                             fontSize: 22,
                             fontWeight: FontWeight.w800,
+                            letterSpacing: -0.2,
                           ),
                         ),
                       ],
@@ -221,3 +210,4 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
     );
   }
 }
+
