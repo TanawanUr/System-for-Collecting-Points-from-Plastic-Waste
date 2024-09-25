@@ -60,6 +60,7 @@ class Profile_Screen extends StatelessWidget {
                       fontSize: 34,
                       fontWeight: FontWeight.w700,
                       height: 1.7,
+                      letterSpacing: -0.5,
                     ),
                   ),
                   Text(
@@ -69,6 +70,7 @@ class Profile_Screen extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                       height: 1.2,
+                      letterSpacing: -0.5,
                     ),
                   ),
                   Text(
@@ -78,6 +80,7 @@ class Profile_Screen extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                       height: 1.2,
+                      letterSpacing: -0.5,
                     ),
                   ),
                   Text(
@@ -87,6 +90,7 @@ class Profile_Screen extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                       height: 1.2,
+                      letterSpacing: -0.5,
                     ),
                   ),
                   const SizedBox(
@@ -96,8 +100,9 @@ class Profile_Screen extends StatelessWidget {
               ),
             ),
           ),
+          Spacer(),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+            padding: const EdgeInsets.only(left: 20, right: 20,top: 20, bottom: 55),
             child: Column(
               children: [
                 InkWell(
@@ -122,6 +127,7 @@ class Profile_Screen extends StatelessWidget {
                             color: Colors.black,
                             fontSize: 22,
                             fontWeight: FontWeight.w800,
+                            letterSpacing: -0.2,
                           ),
                         ),
                       ],
@@ -161,6 +167,7 @@ class Profile_Screen extends StatelessWidget {
                             color: Colors.black,
                             fontSize: 22,
                             fontWeight: FontWeight.w800,
+                            letterSpacing: -0.2,
                           ),
                         ),
                       ],
