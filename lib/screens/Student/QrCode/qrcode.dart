@@ -41,7 +41,7 @@ class _QrCode_ScreenState extends State<QrCode_Screen> {
               width: 160,
               height: 140,
               blurRadius: 0,
-              icon: "assets/svg/present.svg",
+              icon: "assets/svg/reward.svg",
             ),
           ],
         ),

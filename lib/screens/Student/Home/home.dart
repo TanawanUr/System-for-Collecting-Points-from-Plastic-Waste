@@ -4,9 +4,9 @@ import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
 
 class Home_Screen extends StatelessWidget {
-  final Map<String, dynamic> userDetails;
+  final Map<String, dynamic>? userDetails;
 
-  const Home_Screen({super.key, required this.userDetails});
+  const Home_Screen({super.key, this.userDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -68,18 +68,20 @@ class Home_Screen extends StatelessWidget {
                       fontSize: 34,
                       fontWeight: FontWeight.w700,
                       height: 1,
+                      letterSpacing: -0.5,
                     ),
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
                   child: Text(
-                    '${userDetails['total_points']}',
+                    '${userDetails?['total_points']}',
                     style: TextStyle(
                       color: Color(0xffFCCA00),
                       fontSize: 44,
                       fontWeight: FontWeight.w800,
                       height: 1,
+                      letterSpacing: -0.5,
                     ),
                   ),
                 ),
@@ -90,6 +92,7 @@ class Home_Screen extends StatelessWidget {
                     fontSize: 32,
                     fontWeight: FontWeight.w700,
                     height: 1,
+                    letterSpacing: -0.5,
                   ),
                 ),
                 Container(
@@ -101,6 +104,7 @@ class Home_Screen extends StatelessWidget {
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
                       height: 1,
+                      letterSpacing: -0.5,
                     ),
                   ),
                 ),
@@ -111,6 +115,7 @@ class Home_Screen extends StatelessWidget {
                     fontSize: 30,
                     fontWeight: FontWeight.w700,
                     height: 1,
+                    letterSpacing: -0.5,
                   ),
                 ),
               ],

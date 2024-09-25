@@ -60,6 +60,7 @@ class AppButtons extends StatelessWidget {
                   fontSize: textSize,
                   fontWeight: FontWeight.w800,
                   height: 1.0,
+                  letterSpacing: -0.5,
                 ),
               ),
             ),

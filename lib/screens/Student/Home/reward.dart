@@ -12,6 +12,7 @@ class RewardListPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xff00154B),
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Color(0xff00154B),
         leading: IconButton(
           icon: FaIcon(FontAwesomeIcons.angleLeft, color: Colors.white),
