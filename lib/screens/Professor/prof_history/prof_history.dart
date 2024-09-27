@@ -18,6 +18,8 @@ class _ProfessorHistoryScreenState extends State<ProfessorHistoryScreen> {
       ProfessorHistory(
         e_passport: '164404140076',
         fullname: 'ธนวันต์ อุรามา',
+        faculty: 'วิศวกรรมศาสตร์',
+        department: 'วิศวกรรมคอมพิวเตอร์',
         subject: 'การเขียนโปรแกรม',
         date: DateTime(2024, 09, 22, 10, 30),
         // reason: '',
@@ -26,6 +28,8 @@ class _ProfessorHistoryScreenState extends State<ProfessorHistoryScreen> {
       ProfessorHistory(
         e_passport: '164404140050',
         fullname: 'สุรัตน์ บุญเรือง',
+        faculty: 'วิศวกรรมศาสตร์',
+        department: 'วิศวกรรมคอมพิวเตอร์',
         subject: 'การเขียนโปรแกรม',
         date: DateTime(2024, 09, 22, 10, 30),
         reason: 'ขาดเกินกำหนด',
@@ -34,6 +38,8 @@ class _ProfessorHistoryScreenState extends State<ProfessorHistoryScreen> {
       ProfessorHistory(
         e_passport: '164404140057',
         fullname: 'ขจรจัด สุวันน้อย',
+        faculty: 'วิศวกรรมศาสตร์',
+        department: 'วิศวกรรมคอมพิวเตอร์',
         subject: 'คิดนอกกรอบ',
         date: DateTime(2024, 09, 22, 10, 30),
         // reason: '',

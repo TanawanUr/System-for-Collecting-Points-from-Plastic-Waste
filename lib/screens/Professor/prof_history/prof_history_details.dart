@@ -17,6 +17,8 @@ class _ProfessorHistoryDetailsScreenState
     extends State<ProfessorHistoryDetailsScreen> {
   late String e_passport;
   late String fullname;
+  late String faculty;
+  late String department;
   late String subject;
   late DateTime date;
   late String reason;
@@ -27,6 +29,8 @@ class _ProfessorHistoryDetailsScreenState
     super.initState();
     e_passport = widget.item.e_passport;
     fullname = widget.item.fullname;
+    faculty = widget.item.faculty;
+    department = widget.item.department;
     subject = widget.item.subject;
     date = widget.item.date;
     reason = widget.item.reason;
@@ -239,7 +243,7 @@ class _ProfessorHistoryDetailsScreenState
                           ),
                         ),
                         TextSpan(
-                          text: 'วิศวกรรมศาสตร์',
+                          text: faculty,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -268,7 +272,7 @@ class _ProfessorHistoryDetailsScreenState
                           ),
                         ),
                         TextSpan(
-                          text: 'วิศวกรรมคอมพิวเตอร์',
+                          text: department,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,

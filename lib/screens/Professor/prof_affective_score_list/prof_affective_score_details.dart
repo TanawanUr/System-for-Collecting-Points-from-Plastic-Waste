@@ -17,6 +17,8 @@ class _ProfAffectiveScoreDetailsScreenState
     extends State<ProfAffectiveScoreDetailsScreen> {
   late String e_passport;
   late String fullname;
+  late String faculty;
+  late String department;
   late String subject;
   late DateTime date;
 
@@ -25,6 +27,8 @@ class _ProfAffectiveScoreDetailsScreenState
     super.initState();
     e_passport = widget.item.e_passport;
     fullname = widget.item.fullname;
+    faculty = widget.item.faculty;
+    department = widget.item.department;
     subject = widget.item.subject;
     date = widget.item.date;
   }
@@ -235,7 +239,7 @@ class _ProfAffectiveScoreDetailsScreenState
                           ),
                         ),
                         TextSpan(
-                          text: 'วิศวกรรมศาสตร์',
+                          text: faculty,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -264,7 +268,7 @@ class _ProfAffectiveScoreDetailsScreenState
                           ),
                         ),
                         TextSpan(
-                          text: 'วิศวกรรมคอมพิวเตอร์',
+                          text: department,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
