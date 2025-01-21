@@ -4,8 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/login.dart';
 
 class ProfessorProfilePage extends StatefulWidget {
-  final Map<String, dynamic> userDetails;
-  const ProfessorProfilePage({super.key, required this.userDetails});
+  final Map<String, dynamic> userData;
+  const ProfessorProfilePage({super.key, required this.userData});
 
   @override
   State<ProfessorProfilePage> createState() => _ProfessorProfilePageState();
@@ -83,7 +83,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                     child: Column(
                       children: [
                         Text(
-                          '${widget.userDetails['full_name']}',
+                          '${widget.userData['fullname']}',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 34,

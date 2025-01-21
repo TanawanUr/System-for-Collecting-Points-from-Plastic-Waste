@@ -1,51 +1,79 @@
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/QrCode/CountingBottle.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/navbar.dart';
 
-class QrCode_Screen extends StatefulWidget {
-  const QrCode_Screen({super.key});
+class QRScannerPage extends StatefulWidget {
+  const QRScannerPage({super.key});
 
   @override
-  State<QrCode_Screen> createState() => _QrCode_ScreenState();
+  State<QRScannerPage> createState() => _QRScannerPageState();
 }
 
-class _QrCode_ScreenState extends State<QrCode_Screen> {
+
+class _QRScannerPageState extends State<QRScannerPage> {
+   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  QRViewController? controller; // Controller can be null
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    controller?.resumeCamera(); // Safely resume the camera if controller is not null
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffEAEAEA),
-      body: Center(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 105,
+      body: Stack(
+        children: [
+          QRView(
+            key: qrKey,
+            onQRViewCreated: _onQRViewCreated,
+            overlay: QrScannerOverlayShape(
+              borderColor: Colors.red,
+              borderRadius: 10,
+              borderLength: 30,
+              borderWidth: 10,
+              cutOutSize: MediaQuery.of(context).size.width * 0.8,
             ),
-            SizedBox(
-              height: 105,
+          ),
+          Positioned(
+            top: 40,
+            left: 20,
+            child: IconButton(
+              icon: Icon(Icons.close, color: Colors.white),
+              onPressed: () => Navigator.pop(context),
             ),
-            AppButtons(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const CountingBottle()),
-                );
-              },
-              textColor: Color(0xffFFFFFF),
-              iconColor: Color(0xffFFFFFF),
-              backgroundColor: Color(0xffF9CA10),
-              borderColor: Color(0xffEEC004),
-              text: 'นับขวด',
-              textSize: 20,
-              iconSize: 60,
-              width: 160,
-              height: 140,
-              blurRadius: 0,
-              icon: "assets/svg/reward.svg",
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
+  }
+
+  void _onQRViewCreated(QRViewController controller) {
+    this.controller = controller;
+    controller.scannedDataStream.listen((scanData) {
+      // Debug log for scanned QR code
+      print("Scanned QR Code: ${scanData.code}");
+
+      // Navigate to the result page automatically when a QR code is scanned
+      // No additional flags are needed here
+      controller.pauseCamera(); // Stop the camera to prevent rapid scans
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CountingBottle(result: scanData.code ?? ''),
+        ),
+      ).then((_) {
+        // Resume the camera after returning to the scanner
+        controller.resumeCamera();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose(); // Dispose of the controller safely
+    super.dispose();
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/widget/marker_widget.dart';
 
 class Map_Screen extends StatefulWidget {
   const Map_Screen({super.key});
@@ -9,6 +10,17 @@ class Map_Screen extends StatefulWidget {
   @override
   State<Map_Screen> createState() => _Map_ScreenState();
 }
+
+List<MarkerWidget> historyItems = [
+  MarkerWidget(
+    lat: 7.198425,
+    lng: 100.6023688,
+    location: 'สาขาวิศวคอมพิวเตอร์',
+    location1: 'มทร. สงขลา',
+    status: 'Active',
+    type: 'bottle',
+  ),
+];
 
 class _Map_ScreenState extends State<Map_Screen> {
   String selectedName = '';
@@ -93,11 +105,8 @@ class _Map_ScreenState extends State<Map_Screen> {
                         alignment: Alignment.centerLeft,
                         child: GestureDetector(
                           onTap: () {
-                            _onMarkerTapped(
-                                "สาขาวิศวคอมพิวเตอร์",
-                                "มทร. สงขลา",
-                                "Active",
-                                'assets/svg/bottle_icon.svg');
+                            _onMarkerTapped("สาขาวิศวคอมพิวเตอร์", "มทร. สงขลา",
+                                "Active", 'assets/svg/bottle_icon.svg');
                             moveToMarker(7.198425, 100.6023688);
                           },
                           child: Image.asset(
@@ -143,7 +152,8 @@ class _Map_ScreenState extends State<Map_Screen> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 15, top: 15, bottom: 15),
+                          padding: const EdgeInsets.only(
+                              left: 15, top: 15, bottom: 15),
                           child: Row(
                             children: [
                               SvgPicture.asset(selectedSvgPath),
@@ -156,11 +166,10 @@ class _Map_ScreenState extends State<Map_Screen> {
                                     Text(
                                       selectedName,
                                       style: TextStyle(
-                                        fontSize: 22,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w700,
-                                        height: 1.1
-                                      ),
+                                          fontSize: 22,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.w700,
+                                          height: 1.1),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     SizedBox(height: 5),

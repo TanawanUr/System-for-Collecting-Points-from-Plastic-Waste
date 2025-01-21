@@ -23,8 +23,7 @@ class _History_ScreenState extends State<History_Screen> {
         points: 50,
         itemName: 'ขวดพลาสติก',
         itemQuantity: 50,
-        itemImageUrl: 'https://i.ibb.co/R3MC7yQ/plastic-bottle.png',
-        // reason: '',
+        itemImageUrl: 'http://172.20.10.3:3000/images/plastic_bottle.png',
       ),
       StudentHistory(
         type: 'trade',
@@ -35,7 +34,7 @@ class _History_ScreenState extends State<History_Screen> {
         points: 20,
         itemName: 'ปากกา',
         itemQuantity: 4,
-        itemImageUrl: 'https://i.ibb.co/Stc0T8K/pen.png',
+        itemImageUrl: 'http://172.20.10.3:3000/images/pen.png',
         // reason: '',
       ),
       StudentHistory(
@@ -47,7 +46,7 @@ class _History_ScreenState extends State<History_Screen> {
         points: 50,
         itemName: 'ยางลบ',
         itemQuantity: 5,
-        itemImageUrl: 'https://i.ibb.co/vDgzVvM/eraser.png',
+        itemImageUrl: 'http://172.20.10.3:3000/images/eraser.png',
         // reason: '',
       ),
       StudentHistory(
@@ -59,7 +58,7 @@ class _History_ScreenState extends State<History_Screen> {
         points: 10,
         itemName: 'ขวดพลาสติก',
         itemQuantity: 10,
-        itemImageUrl: 'https://i.ibb.co/R3MC7yQ/plastic-bottle.png',
+        itemImageUrl: 'http://172.20.10.3:3000/images/plastic_bottle.png',
         // reason: '',
       ),
       StudentHistory(
@@ -71,7 +70,7 @@ class _History_ScreenState extends State<History_Screen> {
         points: 30,
         itemName: 'ดินสอ',
         itemQuantity: 1,
-        itemImageUrl: 'https://i.ibb.co/G00RtM9/pencil.png',
+        itemImageUrl: 'http://172.20.10.3:3000/images/pencil.png',
         reason: 'ของรางวัลหมด',
       ),
     ];

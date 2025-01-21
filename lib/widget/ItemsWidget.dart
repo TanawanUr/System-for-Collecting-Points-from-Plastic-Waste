@@ -11,7 +11,7 @@ class ItemsWidget extends StatelessWidget {
       crossAxisCount: 2,
       shrinkWrap: true,
       children: [
-        for (int i = 1; i <= 5; i++)
+        for (int i = 1; i <= 2; i++)
           Container(
             padding: EdgeInsets.only(left: 10, right: 10, top: 7),
             margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),

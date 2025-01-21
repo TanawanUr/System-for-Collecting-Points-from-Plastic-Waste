@@ -5,7 +5,7 @@ import 'package:system_for_collecting_points_from_plastic_waste/screens/Professo
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/staff_home.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/navbar.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -16,13 +16,17 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _e_passportController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  String userRole = '';
+
+  // final GodApitService _godApitService = GodApitService();
   final ApiService _apiService = ApiService();
+  final ePassport _ePassport = ePassport();
 
   Future<void> _login() async {
-    final e_passport = _e_passportController.text;
+    final username = _e_passportController.text;
     final password = _passwordController.text;
 
-    if (e_passport.isEmpty) {
+    if (username.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('กรุณากรอก e-Passport'),
@@ -41,42 +45,60 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     try {
-      final response = await _apiService.login(e_passport, password);
+      // final response = await _apiService.login(e_passport, password);
+      final response = await _ePassport.login(username, password);
+      // final prefs = await SharedPreferences.getInstance();
+      // final userId = response['id'].toString();
+      // await prefs.setString('name', response['name']);
+      // await prefs.setString('authToken', response['token']);
 
-      final prefs = await SharedPreferences.getInstance();
-      final userId = response['id'].toString();
+      if (response['status'] == 'ok') {
+        print('pass 2');
+        print(response['username']);
+        print(response['name']);
+        print(response['facname']);
+        print(response['secname']);
+        print(response['token']);
 
-      await prefs.setString('userId', userId);
-      await prefs.setString('authToken', response['token']);
-      await prefs.setString('role', response['role']);
 
-      final userDetails = await _apiService.getUserDetails(userId);
-
-      if (response['role'] == 'admin') {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => AdminHomePage()),
+        // Save the user data to the database via Node.js API
+        final userData = await _apiService.saveUser(
+          response['username'],
+          response['name'],
+          response['facname'],
+          response['secname'],
+          response['token'],
         );
-      } else if (response['role'] == 'staff') {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => StaffHomePage()),
-        );
-      } else if (response['role'] == 'professor') {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  ProfessorHomePage(userDetails: userDetails)),
-        );
+
+        if (userData["role"] == 'admin') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => AdminHomePage()),
+          );
+        } else if (userData['role'] == 'staff') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => StaffHomePage(userData : userData)),
+          );
+        } else if (userData['role'] == 'professor') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => ProfessorHomePage(userData : userData)),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => StudentHomePage(userData : userData)),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Login สำเร็จ'),
+            behavior: SnackBarBehavior.floating,
+          ));
+        }
       } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => StudentHomePage(userDetails: userDetails)),
-        );
+        // _showErrorDialog();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Login สำเร็จ'),
+          content: Text('e-Passprot หรือ Password ไม่ถูกต้อง'),
           behavior: SnackBarBehavior.floating,
         ));
       }
@@ -221,24 +243,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-  // void _showErrorDialog() {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text("Login Error"),
-  //         content: Text("Incorrect username or password. Please try again."),
-  //         actions: [
-  //           TextButton(
-  //             child: Text("OK"),
-  //             onPressed: () {
-  //               Navigator.of(context).pop(); // Close the dialog
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     }
-  //   );
-  // }
 }

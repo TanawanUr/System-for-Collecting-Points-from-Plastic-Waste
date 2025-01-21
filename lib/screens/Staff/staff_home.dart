@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/Profile/staff_profile.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/staff_history/staff_history.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/staff_reward_list/staff_reward_list.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/staff_reward_request_list/staff_reward_request_list.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
 
-class StaffHomePage extends StatelessWidget {
-  const StaffHomePage({super.key});
+class StaffHomePage extends StatefulWidget {
+  final Map<String, dynamic> userData;
+  const StaffHomePage({super.key, required this.userData});
 
+
+  @override
+  State<StaffHomePage> createState() => _StaffHomePageState();
+}
+
+class _StaffHomePageState extends State<StaffHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff00154B),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
+        preferredSize: Size.fromHeight(56),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -32,13 +42,14 @@ class StaffHomePage extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 15),
                   child: IconButton(
                     icon: CircleAvatar(
-                      backgroundImage: AssetImage('assets/images/profile.png'),
+                      backgroundImage: AssetImage('assets/images/person/profile1.png'),
                     ),
                     onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => StaffProfilePage()));
+                              // builder: (context) => StaffProfilePage()));
+                              builder: (context) => StaffProfilePage(userData: widget.userData)));
                     },
                   ),
                 ),
@@ -79,18 +90,18 @@ class StaffHomePage extends StatelessWidget {
                               backgroundColor: Color(0xffF9CA10),
                               borderColor: Color(0xffEEC004),
                               text: 'ระบบของรางวัล',
-                              textSize: 18,
+                              textSize: 20,
                               iconSize: 60,
                               width: 165,
                               height: 160,
                               blurRadius: 0,
-                              icon: 'assets/svg/present.svg',
+                              icon: 'assets/svg/reward.svg',
                               onPressed: () {
-                                // Navigator.push(
-                                // context,
-                                // MaterialPageRoute(
-                                // builder: (context) => const PrizeListPage()),
-                                // );
+                                Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                builder: (context) => const StaffRewardListPage()),
+                                );
                               },
                             ),
                             AppButtons(
@@ -106,11 +117,11 @@ class StaffHomePage extends StatelessWidget {
                               blurRadius: 0,
                               icon: 'assets/svg/summary_icon.svg',
                               onPressed: () {
-                                // Navigator.push(
-                                // context,
-                                // MaterialPageRoute(
-                                // builder: (context) => const PrizeListPage()),
-                                // );
+                                Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                builder: (context) => const StaffRewardRequestListPage()),
+                                );
                               },
                             ),
                           ],
@@ -155,11 +166,11 @@ class StaffHomePage extends StatelessWidget {
                               blurRadius: 0,
                               icon: 'assets/svg/history_icon.svg',
                               onPressed: () {
-                                // Navigator.push(
-                                // context,
-                                // MaterialPageRoute(
-                                // builder: (context) => const PrizeListPage()),
-                                // );
+                                Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                builder: (context) => const StaffHistoryPage()),
+                                );
                               },
                             ),
                           ],

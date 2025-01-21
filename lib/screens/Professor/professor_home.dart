@@ -5,8 +5,8 @@ import 'package:system_for_collecting_points_from_plastic_waste/screens/Professo
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
 
 class ProfessorHomePage extends StatefulWidget {
-  final Map<String, dynamic> userDetails;
-  const ProfessorHomePage({super.key, required this.userDetails});
+  final Map<String, dynamic> userData;
+  const ProfessorHomePage({super.key, required this.userData});
 
   @override
   State<ProfessorHomePage> createState() => _ProfessorHomePageState();
@@ -48,7 +48,8 @@ class _ProfessorHomePageState extends State<ProfessorHomePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProfessorProfilePage(userDetails: widget.userDetails)));
+                              // builder: (context) => ProfessorProfilePage()));
+                              builder: (context) => ProfessorProfilePage(userData: widget.userData)));
                     },
                   ),
                 ),

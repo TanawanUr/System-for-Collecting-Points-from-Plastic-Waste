@@ -4,7 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/login.dart';
 
 class StaffProfilePage extends StatelessWidget {
-  const StaffProfilePage({super.key});
+  final Map<String, dynamic> userData;
+  const StaffProfilePage({super.key, required this.userData});
 
   Future<void> _logout(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
@@ -21,7 +22,7 @@ class StaffProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+return Scaffold(
       body: Column(
         children: [
           Container(
@@ -33,6 +34,7 @@ class StaffProfilePage extends StatelessWidget {
                 ),
                 color: Color(0xff00154B)),
             child: SafeArea(
+              bottom: false,
               child: Column(
                 children: [
                   Padding(
@@ -43,15 +45,13 @@ class StaffProfilePage extends StatelessWidget {
                       children: [
                         IconButton(
                           icon: FaIcon(FontAwesomeIcons.angleLeft,
-                          color: Colors.white, 
-                          size: 25
-                          ),
+                              color: Colors.white, size: 25),
                           onPressed: () {
                             Navigator.pop(context);
                           },
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 12),
                           child: SizedBox(
                             height: 150,
                             width: 150,
@@ -59,7 +59,7 @@ class StaffProfilePage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(100),
                               child: Image(
                                 image: AssetImage(
-                                    "assets/images/person/nattapon_noorit.png"),
+                                    "assets/images/person/profile1.png"),
                               ),
                             ),
                           ),
@@ -67,13 +67,6 @@ class StaffProfilePage extends StatelessWidget {
                         SizedBox(
                           width: 50,
                         ),
-                        // IconButton(
-                        //   icon: Icon(
-                        //     Icons.logout,
-                        //     color: Colors.white,
-                        //   ),
-                        //   onPressed: () => _logout(context),
-                        // ),
                       ],
                     ),
                   ),
@@ -81,133 +74,129 @@ class StaffProfilePage extends StatelessWidget {
                     height: 15,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    padding: const EdgeInsets.only(left:15, right: 15, bottom: 20),
                     child: Column(
                       children: [
                         Text(
-                          "ณัฐพล  หนูฤทธิ",
+                          // "staff",
+                          '${userData['fullname']}',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 34,
                             fontWeight: FontWeight.w700,
                             height: 1.7,
+                            letterSpacing: -0.5,
                           ),
                         ),
                         Text(
-                          "อาจารย์,\nหัวหน้าหลักสูตรสาขาวิศวกรรมคอมพิวเตอร์",
+                          "เจ้าหน้าที่ดูแลระบบ",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                             height: 1.2,
+                            letterSpacing: -0.5,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  // Text(
-                  //   "สาขา วิศวกรรมคอมพิวเตอร์",
-                  //   style: TextStyle(
-                  //     color: Colors.white,
-                  //     fontSize: 20,
-                  //     fontWeight: FontWeight.w700,
-                  //     height: 1.2,
-                  //   ),
-                  // ),
                 ],
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-            child: Column(
-              children: [
-                InkWell(
-                  onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => const BottomNavBar()),
-                    // );
-                  },
-                  child: Container(
-                    width: 400,
-                    height: 50,
-                    child: Center(
-                        child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'ตั้งค่า',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w800,
+          Spacer(),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              child: Column(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => const BottomNavBar()),
+                      // );
+                    },
+                    child: Container(
+                      width: 360,
+                      height: 50,
+                      child: Center(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'ตั้งค่า',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: -0.2,
+                            ),
                           ),
-                        ),
-                      ],
-                    )),
-                    decoration: BoxDecoration(
-                        color: Color(0xffffffff),
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(10),
-                            bottom: Radius.circular(10)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromARGB(63, 0, 0, 0),
-                            spreadRadius: 0,
-                            blurRadius: 5,
-                            offset: const Offset(0, 1),
-                          )
-                        ]),
+                        ],
+                      )),
+                      decoration: BoxDecoration(
+                          color: Color(0xffffffff),
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(10),
+                              bottom: Radius.circular(10)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color.fromARGB(63, 0, 0, 0),
+                              spreadRadius: 0,
+                              blurRadius: 5,
+                              offset: const Offset(0, 1),
+                            )
+                          ]),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                InkWell(
-                  onTap: () => _logout(context),
-                  child: Container(
-                    width: 360,
-                    height: 50,
-                    child: Center(
-                        child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'ออกจากระบบ',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w800,
+                  SizedBox(
+                    height: 15,
+                  ),
+                  InkWell(
+                    onTap: () => _logout(context),
+                    child: Container(
+                      width: 360,
+                      height: 50,
+                      child: Center(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'ออกจากระบบ',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: -0.2,
+                            ),
                           ),
-                        ),
-                      ],
-                    )),
-                    decoration: BoxDecoration(
-                        color: Color(0xffffffff),
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(10),
-                            bottom: Radius.circular(10)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromARGB(63, 0, 0, 0),
-                            spreadRadius: 0,
-                            blurRadius: 5,
-                            offset: const Offset(0, 1),
-                          )
-                        ]),
+                        ],
+                      )),
+                      decoration: BoxDecoration(
+                          color: Color(0xffffffff),
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(10),
+                              bottom: Radius.circular(10)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color.fromARGB(63, 0, 0, 0),
+                              spreadRadius: 0,
+                              blurRadius: 5,
+                              offset: const Offset(0, 1),
+                            )
+                          ]),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

@@ -19,13 +19,13 @@ class _Certificate_ScreenState extends State<Certificate_Screen> {
         points: 250,
         itemName: 'เกียรติบัตร',
         itemQuantity: 63,
-        itemImageUrl: 'https://i.ibb.co/j3mTb5P/certificate.png',
+        itemImageUrl: 'http://172.20.10.3:3000/images/certificate.png',
       ),
       CertificateWidget(
         points: 300,
         itemName: 'เกียรติบัตร',
         itemQuantity: 26,
-        itemImageUrl: 'https://i.ibb.co/j3mTb5P/certificate.png',
+        itemImageUrl: 'http://172.20.10.3:3000/images/certificate.png',
       ),
     ];
 

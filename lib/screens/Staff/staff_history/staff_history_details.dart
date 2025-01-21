@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/widget/prof_history_widget.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/widget/staff_history_widget.dart';
 
-class ProfessorHistoryDetailsScreen extends StatefulWidget {
-  final ProfessorHistory item;
-  ProfessorHistoryDetailsScreen({required this.item});
+class StaffHistoryDetailsPage extends StatefulWidget {
+  final StaffHistoryWidget item;
+  StaffHistoryDetailsPage({required this.item});
 
   @override
-  State<ProfessorHistoryDetailsScreen> createState() =>
-      _ProfessorHistoryDetailsScreenState();
+  State<StaffHistoryDetailsPage> createState() =>
+      _StaffHistoryDetailsPageState();
 }
 
-class _ProfessorHistoryDetailsScreenState
-    extends State<ProfessorHistoryDetailsScreen> {
+class _StaffHistoryDetailsPageState extends State<StaffHistoryDetailsPage> {
   late String e_passport;
   late String fullname;
   late String faculty;
   late String department;
-  late String subject;
+
+  late int points;
+  late String itemName;
+  late int itemQuantity;
+  late String itemImageUrl;
+
   late DateTime date;
   late String reason;
   late String status;
@@ -30,7 +34,12 @@ class _ProfessorHistoryDetailsScreenState
     fullname = widget.item.fullname;
     faculty = widget.item.faculty;
     department = widget.item.department;
-    subject = widget.item.subject;
+
+    points = widget.item.points;
+    itemName = widget.item.itemName;
+    itemQuantity = widget.item.itemQuantity;
+    itemImageUrl = widget.item.itemImageUrl;
+
     date = widget.item.date;
     reason = widget.item.reason;
     status = widget.item.status;
@@ -124,7 +133,7 @@ class _ProfessorHistoryDetailsScreenState
                         color: Colors.white,
                         child: Column(
                           children: [
-                            _buildSubjectDetailsWidget(),
+                            _builditemDetailsWidget(),
                           ],
                         ),
                       ),
@@ -291,32 +300,122 @@ class _ProfessorHistoryDetailsScreenState
     );
   }
 
-  Widget _buildSubjectDetailsWidget() {
+  Widget _builditemDetailsWidget() {
     return Column(children: <Widget>[
       Padding(
         padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-        child: Column(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Text.rich(TextSpan(
-                  text: 'รายวิชา   ',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: -0.5,
+            Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 255, 255, 255),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0xff000000).withOpacity(0.1),
+                    spreadRadius: 2,
+                    blurRadius: 2,
+                    offset: Offset(0, 2),
                   ),
-                )),
-                Text.rich(TextSpan(
-                  text: subject,
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  itemImageUrl,
+                  // child: Image.asset(
+                  //   'assets/images/pen.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16.0, bottom: 32),
+                child: Text(
+                  itemName,
                   style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
+                    fontSize: 24,
                     fontWeight: FontWeight.w500,
                     letterSpacing: -0.5,
                   ),
-                )),
+                ),
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  'x$itemQuantity',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: -0.5,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '- ',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: -0.2,
+                        ),
+                      ),
+                      TextSpan(
+                        text: '$points แต้ม',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: -0.2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("ยื่นคำขอเมื่อ",
+                    style: TextStyle(
+                        fontSize: 16,
+                        letterSpacing: -0.2,
+                        color: Color(0xff6C6C6C))),
+                Text(formatDateTime(date),
+                    style: TextStyle(fontSize: 16, letterSpacing: -0.2)),
+              ],
+            ),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("เหตุผล",
+                    style: TextStyle(
+                        fontSize: 16,
+                        letterSpacing: -0.2,
+                        color: Color(0xff6C6C6C))),
+                Text(reason,
+                    style: TextStyle(fontSize: 16, letterSpacing: -0.2)),
               ],
             ),
             SizedBox(height: 10),
@@ -336,38 +435,6 @@ class _ProfessorHistoryDetailsScreenState
                         color: _getStatusColor(status))),
               ],
             ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("ยื่นคำขอเมื่อ",
-                    style: TextStyle(
-                        fontSize: 16,
-                        letterSpacing: -0.2,
-                        color: Color(0xff6C6C6C))),
-                Text(formatDateTime(date),
-                    style: TextStyle(
-                        fontSize: 15,
-                        letterSpacing: -0.2,
-                        color: Colors.black)),
-              ],
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("เหตุผล",
-                    style: TextStyle(
-                        fontSize: 16,
-                        letterSpacing: -0.2,
-                        color: Color(0xff6C6C6C))),
-                Text(reason,
-                    style: TextStyle(
-                        fontSize: 16,
-                        letterSpacing: -0.2,
-                        color: Colors.black)),
-              ],
-            ),
           ],
         ),
       ),
@@ -375,9 +442,8 @@ class _ProfessorHistoryDetailsScreenState
   }
 
   String formatDateTime(date) {
-    // DateTime parsedDate = DateTime.parse(date); // Parse the string to DateTime
     String formattedDateTime = DateFormat('dd/MM/yyyy HH:mm')
-        .format(date); // Format to dd/MM/yyyy HH:mm
+        .format(date); 
     return formattedDateTime;
   }
 

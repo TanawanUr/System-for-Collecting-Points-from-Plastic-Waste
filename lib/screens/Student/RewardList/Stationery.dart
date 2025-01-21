@@ -22,31 +22,19 @@ class _Stationery_ScreenState extends State<Stationery_Screen> {
         points: 20,
         itemName: 'ปากกา',
         itemQuantity: 4,
-        itemImageUrl: 'https://i.ibb.co/Stc0T8K/pen.png',
-      ),
-      StationeryWidget(
-        points: 20,
-        itemName: 'ปากกา',
-        itemQuantity: 4,
-        itemImageUrl: 'https://i.ibb.co/Stc0T8K/pen.png',
-      ),
-      StationeryWidget(
-        points: 20,
-        itemName: 'ปากกา',
-        itemQuantity: 4,
-        itemImageUrl: 'https://i.ibb.co/Stc0T8K/pen.png',
+        itemImageUrl: 'http://172.20.10.3:3000/images/pen.png',
       ),
       StationeryWidget(
         points: 30,
         itemName: 'ดินสอ',
         itemQuantity: 1,
-        itemImageUrl: 'https://i.ibb.co/G00RtM9/pencil.png',
+        itemImageUrl: 'http://172.20.10.3:3000/images/pencil.png',
       ),
       StationeryWidget(
         points: 50,
         itemName: 'ยางลบ',
         itemQuantity: 5,
-        itemImageUrl: 'https://i.ibb.co/vDgzVvM/eraser.png',
+        itemImageUrl: 'http://172.20.10.3:3000/images/eraser.png',
       ),
     ];
     return Scaffold(

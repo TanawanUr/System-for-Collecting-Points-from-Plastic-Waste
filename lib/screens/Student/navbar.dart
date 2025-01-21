@@ -7,11 +7,10 @@ import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/QrCode/qrcode.dart';
 
 class StudentHomePage extends StatefulWidget {
-  final Map<String, dynamic> userDetails;
+  final Map<String, dynamic> userData;
+  const StudentHomePage({super.key, required this.userData});
 
-  const StudentHomePage({super.key, required this.userDetails});
-
-  // StudentHomePage({required this.userDetails});
+  // StudentHomePage({required this.userData});
 
   @override
   State<StudentHomePage> createState() => _StudentHomePageState();
@@ -26,11 +25,11 @@ class _StudentHomePageState extends State<StudentHomePage> {
   void initState() {
     super.initState();
     screens = [
-      Home_Screen(userDetails: widget.userDetails),
+      Home_Screen(),
+      // Home_Screen(userDetails: widget.userData),
       Map_Screen(),
-      QrCode_Screen(),
       History_Screen(),
-      Profile_Screen(userDetails: widget.userDetails),
+      Profile_Screen(userData: widget.userData),
     ];
   }
 
@@ -39,9 +38,10 @@ class _StudentHomePageState extends State<StudentHomePage> {
     return Scaffold(
       floatingActionButton: RawMaterialButton(
         onPressed: () {
-          setState(() {
-            currentIndex = 2;
-          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => QRScannerPage()),
+          );
         },
         child: Image.asset(
           'assets/images/qrcode.png',
@@ -110,27 +110,27 @@ class _StudentHomePageState extends State<StudentHomePage> {
               IconButton(
                 onPressed: () {
                   setState(() {
-                    currentIndex = 3;
+                    currentIndex = 2;
                   });
                 },
                 icon: FaIcon(
                   FontAwesomeIcons.solidListAlt,
                   size: 25,
                   color:
-                      currentIndex == 3 ? Color(0xff00154B) : Color(0xff6C6C6C),
+                      currentIndex == 2 ? Color(0xff00154B) : Color(0xff6C6C6C),
                 ),
               ),
               IconButton(
                 onPressed: () {
                   setState(() {
-                    currentIndex = 4;
+                    currentIndex = 3;
                   });
                 },
                 icon: FaIcon(
                   FontAwesomeIcons.solidUser,
                   size: 25,
                   color:
-                      currentIndex == 4 ? Color(0xff00154B) : Color(0xff6C6C6C),
+                      currentIndex == 3 ? Color(0xff00154B) : Color(0xff6C6C6C),
                 ),
               ),
             ],

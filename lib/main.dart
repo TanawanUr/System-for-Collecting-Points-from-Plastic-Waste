@@ -71,14 +71,14 @@ class _MyAppState extends State<MyApp> {
           ? _role == 'admin'
               ? AdminHomePage()
               : _role == 'staff'
-                  ? StaffHomePage()
+                  ? StaffHomePage(userData: {})
                   : _role == 'professor'
                       ? ProfessorHomePage(
-                          userDetails: {},
+                          userData: {},
                         )
                       : _role == 'student'
                           ? StudentHomePage(
-                              userDetails: {},
+                              userData: {},
                             )
                           : LoginPage()
           : LoginPage(),
