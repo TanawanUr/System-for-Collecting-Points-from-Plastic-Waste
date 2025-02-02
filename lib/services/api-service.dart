@@ -25,12 +25,12 @@ class ePassport {
 
 class ApiService {
   // final String baseUrl = 'http://localhost:3000';
-  // final String baseUrl = 'http://192.168.1.11:3000';
-  final String baseUrl = 'http://172.20.10.4:3000';
+  final String baseUrl = 'http://192.168.1.102:3000';
+  // final String baseUrl = 'http://172.20.10.4:3000';
   // final String baseUrl = 'http://192.168.43.51:3000';
   // final String baseUrl = 'http://192.168.1.106:3000';
 
-  Future saveUser(String username, String name, String facname, String secname, String token) async {
+  Future saveUser(String e_passport, String firstname, String lastname, String email, String token, String facname, String depname) async {
     final url = Uri.parse('$baseUrl/saveUser');
     final response = await http.post(
       url,
@@ -38,11 +38,13 @@ class ApiService {
         'Content-Type': 'application/json',
       },
       body: jsonEncode({
-        'username': username,
-        'fullname': name,
-        'facname': facname,
-        'secname': secname,
+        'e_passport': e_passport,
+        'firstname': firstname,
+        'lastname' : lastname,
+        'email' : email,
         'token': token,
+        'facname': facname,
+        'depname': depname,
       }),
     );
 

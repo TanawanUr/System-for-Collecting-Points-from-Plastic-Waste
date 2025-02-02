@@ -55,7 +55,7 @@ class Profile_Screen extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      '${userData['fullname']}',
+                      '${userData['firstname']} ${userData['lastname']}',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 34,
@@ -65,7 +65,7 @@ class Profile_Screen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${userData['username']}',
+                      '${userData['e_passport']?.substring(1)}',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -85,7 +85,7 @@ class Profile_Screen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${userData['secname']}',
+                      '${userData['depname']}',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,

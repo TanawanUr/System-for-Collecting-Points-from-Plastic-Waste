@@ -55,19 +55,23 @@ class _LoginPageState extends State<LoginPage> {
       if (response['status'] == 'ok') {
         print('pass 2');
         print(response['username']);
-        print(response['name']);
-        print(response['facname']);
-        print(response['secname']);
+        print(response['firstname']);
+        print(response['lastname']);
+        print(response['email']);
         print(response['token']);
+        print(response['facname']);
+        print(response['depname']);
 
 
         // Save the user data to the database via Node.js API
         final userData = await _apiService.saveUser(
           response['username'],
-          response['name'],
-          response['facname'],
-          response['secname'],
+          response['firstname'],
+          response['lastname'],
+          response['email'],
           response['token'],
+          response['facname'],
+          response['depname'],
         );
 
         if (userData["role"] == 'admin') {
