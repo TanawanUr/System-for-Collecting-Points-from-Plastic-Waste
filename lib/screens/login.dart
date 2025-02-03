@@ -74,6 +74,8 @@ class _LoginPageState extends State<LoginPage> {
           response['depname'],
         );
 
+        final userDetails = await _apiService.getUserDetails(response['username']);
+
         if (userData["role"] == 'admin') {
           Navigator.pushReplacement(
             context,
@@ -92,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
         } else {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => StudentHomePage(userData : userData)),
+            MaterialPageRoute(builder: (context) => StudentHomePage(userDetails : userDetails)),
           );
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('Login สำเร็จ'),

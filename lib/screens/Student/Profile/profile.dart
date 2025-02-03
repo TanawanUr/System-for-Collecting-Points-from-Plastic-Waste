@@ -4,8 +4,8 @@ import 'package:system_for_collecting_points_from_plastic_waste/screens/login.da
 // import 'package:system_for_collecting_points_from_plastic_waste/services/api-users-details.dart';
 
 class Profile_Screen extends StatelessWidget {
-  final Map<String, dynamic> userData;
-  const Profile_Screen({super.key, required this.userData});
+  final Map<String, dynamic> userDetails;
+  const Profile_Screen({super.key, required this.userDetails});
 
   Future<void> _logout(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
@@ -55,7 +55,7 @@ class Profile_Screen extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      '${userData['firstname']} ${userData['lastname']}',
+                      '${userDetails['firstname']} ${userDetails['lastname']}',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 34,
@@ -65,7 +65,7 @@ class Profile_Screen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${userData['e_passport']?.substring(1)}',
+                      '${userDetails['e_passport']?.substring(1)}',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -75,7 +75,7 @@ class Profile_Screen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${userData['facname']}',
+                      '${userDetails['facname']}',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -85,7 +85,7 @@ class Profile_Screen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${userData['depname']}',
+                      '${userDetails['depname']}',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,

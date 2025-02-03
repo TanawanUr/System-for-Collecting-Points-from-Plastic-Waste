@@ -78,7 +78,7 @@ class _MyAppState extends State<MyApp> {
                         )
                       : _role == 'student'
                           ? StudentHomePage(
-                              userData: {},
+                              userDetails: {},
                             )
                           : LoginPage()
           : LoginPage(),

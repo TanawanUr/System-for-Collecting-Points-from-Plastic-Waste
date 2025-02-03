@@ -1,12 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/Home/reward.dart';
+import 'package:intl/intl.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
 
 class Home_Screen extends StatelessWidget {
   final Map<String, dynamic>? userDetails;
 
   const Home_Screen({super.key, this.userDetails});
+  
+   // Function to format date to Thai Buddhist Era (BE)
+   String formatThaiDate(String? isoDate) {
+    if (isoDate == null || isoDate.isEmpty) return 'ไม่มีวันหมดอายุ';
+
+    try {
+      // ✅ Fix: Remove 'Z' if exists to prevent UTC issues
+      isoDate = isoDate.replaceAll('Z', '');
+
+      // ✅ Parse to DateTime
+      DateTime date = DateTime.parse(isoDate).toLocal(); // Convert to local time
+
+      // ✅ Define Thai Month Names
+      List<String> thaiMonths = [
+        'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+        'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+      ];
+
+      // ✅ Convert to Thai Buddhist Era (BE)
+      int yearBE = date.year + 543;
+      String day = date.day.toString();
+      String month = thaiMonths[date.month - 1];
+
+      return '$day $month $yearBE';
+    } catch (e) {
+      print('❌ Error parsing date: $e');
+      return 'รูปแบบวันที่ไม่ถูกต้อง';
+    }
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +140,7 @@ class Home_Screen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '12 กันยายน 2567',
+                  formatThaiDate(userDetails?['point_expire']),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 30,

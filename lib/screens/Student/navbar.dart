@@ -7,8 +7,8 @@ import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/QrCode/qrcode.dart';
 
 class StudentHomePage extends StatefulWidget {
-  final Map<String, dynamic> userData;
-  const StudentHomePage({super.key, required this.userData});
+  final Map<String, dynamic> userDetails;
+  const StudentHomePage({super.key, required this.userDetails});
 
   // StudentHomePage({required this.userData});
 
@@ -25,11 +25,11 @@ class _StudentHomePageState extends State<StudentHomePage> {
   void initState() {
     super.initState();
     screens = [
-      Home_Screen(),
+      Home_Screen(userDetails: widget.userDetails),
       // Home_Screen(userDetails: widget.userData),
       Map_Screen(),
       History_Screen(),
-      Profile_Screen(userData: widget.userData),
+      Profile_Screen(userDetails: widget.userDetails),
     ];
   }
 
