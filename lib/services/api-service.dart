@@ -25,7 +25,7 @@ class ePassport {
 
 class ApiService {
   // final String baseUrl = 'http://localhost:3000';
-  final String baseUrl = 'http://192.168.1.102:3000';
+  final String baseUrl = 'http://192.168.1.107:3000';
   // final String baseUrl = 'http://172.20.10.4:3000';
   // final String baseUrl = 'http://192.168.43.51:3000';
   // final String baseUrl = 'http://192.168.1.106:3000';

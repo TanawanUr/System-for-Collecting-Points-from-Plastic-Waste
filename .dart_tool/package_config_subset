@@ -66,10 +66,6 @@ intl
 3.3
 file:///C:/Users/Kee/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.20.2/
 file:///C:/Users/Kee/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.20.2/lib/
-js
-2.19
-file:///C:/Users/Kee/AppData/Local/Pub/Cache/hosted/pub.dev/js-0.6.7/
-file:///C:/Users/Kee/AppData/Local/Pub/Cache/hosted/pub.dev/js-0.6.7/lib/
 latlong2
 3.0
 file:///C:/Users/Kee/AppData/Local/Pub/Cache/hosted/pub.dev/latlong2-0.9.1/
@@ -110,6 +106,10 @@ mgrs_dart
 2.12
 file:///C:/Users/Kee/AppData/Local/Pub/Cache/hosted/pub.dev/mgrs_dart-2.0.0/
 file:///C:/Users/Kee/AppData/Local/Pub/Cache/hosted/pub.dev/mgrs_dart-2.0.0/lib/
+mobile_scanner
+3.4
+file:///C:/Users/Kee/AppData/Local/Pub/Cache/hosted/pub.dev/mobile_scanner-6.0.6/
+file:///C:/Users/Kee/AppData/Local/Pub/Cache/hosted/pub.dev/mobile_scanner-6.0.6/lib/
 path
 3.4
 file:///C:/Users/Kee/AppData/Local/Pub/Cache/hosted/pub.dev/path-1.9.1/
@@ -150,10 +150,6 @@ proj4dart
 2.12
 file:///C:/Users/Kee/AppData/Local/Pub/Cache/hosted/pub.dev/proj4dart-2.1.0/
 file:///C:/Users/Kee/AppData/Local/Pub/Cache/hosted/pub.dev/proj4dart-2.1.0/lib/
-qr_code_scanner
-2.17
-file:///C:/Users/Kee/AppData/Local/Pub/Cache/hosted/pub.dev/qr_code_scanner-1.0.1/
-file:///C:/Users/Kee/AppData/Local/Pub/Cache/hosted/pub.dev/qr_code_scanner-1.0.1/lib/
 shared_preferences
 3.4
 file:///C:/Users/Kee/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences-2.3.2/
