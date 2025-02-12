@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ePassport {
   Future<Map<String, dynamic>> login(String username, String password) async {
@@ -65,6 +66,39 @@ class ApiService {
       return json.decode(response.body);
     } else {
       throw Exception('Failed to load user details');
+    }
+  }
+
+  Future<int?> getUserId() async {
+    
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? ePassport = prefs.getString('username');
+    if (ePassport == null) {
+      throw Exception('ePassport not found in SharedPreferences');
+    }
+    final response = await http.get(Uri.parse('$baseUrl/api/user/$ePassport'));
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      
+      return data['user_id'] as int?;
+    } else {
+      throw Exception('Failed to load user details');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getRewardHistory() async {
+    int? userId = await getUserId();
+    if (userId == null) {
+      throw Exception("User not found");
+    }
+
+    final response = await http.get(Uri.parse('$baseUrl/api/reward-history/$userId'));
+
+    if (response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load reward history');
     }
   }
 

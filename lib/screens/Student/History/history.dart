@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/History/HistoryDetails.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/StudentHistory.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
 
 class History_Screen extends StatefulWidget {
   const History_Screen({super.key});
@@ -10,71 +12,51 @@ class History_Screen extends StatefulWidget {
   State<History_Screen> createState() => _History_ScreenState();
 }
 
+
+
 class _History_ScreenState extends State<History_Screen> {
+  List<StudentHistory> historyItems = [];
+  bool isLoading = true;
+  final ApiService apiService = ApiService();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchHistory();
+  }
+
+  Future<void> fetchHistory() async {
+    try {
+      List<Map<String, dynamic>> data = await apiService.getRewardHistory();
+
+      setState(() {
+        historyItems = data.map((item) {
+          return StudentHistory(
+            type: item['reward_type'],
+            itemName: item['reward_name'],
+            date: DateTime.parse(item['requested_at']),
+            submitedDate: item['reviewed_at'] != null
+                ? DateTime.parse(item['reviewed_at'])
+                : DateTime.parse(item['requested_at']),
+            status: item['status'],
+            points: item['points_required'],
+            // itemName: "Reward ${item['reward_id']}",
+            itemQuantity: 1, 
+            itemImageUrl: "http://192.168.1.107:3000/images/reward_${item['reward_id']}.png",
+            // itemImageUrl: "",
+          );
+        }).toList();
+        isLoading = false;
+      });
+    } catch (e) {
+      print("Error fetching history: $e");
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    List<StudentHistory> historyItems = [
-      StudentHistory(
-        type: 'collect',
-        description: 'ใส่ขวด',
-        date: DateTime(2024, 09, 22, 10, 30),
-        submitedDate: DateTime(2021, 10, 1),
-        status: 'สำเร็จ',
-        points: 50,
-        itemName: 'ขวดพลาสติก',
-        itemQuantity: 50,
-        itemImageUrl: 'http://172.20.10.3:3000/images/plastic_bottle.png',
-      ),
-      StudentHistory(
-        type: 'trade',
-        description: 'แลกของรางวัล',
-        date: DateTime(2024, 09, 01, 10, 30),
-        submitedDate: DateTime(2024, 09, 30),
-        status: 'กำลังรออนุมัติ',
-        points: 20,
-        itemName: 'ปากกา',
-        itemQuantity: 4,
-        itemImageUrl: 'http://172.20.10.3:3000/images/pen.png',
-        // reason: '',
-      ),
-      StudentHistory(
-        type: 'trade',
-        description: 'แลกของรางวัล',
-        date: DateTime(2024, 08, 30, 10, 30),
-        submitedDate: DateTime(2024, 01, 18),
-        status: 'อนุมัติ',
-        points: 50,
-        itemName: 'ยางลบ',
-        itemQuantity: 5,
-        itemImageUrl: 'http://172.20.10.3:3000/images/eraser.png',
-        // reason: '',
-      ),
-      StudentHistory(
-        type: 'collect',
-        description: 'ใส่ขวด',
-        date: DateTime(2024, 07, 14, 10, 30),
-        submitedDate: DateTime(2024, 06, 14, 10, 30),
-        status: 'สำเร็จ',
-        points: 10,
-        itemName: 'ขวดพลาสติก',
-        itemQuantity: 10,
-        itemImageUrl: 'http://172.20.10.3:3000/images/plastic_bottle.png',
-        // reason: '',
-      ),
-      StudentHistory(
-        type: 'trade',
-        description: 'แลกของรางวัล',
-        date: DateTime(2024, 05, 27, 10, 30),
-        submitedDate: DateTime(2025, 01, 21),
-        status: 'ยกเลิก',
-        points: 30,
-        itemName: 'ดินสอ',
-        itemQuantity: 1,
-        itemImageUrl: 'http://172.20.10.3:3000/images/pencil.png',
-        reason: 'ของรางวัลหมด',
-      ),
-    ];
-
     return Scaffold(
       backgroundColor: Color(0xff00154B),
       appBar: AppBar(
@@ -161,7 +143,7 @@ class _History_ScreenState extends State<History_Screen> {
                                       width: 55,
                                       height: 55,
                                     ),
-                                    title: Text(item.description,
+                                    title: Text(item.itemName,
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 20,

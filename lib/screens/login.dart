@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Admin/admin_home.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Professor/professor_home.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/staff_home.dart';
@@ -53,7 +54,6 @@ class _LoginPageState extends State<LoginPage> {
       // await prefs.setString('authToken', response['token']);
 
       if (response['status'] == 'ok') {
-        print('pass 2');
         print(response['username']);
         print(response['firstname']);
         print(response['lastname']);
@@ -62,8 +62,10 @@ class _LoginPageState extends State<LoginPage> {
         print(response['facname']);
         print(response['depname']);
 
+        final ePassport = response['username'].toString();
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('username', ePassport);
 
-        // Save the user data to the database via Node.js API
         final userData = await _apiService.saveUser(
           response['username'],
           response['firstname'],

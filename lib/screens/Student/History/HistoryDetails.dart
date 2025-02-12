@@ -21,8 +21,8 @@ class _HistoryDetailsPageState extends State<HistoryDetailsPage> {
   late String submitedDate;
   late String points;
   late String itemType;
-  late String itemDescription;
   late String itemName;
+  // late String description;
   late String itemQuantity;
   late String itemImageUrl;
   late String reason;
@@ -36,9 +36,9 @@ class _HistoryDetailsPageState extends State<HistoryDetailsPage> {
     date = widget.item.date.toString();
     submitedDate = widget.item.submitedDate.toString();
     points = widget.item.points.toString();
-    itemDescription = widget.item.description;
-    currentState = widget.item.status;
     itemName = widget.item.itemName;
+    // description = widget.item.description;
+    currentState = widget.item.status;
     itemQuantity = widget.item.itemQuantity.toString();
     itemImageUrl = widget.item.itemImageUrl;
     reason = widget.item.reason;
@@ -108,7 +108,7 @@ class _HistoryDetailsPageState extends State<HistoryDetailsPage> {
                         color: Colors.white,
                         child: Column(
                           children: [
-                            _getTitleWidget(itemType, itemDescription),
+                            _getTitleWidget(itemType),
                             Divider(
                               color: Color(0xffCECECE),
                               thickness: 1,
@@ -340,7 +340,7 @@ String formatSubmitedDate(submitedDate) {
   return formattedDateTime;
 }
 
-Widget _getTitleWidget(itemType, itemDescription) {
+Widget _getTitleWidget(itemType) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
     child: Row(
@@ -353,7 +353,7 @@ Widget _getTitleWidget(itemType, itemDescription) {
           height: 55,
         ),
         SizedBox(width: 16),
-        Text(itemDescription,
+        Text(itemType == 'collect' ? 'ใส่ขวด' : 'แลกของรางวัล',
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
