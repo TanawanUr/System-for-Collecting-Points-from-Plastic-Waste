@@ -33,7 +33,8 @@ class _Stationery_ScreenState extends State<Stationery_Screen> {
             points: item['points_required'],
             itemName: item['reward_name'],
             itemQuantity: item['reward_quantity'],
-            itemImageUrl: "http://192.168.1.109:3000/images/reward_${item['reward_id']}.png",
+            itemImageUrl:
+                "http://192.168.196.81:3000/images/reward_${item['reward_id']}.png",
           );
         }).toList();
         isLoading = false;
@@ -45,6 +46,7 @@ class _Stationery_ScreenState extends State<Stationery_Screen> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,7 +192,8 @@ class _Stationery_ScreenState extends State<Stationery_Screen> {
                                           ),
                                           InkWell(
                                             onTap: () {
-                                              showConfirmationDialog(context, item.rewardId);
+                                              showConfirmationDialog(
+                                                  context, item.rewardId);
                                             },
                                             child: Container(
                                               width: 55,
@@ -271,7 +274,9 @@ class _Stationery_ScreenState extends State<Stationery_Screen> {
                 letterSpacing: -0.2,
               )),
           actions: <Widget>[
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -309,9 +314,11 @@ class _Stationery_ScreenState extends State<Stationery_Screen> {
                   onTap: () async {
                     Navigator.of(context).pop(); // Close the dialog
                     try {
-                    int? userId = await apiService.getUserId(); // Get user ID from API
+                      int? userId =
+                          await apiService.getUserId(); // Get user ID from API
                       if (userId != null) {
-                        bool success = await apiService.requestReward(userId, rewardId);
+                        bool success =
+                            await apiService.requestReward(userId, rewardId);
                         if (success) {
                           showSuccessDialog(context, "ส่งคำขอแลกสำเร็จ");
                         } else {
@@ -359,118 +366,73 @@ class _Stationery_ScreenState extends State<Stationery_Screen> {
     );
   }
 
-void showSuccessDialog(BuildContext context, String message) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: Colors.white,
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.check_circle, color: Colors.green, size: 160),
-            SizedBox(height: 10),
-            Text(
-              message,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 28,
-                fontWeight: FontWeight.w700,
-                letterSpacing: -0.5,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      );
-    },
-  );
-
-  // Automatically close dialog after 2 seconds
-  Future.delayed(Duration(seconds: 2), () {
-    if (Navigator.of(context).canPop()) {
-      Navigator.of(context).pop();
-    }
-  });
-}
-
-  void showErrorDialog(BuildContext context, String message) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: Colors.white,
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.error, color: Colors.red, size: 160),
-            SizedBox(height: 10),
-            Text(
-              message,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      );
-    },
-  );
-
-  // Close after 2 seconds
-  Future.delayed(Duration(seconds: 2), () {
-    if (Navigator.of(context).canPop()) {
-      Navigator.of(context).pop();
-    }
-  });
-}
-
-
-  void showGreenCheckAndNavigate(BuildContext context) {
+  void showSuccessDialog(BuildContext context, String message) {
     showDialog(
       context: context,
-      barrierDismissible: false, // Prevent closing the dialog while waiting
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
+        // Schedule closing of the dialog using the dialog's own context.
+        Future.delayed(Duration(seconds: 2), () {
+          // Check if the dialog is still mounted in the widget tree.
+          if (Navigator.of(dialogContext).canPop()) {
+            Navigator.of(dialogContext).pop();
+          }
+        });
+
         return AlertDialog(
           backgroundColor: Colors.white,
-          content: InkWell(
-            onTap: () {
-              Navigator.of(context).pop(); // Close the green check dialog
-            },
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Icon(
-                  Icons.check_circle,
-                  color: Color(0xff4AAF50),
-                  size: 160,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.check_circle, color: Colors.green, size: 160),
+              SizedBox(height: 10),
+              Text(
+                message,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 28,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.5,
                 ),
-                SizedBox(height: 10),
-                Text("แลกของสำเร็จ",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 28,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: -0.5
-                    )),
-              ],
-            ),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
         );
       },
     );
+  }
 
-    // Delay for 2 seconds then go to home screen
-    // Timer(Duration(seconds: 2), () {
-    //   if (Navigator.of(context).canPop()) {
-    //     Navigator.of(context).pop(); // Close the green check dialog
-    //   }
-    //   // if (mounted) {
-    //   //   Navigator.of(context).pushReplacementNamed('/home'); // Navigate to home screen
-    //   // }
-    // });
+  void showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        // Schedule closing of the dialog using the dialog's own context.
+        Future.delayed(Duration(seconds: 2), () {
+          if (Navigator.of(dialogContext).canPop()) {
+            Navigator.of(dialogContext).pop();
+          }
+        });
+
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.error, color: Colors.red, size: 160),
+              SizedBox(height: 10),
+              Text(
+                message,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

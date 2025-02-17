@@ -33,7 +33,7 @@ class _Certificate_ScreenState extends State<Certificate_Screen> {
             points: item['points_required'],
             itemName: item['reward_name'],
             itemQuantity: item['reward_quantity'],
-            itemImageUrl: "http://192.168.1.109:3000/images/reward_${item['reward_id']}.png",
+            itemImageUrl: "http://192.168.196.81:3000/images/reward_${item['reward_id']}.png",
           );
         }).toList();
         isLoading = false;
@@ -360,72 +360,73 @@ class _Certificate_ScreenState extends State<Certificate_Screen> {
   }
 
 void showSuccessDialog(BuildContext context, String message) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: Colors.white,
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.check_circle, color: Colors.green, size: 160),
-            SizedBox(height: 10),
-            Text(
-              message,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 28,
-                fontWeight: FontWeight.w700,
-                letterSpacing: -0.5,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      );
-    },
-  );
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        // Schedule closing of the dialog using the dialog's own context.
+        Future.delayed(Duration(seconds: 2), () {
+          // Check if the dialog is still mounted in the widget tree.
+          if (Navigator.of(dialogContext).canPop()) {
+            Navigator.of(dialogContext).pop();
+          }
+        });
 
-  // Automatically close dialog after 2 seconds
-  Future.delayed(Duration(seconds: 2), () {
-    if (Navigator.of(context).canPop()) {
-      Navigator.of(context).pop();
-    }
-  });
-}
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.check_circle, color: Colors.green, size: 160),
+              SizedBox(height: 10),
+              Text(
+                message,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 28,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.5,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   void showErrorDialog(BuildContext context, String message) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: Colors.white,
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.error, color: Colors.red, size: 160),
-            SizedBox(height: 10),
-            Text(
-              message,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      );
-    },
-  );
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        // Schedule closing of the dialog using the dialog's own context.
+        Future.delayed(Duration(seconds: 2), () {
+          if (Navigator.of(dialogContext).canPop()) {
+            Navigator.of(dialogContext).pop();
+          }
+        });
 
-  // Close after 2 seconds
-  Future.delayed(Duration(seconds: 2), () {
-    if (Navigator.of(context).canPop()) {
-      Navigator.of(context).pop();
-    }
-  });
-}
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.error, color: Colors.red, size: 160),
+              SizedBox(height: 10),
+              Text(
+                message,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
 
