@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/staff_reward_request_list/staff_reward_request_list_details.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/staff_reward_request_list_widget.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
 
 class StaffRewardRequestListPage extends StatefulWidget {
   const StaffRewardRequestListPage({super.key});
@@ -12,46 +13,51 @@ class StaffRewardRequestListPage extends StatefulWidget {
       _StaffRewardRequestListPageState();
 }
 
-class _StaffRewardRequestListPageState
-    extends State<StaffRewardRequestListPage> {
+class _StaffRewardRequestListPageState extends State<StaffRewardRequestListPage> {
+  List<StaffRewardRequestListWidget> rewardRequestList = [];
+  bool isLoading = true;
+  final ApiService apiService = ApiService();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchHistory();
+  }
+
+  Future<void> fetchHistory() async {
+    try {
+      List<Map<String, dynamic>> data = await apiService.getStaffRewardRequestList();
+      setState(() {
+        rewardRequestList = data.map((item) {
+          return StaffRewardRequestListWidget(
+            requestId: item['request_id'],
+            e_passport: item['e_passport'],
+            fullname: "${item['firstname']} ${item['lastname']}",
+            faculty: item['facname'],
+            department: item['depname'],
+            points: item['points_required'],
+            itemName: item['reward_name'],
+            itemQuantity: 1,
+            itemImageUrl: "http://192.168.196.81:3000/images/reward_${item['reward_id']}.png",
+            date: DateTime.parse(item['requested_at']),
+            submitedDate: item['reviewed_at'] != null
+                ? DateTime.parse(item['reviewed_at'])
+                : DateTime.parse(item['requested_at']),
+            status: item['status'],
+            reason: item['reason'],
+          );
+        }).toList();
+        isLoading = false;
+      });
+    } catch (e) {
+      print("Error fetching history: $e");
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    List<StaffRewardRequestListWidget> historyItems = [
-      StaffRewardRequestListWidget(
-        e_passport: '164404140076',
-        fullname: 'ธนวันต์ อุรามา',
-        faculty: 'วิศวกรรมศาสตร์',
-        department: 'วิศวกรรมคอมพิวเตอร์',
-        points: 10,
-        itemName: 'ปากกา',
-        itemQuantity: 1,
-        itemImageUrl: 'http://172.20.10.3:3000/images/pen.png',
-        date: DateTime(2024, 09, 22, 10, 30),
-      ),
-      StaffRewardRequestListWidget(
-        e_passport: '164404140050',
-        fullname: 'สุรัตน์ บุญเรือง',
-        faculty: 'วิศวกรรมศาสตร์',
-        department: 'วิศวกรรมคอมพิวเตอร์',
-        points: 10,
-        itemName: 'ยางลบ',
-        itemQuantity: 1,
-        itemImageUrl: 'http://172.20.10.3:3000/images/eraser.png',
-        date: DateTime(2024, 09, 22, 10, 30),
-      ),
-      StaffRewardRequestListWidget(
-        e_passport: '164404140057',
-        fullname: 'ขจรจัด สุวันน้อย',
-        faculty: 'วิศวกรรมศาสตร์',
-        department: 'วิศวกรรมคอมพิวเตอร์',
-        points: 10,
-        itemName: 'ดินสอ',
-        itemQuantity: 1,
-        itemImageUrl: 'http://172.20.10.3:3000/images/pencil.png',
-        date: DateTime(2024, 09, 22, 10, 30),
-      ),
-    ];
-
     return Scaffold(
       backgroundColor: Color(0xff00154B),
       appBar: AppBar(
@@ -111,14 +117,14 @@ class _StaffRewardRequestListPageState
                                       fontSize: 26,
                                       fontWeight: FontWeight.w700,
                                       letterSpacing: -0.5)),
-                              // IconButton(
-                              //   onPressed: () {},
-                              //   icon: FaIcon(
-                              //     FontAwesomeIcons.arrowDownShortWide,
-                              //     size: 25,
-                              //     color: Colors.black,
-                              //   ),
-                              // ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: FaIcon(
+                                  FontAwesomeIcons.arrowDownShortWide,
+                                  size: 25,
+                                  color: Colors.black,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -129,73 +135,68 @@ class _StaffRewardRequestListPageState
                         height: 1.5,
                       ),
                       Expanded(
-                        child: ListView.builder(
-                          itemCount: historyItems.length,
-                          itemBuilder: (context, index) {
-                            final item = historyItems[index];
-                            return Column(
-                              children: [
-                                Container(
-                                  color: Colors.white,
-                                  child: ListTile(
-                                    leading: FaIcon(
-                                        FontAwesomeIcons.solidCircleUser,
-                                        color: Colors.black,
-                                        size: 50),
-                                    title: Text(item.fullname,
-                                        style: TextStyle(
+                        child: isLoading
+                            ? Center(child: CircularProgressIndicator())
+                            : ListView.builder(
+                                itemCount: rewardRequestList.length,
+                                itemBuilder: (context, index) {
+                                  final item = rewardRequestList[index];
+                                  return Column(
+                                    children: [
+                                      Container(
+                                        color: Colors.white,
+                                        child: ListTile(
+                                          leading: FaIcon(
+                                            FontAwesomeIcons.solidCircleUser,
                                             color: Colors.black,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w700,
-                                            letterSpacing: -0.5)),
-                                    subtitle: Container(
-                                      padding: const EdgeInsets.only(top: 8),
-                                      child: Text(formatDateTime(item.date),
-                                          style: TextStyle(
-                                              color: Color(0xff136BFF),
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w400,
-                                              letterSpacing: -0.2)),
-                                    ),
-                                    trailing: Padding(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          Text('แสดงเพิ่มเติม',
+                                            size: 50,
+                                          ),
+                                          title: Text(item.fullname,
                                               style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: Color(0xff136BFF),
-                                                  fontWeight: FontWeight.w400,
-                                                  letterSpacing: -0.2)),
-                                        ],
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              StaffRewardRequestListDetailsPage(
-                                                  item: item),
+                                                  color: Colors.black,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w700,
+                                                  letterSpacing: -0.5)),
+                                          subtitle: Padding(
+                                            padding: const EdgeInsets.only(top: 8),
+                                            child: Text(formatDateTime(item.submitedDate),
+                                                style: TextStyle(
+                                                    color: Color(0xff136BFF),
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w400,
+                                                    letterSpacing: -0.2)),
+                                          ),
+                                          trailing: Padding(
+                                            padding: const EdgeInsets.only(top: 5),
+                                            child: Text('แสดงเพิ่มเติม',
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: Color(0xff136BFF),
+                                                    fontWeight: FontWeight.w400,
+                                                    letterSpacing: -0.2)),
+                                          ),
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    StaffRewardRequestListDetailsPage(item: item),
+                                              ),
+                                            );
+                                          },
                                         ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                Divider(
-                                  color: Color(0xffEAEAEA),
-                                  thickness: 1,
-                                  height: 1.5,
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
+                                      ),
+                                      Divider(
+                                        color: Color(0xffEAEAEA),
+                                        thickness: 1,
+                                        height: 1.5,
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                      )
+
                     ],
                   ),
                 ),

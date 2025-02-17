@@ -152,16 +152,77 @@ class ApiService {
   }
 
 
-  // Future<Map<String, dynamic>> getUserDetails(String userId) async {
-  //   final url = Uri.parse('$baseUrl/user/$userId');
-  //   final response =
-  //       await http.get(url, headers: {'Content-Type': 'application/json'});
+/*PROFESSOR*/
 
-  //   if (response.statusCode == 200) {
-  //     print('User details response: ${response.body}'); // Log the response
-  //     return json.decode(response.body);
-  //   } else {
-  //     throw Exception('Failed to load user details');
-  //   }
-  // }
+
+
+
+
+/*STAFF*/
+Future<List<Map<String, dynamic>>> getStaffRewardRequestList() async {
+    int? userId = await getUserId();
+    if (userId == null) {
+      throw Exception("User not found");
+    }
+
+    final response = await http.get(Uri.parse('$baseUrl/staff/reward-request-list'));
+
+    if (response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load reward history');
+    }
+  }
+
+ // Approve a reward request
+  Future<bool> approveReward({
+    required int requestId,
+    required int approvedBy
+  }) async {
+    final url = Uri.parse('$baseUrl/api/approve-reward');
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        "request_id": requestId,
+        "approved_by": approvedBy,
+        "approval_status": "อนุมัติ"
+      }),
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // Reject a reward request
+  Future<bool> rejectReward({
+    required int requestId,
+    required int approvedBy,
+    required String reason,
+  }) async {
+    final url = Uri.parse('$baseUrl/api/approve-reward');
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        "request_id": requestId,
+        "approved_by": approvedBy,
+        "approval_status": "ยกเลิก",
+        "reason": reason,
+      }),
+    );
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+
+
+
+/*ADMIN*/
+
 }
