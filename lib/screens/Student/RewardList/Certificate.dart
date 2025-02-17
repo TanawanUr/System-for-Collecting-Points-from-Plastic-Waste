@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/widget/CertificateWidget.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/widget/RewardsWidget.dart';
+
 
 class Certificate_Screen extends StatefulWidget {
   const Certificate_Screen({super.key});
@@ -10,27 +12,41 @@ class Certificate_Screen extends StatefulWidget {
 }
 
 class _Certificate_ScreenState extends State<Certificate_Screen> {
+    final ApiService apiService = ApiService();
+  List<RewardsWidget> CertificateItem= [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchRewards();
+  }
+
+  Future<void> fetchRewards() async {
+    try {
+      List<Map<String, dynamic>> data = await apiService.getCertificate();
+
+      setState(() {
+        CertificateItem = data.map((item) {
+          return RewardsWidget(
+            rewardId: item['reward_id'],
+            points: item['points_required'],
+            itemName: item['reward_name'],
+            itemQuantity: item['reward_quantity'],
+            itemImageUrl: "http://192.168.1.109:3000/images/reward_${item['reward_id']}.png",
+          );
+        }).toList();
+        isLoading = false;
+      });
+    } catch (e) {
+      print("Error fetching rewards: $e");
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
-
-
-    List<CertificateWidget> CertificateItem = [
-      CertificateWidget(
-        points: 250,
-        itemName: 'เกียรติบัตร',
-        itemQuantity: 63,
-        itemImageUrl: 'http://172.20.10.3:3000/images/certificate.png',
-      ),
-      CertificateWidget(
-        points: 300,
-        itemName: 'เกียรติบัตร',
-        itemQuantity: 26,
-        itemImageUrl: 'http://172.20.10.3:3000/images/certificate.png',
-      ),
-    ];
-
-
-
       return Scaffold(
      backgroundColor: Color(0xff00154B),
       appBar: AppBar(
@@ -173,7 +189,7 @@ class _Certificate_ScreenState extends State<Certificate_Screen> {
                                           ),
                                           InkWell(
                                             onTap: () {
-                                              showConfirmationDialog(context);
+                                              showConfirmationDialog(context, item.rewardId);
                                             },
                                             child: Container(
                                               width: 55,
@@ -240,7 +256,7 @@ class _Certificate_ScreenState extends State<Certificate_Screen> {
 
   }
 
-  void showConfirmationDialog(BuildContext context) {
+  void showConfirmationDialog(BuildContext context, int rewardId) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -290,9 +306,24 @@ class _Certificate_ScreenState extends State<Certificate_Screen> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
                     Navigator.of(context).pop(); // Close the dialog
-                    showGreenCheckAndNavigate(context);
+                    try {
+                    int? userId = await apiService.getUserId(); // Get user ID from API
+                      if (userId != null) {
+                        bool success = await apiService.requestReward(userId, rewardId);
+                        if (success) {
+                          showSuccessDialog(context, "ส่งคำขอแลกสำเร็จ");
+                        } else {
+                          showErrorDialog(context, "ไม่สามารถขอแลกได้");
+                        }
+                      } else {
+                        showErrorDialog(context, "ไม่พบข้อมูลผู้ใช้");
+                      }
+                    } catch (e) {
+                      print("Error: $e");
+                      showErrorDialog(context, "เกิดข้อผิดพลาด กรุณาลองใหม่");
+                    }
                   },
                   child: Container(
                     width: 100,
@@ -328,49 +359,73 @@ class _Certificate_ScreenState extends State<Certificate_Screen> {
     );
   }
 
-  void showGreenCheckAndNavigate(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false, // Prevent closing the dialog while waiting
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          content: InkWell(
-            onTap: () {
-              Navigator.of(context).pop(); // Close the green check dialog
-            },
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Icon(
-                  Icons.check_circle,
-                  color: Color(0xff4AAF50),
-                  size: 160,
-                ),
-                SizedBox(height: 10),
-                Text("แลกของสำเร็จ",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 28,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: -0.5
-                    )),
-              ],
+void showSuccessDialog(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Colors.white,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.check_circle, color: Colors.green, size: 160),
+            SizedBox(height: 10),
+            Text(
+              message,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 28,
+                fontWeight: FontWeight.w700,
+                letterSpacing: -0.5,
+              ),
+              textAlign: TextAlign.center,
             ),
-          ),
-        );
-      },
-    );
+          ],
+        ),
+      );
+    },
+  );
 
-    // Delay for 2 seconds then go to home screen
-    // Timer(Duration(seconds: 2), () {
-    //   if (Navigator.of(context).canPop()) {
-    //     Navigator.of(context).pop(); // Close the green check dialog
-    //   }
-    //   // if (mounted) {
-    //   //   Navigator.of(context).pushReplacementNamed('/home'); // Navigate to home screen
-    //   // }
-    // });
-  }
+  // Automatically close dialog after 2 seconds
+  Future.delayed(Duration(seconds: 2), () {
+    if (Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
+    }
+  });
+}
+
+  void showErrorDialog(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Colors.white,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.error, color: Colors.red, size: 160),
+            SizedBox(height: 10),
+            Text(
+              message,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      );
+    },
+  );
+
+  // Close after 2 seconds
+  Future.delayed(Duration(seconds: 2), () {
+    if (Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
+    }
+  });
+}
 }
 

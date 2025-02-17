@@ -12,6 +12,7 @@ class Profile_Screen extends StatelessWidget {
 
     // Clear the stored token
     await prefs.remove('authToken');
+    await prefs.remove('username');
 
     // Navigate back to the login page
     Navigator.pushAndRemoveUntil(

@@ -22,10 +22,9 @@ class _HistoryDetailsPageState extends State<HistoryDetailsPage> {
   late String points;
   late String itemType;
   late String itemName;
-  // late String description;
   late String itemQuantity;
   late String itemImageUrl;
-  late String reason;
+  late String? reason;
 
 
 
@@ -197,7 +196,7 @@ class _HistoryDetailsPageState extends State<HistoryDetailsPage> {
   }
 }
 
-Widget _getDetailsWidget(date, points, itemType, itemName, itemQuantity, itemImageUrl,reason) {
+Widget _getDetailsWidget(date, points, itemType, itemName, itemQuantity, itemImageUrl, reason) {
   return Padding(
     padding: const EdgeInsets.only(top: 20),
     child: Column(
@@ -317,10 +316,10 @@ Widget _getDetailsWidget(date, points, itemType, itemName, itemQuantity, itemIma
                           fontSize: 16,
                           letterSpacing: -0.2,
                           color: Color(0xff6C6C6C))),
-                  Text(reason,
+                  Text(reason ?? '-',
                       style: TextStyle(fontSize: 16, letterSpacing: -0.2)),
                 ],
-              ),
+              ), 
             ],
           ),
         ),

@@ -8,7 +8,7 @@ class StudentHistory {
   final int points; // for "collect" type
   final int itemQuantity;
   final String itemImageUrl;
-  final String reason;
+  final String? reason;
 
   StudentHistory({
     required this.type,

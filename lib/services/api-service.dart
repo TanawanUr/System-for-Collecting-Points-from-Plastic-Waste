@@ -26,7 +26,7 @@ class ePassport {
 
 class ApiService {
   // final String baseUrl = 'http://localhost:3000';
-  final String baseUrl = 'http://192.168.1.107:3000';
+  final String baseUrl = 'http://192.168.1.109:3000';
   // final String baseUrl = 'http://172.20.10.4:3000';
   // final String baseUrl = 'http://192.168.43.51:3000';
   // final String baseUrl = 'http://192.168.1.106:3000';
@@ -80,7 +80,7 @@ class ApiService {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
-      
+
       return data['user_id'] as int?;
     } else {
       throw Exception('Failed to load user details');
@@ -101,6 +101,56 @@ class ApiService {
       throw Exception('Failed to load reward history');
     }
   }
+
+  Future<List<Map<String, dynamic>>> getRewards() async {
+    try {
+      final response = await http.get(Uri.parse("$baseUrl/api/rewards/stationery"));
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = jsonDecode(response.body);
+        return List<Map<String, dynamic>>.from(data);
+      } else {
+        throw Exception("Failed to load rewards");
+      }
+    } catch (e) {
+      print("Error fetching rewards: $e");
+      throw e;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getCertificate() async {
+    try {
+      final response = await http.get(Uri.parse("$baseUrl/api/rewards/certificates"));
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = jsonDecode(response.body);
+        return List<Map<String, dynamic>>.from(data);
+      } else {
+        throw Exception("Failed to load rewards");
+      }
+    } catch (e) {
+      print("Error fetching rewards: $e");
+      throw e;
+    }
+  }
+
+  Future<bool> requestReward(int userId, int rewardId) async {
+    final String apiUrl = "$baseUrl/api/request-reward";
+
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"user_id": userId, "reward_id": rewardId}),
+      );
+
+      return response.statusCode == 201; // Success if status 201
+    } catch (e) {
+      print("Error requesting reward: $e");
+      return false;
+    }
+  }
+
 
   // Future<Map<String, dynamic>> getUserDetails(String userId) async {
   //   final url = Uri.parse('$baseUrl/user/$userId');

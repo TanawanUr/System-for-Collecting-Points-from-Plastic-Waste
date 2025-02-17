@@ -2,12 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/Home/reward.dart';
 import 'package:intl/intl.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
 
-class Home_Screen extends StatelessWidget {
+class Home_Screen extends StatefulWidget {
   final Map<String, dynamic>? userDetails;
 
   const Home_Screen({super.key, this.userDetails});
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<Home_Screen> {
+  int totalPoints = 0;
+  String pointExpireDate = '';
+  final ApiService apiService = ApiService();
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUpdatedPoints();
+  }
   
    // Function to format date to Thai Buddhist Era (BE)
    String formatThaiDate(String? isoDate) {
@@ -35,6 +52,28 @@ class Home_Screen extends StatelessWidget {
     } catch (e) {
       print('❌ Error parsing date: $e');
       return 'รูปแบบวันที่ไม่ถูกต้อง';
+    }
+  }
+  
+  // Fetch updated user details (points & expiration date)
+  Future<Map<String, dynamic>> getUserDetails(String ePassport) async {
+    // Implement the logic to fetch user details using the ePassport
+    // For example, you can call an API service here
+    return await apiService.getUserDetails(ePassport);
+  }
+
+  Future<void> fetchUpdatedPoints() async {
+    try {
+      if (widget.userDetails?['e_passport'] != null) {
+        var updatedData = await getUserDetails(widget.userDetails!['e_passport']);
+        setState(() {
+          totalPoints = updatedData['total_points'] ?? 0;
+          pointExpireDate = updatedData['point_expire'] ?? '';
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('❌ Error fetching updated points: $e');
     }
   }
   
@@ -106,7 +145,7 @@ class Home_Screen extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
                   child: Text(
-                    '${userDetails?['total_points']}',
+                    '$totalPoints',
                     style: TextStyle(
                       color: Color(0xffFCCA00),
                       fontSize: 44,
@@ -140,7 +179,7 @@ class Home_Screen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  formatThaiDate(userDetails?['point_expire']),
+                  formatThaiDate(pointExpireDate),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 30,

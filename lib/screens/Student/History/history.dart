@@ -40,9 +40,9 @@ class _History_ScreenState extends State<History_Screen> {
                 : DateTime.parse(item['requested_at']),
             status: item['status'],
             points: item['points_required'],
-            // itemName: "Reward ${item['reward_id']}",
             itemQuantity: 1, 
-            itemImageUrl: "http://192.168.1.107:3000/images/reward_${item['reward_id']}.png",
+            itemImageUrl: "http://192.168.1.109:3000/images/reward_${item['reward_id']}.png",
+            reason: item['reason'],
             // itemImageUrl: "",
           );
         }).toList();
@@ -166,7 +166,15 @@ class _History_ScreenState extends State<History_Screen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.end,
                                         children: [
-                                          if (item.type == 'trade')
+                                          if (item.type == 'stationery')
+                                            Text(item.status,
+                                                style: TextStyle(
+                                                    color: _getStatusColor(
+                                                        item.status),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    letterSpacing: -0.2)),
+                                          if (item.type == 'certificate')
                                             Text(item.status,
                                                 style: TextStyle(
                                                     color: _getStatusColor(
