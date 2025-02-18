@@ -203,8 +203,7 @@ class _StaffRewardRequestListPageState extends State<StaffRewardRequestListPage>
                                   );
                                 },
                               ),
-                      )
-
+                      ),
                     ],
                   ),
                 ),
