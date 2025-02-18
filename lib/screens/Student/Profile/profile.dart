@@ -76,7 +76,7 @@ class Profile_Screen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${userDetails['facname']}',
+                      'คณะ ${userDetails['facname'].substring(3)}',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -86,7 +86,7 @@ class Profile_Screen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${userDetails['depname']}',
+                      'สาขา ${userDetails['depname']}',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
