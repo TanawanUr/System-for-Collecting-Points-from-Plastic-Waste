@@ -166,15 +166,23 @@ class _StaffRewardRequestListPageState extends State<StaffRewardRequestListPage>
                                                     fontWeight: FontWeight.w400,
                                                     letterSpacing: -0.2)),
                                           ),
-                                          trailing: Padding(
-                                            padding: const EdgeInsets.only(top: 5),
-                                            child: Text('แสดงเพิ่มเติม',
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Color(0xff136BFF),
-                                                    fontWeight: FontWeight.w400,
-                                                    letterSpacing: -0.2)),
-                                          ),
+                                            trailing: Padding(
+                                              padding: const EdgeInsets.only(top: 5),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  Text('แสดงเพิ่มเติม',
+                                                      style: TextStyle(
+                                                          fontSize: 13,
+                                                          color: Color(0xff136BFF),
+                                                          fontWeight: FontWeight.w400,
+                                                          letterSpacing: -0.2)),
+                                                ],
+                                              ),
+                                            ),
                                           onTap: () {
                                             Navigator.push(
                                               context,

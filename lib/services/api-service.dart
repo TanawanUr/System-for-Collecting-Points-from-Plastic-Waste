@@ -159,6 +159,21 @@ class ApiService {
 
 
 /*STAFF*/
+Future<List<Map<String, dynamic>>> StaffHistoryWidget() async {
+    int? userId = await getUserId();
+    if (userId == null) {
+      throw Exception("User not found");
+    }
+
+    final response = await http.get(Uri.parse('$baseUrl/staff/reward-approved'));
+
+    if (response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load reward history');
+    }
+  }
+
 Future<List<Map<String, dynamic>>> getStaffRewardRequestList() async {
     int? userId = await getUserId();
     if (userId == null) {

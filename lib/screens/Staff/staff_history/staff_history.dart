@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/staff_history/staff_history_details.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/staff_history_widget.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
 
 class StaffHistoryPage extends StatefulWidget {
   const StaffHistoryPage({super.key});
@@ -12,54 +13,46 @@ class StaffHistoryPage extends StatefulWidget {
 }
 
 class _StaffHistoryPageState extends State<StaffHistoryPage> {
+  List<StaffHistoryWidget> rewardApproved = [];
+  bool isLoading = true;
+  final ApiService apiService = ApiService();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchHistory();
+  }
+
+  Future<void> fetchHistory() async {
+    try {
+      List<Map<String, dynamic>> data = await apiService.StaffHistoryWidget();
+      setState(() {
+        rewardApproved = data.map((item) {
+          return StaffHistoryWidget(
+            e_passport: item['e_passport'],
+            fullname: "${item['firstname']} ${item['lastname']}",
+            faculty: item['facname'],
+            department: item['depname'],
+            points: item['points_required'],
+            itemName: item['reward_name'],
+            itemQuantity: 1,
+            itemImageUrl: "http://192.168.196.81:3000/images/reward_${item['reward_id']}.png",
+            date: DateTime.parse(item['requested_at']),
+            status: item['status'],
+            reason: item['reason']
+          );
+        }).toList();
+        isLoading = false;
+      });
+    } catch (e) {
+      print("Error fetching history: $e");
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    List<StaffHistoryWidget> historyItems = [
-      StaffHistoryWidget(
-        e_passport: '164404140076',
-        fullname: 'ธนวันต์ อุรามา',
-        faculty: 'วิศวกรรมศาสตร์',
-        department: 'วิศวกรรมคอมพิวเตอร์',
-
-        points: 10,
-        itemName: 'ปากกา',
-        itemQuantity: 1,
-        itemImageUrl: 'http://172.20.10.3:3000/images/pen.png',
-
-        date: DateTime(2024, 09, 22, 10, 30),
-        // reason: '',
-        status: 'อนุมัติ',
-      ),
-      StaffHistoryWidget(
-        e_passport: '164404140050',
-        fullname: 'สุรัตน์ บุญเรือง',
-        faculty: 'วิศวกรรมศาสตร์',
-        department: 'วิศวกรรมคอมพิวเตอร์',
-        points: 10,
-        itemName: 'ยางลบ',
-        itemQuantity: 1,
-        itemImageUrl: 'http://172.20.10.3:3000/images/eraser.png',
-        date: DateTime(2024, 09, 22, 10, 30),
-        reason: 'ขาดเกินกำหนด',
-        status: 'ปฏิเสธ',
-      ),
-      StaffHistoryWidget(
-        e_passport: '164404140057',
-        fullname: 'ขจรจัด สุวันน้อย',
-        faculty: 'วิศวกรรมศาสตร์',
-        department: 'วิศวกรรมคอมพิวเตอร์',
-
-        points: 10,
-        itemName: 'ดินสอ',
-        itemQuantity: 1,
-        itemImageUrl: 'http://172.20.10.3:3000/images/pencil.png',
-
-        date: DateTime(2024, 09, 22, 10, 30),
-        // reason: '',
-        status: 'อนุมัติ',
-      ),
-    ];
-
     return Scaffold(
       backgroundColor: Color(0xff00154B),
       appBar: AppBar(
@@ -136,10 +129,12 @@ class _StaffHistoryPageState extends State<StaffHistoryPage> {
                         height: 1.5,
                       ),
                       Expanded(
-                        child: ListView.builder(
-                          itemCount: historyItems.length,
-                          itemBuilder: (context, index) {
-                            final item = historyItems[index];
+                        child: isLoading
+                            ? Center(child: CircularProgressIndicator())
+                            : ListView.builder(
+                                itemCount: rewardApproved.length,
+                                itemBuilder: (context, index) {
+                                  final item = rewardApproved[index];
                             return Column(
                               children: [
                                 Container(
@@ -164,14 +159,21 @@ class _StaffHistoryPageState extends State<StaffHistoryPage> {
                                               fontWeight: FontWeight.w400,
                                               letterSpacing: -0.2)),
                                     ),
-                                    trailing: Padding(
+                                                                        trailing: Padding(
                                       padding: const EdgeInsets.only(top: 5),
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                            MainAxisAlignment.spaceBetween,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.end,
                                         children: [
+                                            Text(item.status,
+                                                style: TextStyle(
+                                                    color: _getStatusColor(
+                                                        item.status),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    letterSpacing: -0.2)),
                                           Text('แสดงเพิ่มเติม',
                                               style: TextStyle(
                                                   fontSize: 13,
@@ -213,6 +215,19 @@ class _StaffHistoryPageState extends State<StaffHistoryPage> {
         ),
       ),
     );
+  }
+
+   Color _getStatusColor(String status) {
+    switch (status.toLowerCase()) {
+      case 'อนุมัติ':
+        return Color(0xff4AAF50);
+      case 'กำลังรออนุมัติ':
+        return Color(0xffFCCA00);
+      case 'ยกเลิก':
+        return Color(0xffDB3232);
+      default:
+        return Colors.black;
+    }
   }
 
   String formatDateTime(date) {

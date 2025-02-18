@@ -10,7 +10,7 @@ class StaffHistoryWidget {
   final String itemImageUrl;
 
   final DateTime date;
-  final String reason;
+  final String? reason;
   final String status;
 
   StaffHistoryWidget({
