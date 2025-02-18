@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/Profile/staff_profile.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/staff_history/staff_history.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/staff_point_expire_config/staff_point_expire_config.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/staff_reward_list/staff_reward_list.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/staff_reward_request_list/staff_reward_request_list.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
@@ -146,11 +147,11 @@ class _StaffHomePageState extends State<StaffHomePage> {
                               blurRadius: 0,
                               icon: 'assets/svg/list_check_icon.svg',
                               onPressed: () {
-                                // Navigator.push(
-                                // context,
-                                // MaterialPageRoute(
-                                // builder: (context) => const PrizeListPage()),
-                                // );
+                                Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                builder: (context) => const StaffPointExpireConfig()),
+                                );
                               },
                             ),
                             AppButtons(
