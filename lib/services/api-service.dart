@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mime/mime.dart';
+import 'package:http_parser/http_parser.dart';
 
 class ePassport {
   Future<Map<String, dynamic>> login(String username, String password) async {
@@ -234,6 +237,95 @@ Future<List<Map<String, dynamic>>> getStaffRewardRequestList() async {
         return false;
       }
     }
+
+  Future<void> addReward({
+    required String rewardName,
+    required int rewardQuantity,
+    required int pointsRequired,
+    String? rewardType, // Optional, defaults to "stationery"
+    File? imageFile,    // Image file selected by the user
+  }) async {
+    final uri = Uri.parse('$baseUrl/staff/add-reward');
+    var request = http.MultipartRequest('POST', uri);
+
+    // Add text fields
+    request.fields['reward_type'] = rewardType ?? "stationery";
+    request.fields['reward_name'] = rewardName;
+    request.fields['reward_quantity'] = rewardQuantity.toString();
+    request.fields['points_required'] = pointsRequired.toString();
+
+    // Add image file if available
+    if (imageFile != null) {
+      // Determine the MIME type of the file
+      final mimeTypeData = lookupMimeType(imageFile.path)?.split('/');
+      var file = await http.MultipartFile.fromPath(
+        'reward_image', // Must match the backend field name
+        imageFile.path,
+        contentType: mimeTypeData != null
+            ? MediaType(mimeTypeData[0], mimeTypeData[1])
+            : null,
+      );
+      request.files.add(file);
+    }
+
+    // Send the request
+    final response = await request.send();
+
+    if (response.statusCode == 201) {
+      final respStr = await response.stream.bytesToString();
+      print("Reward added successfully: $respStr");
+    } else {
+      print("Failed to add reward. Status code: ${response.statusCode}");
+      final respStr = await response.stream.bytesToString();
+      print("Response: $respStr");
+    }
+  }
+
+  Future<void> updateReward({
+  required int rewardId,
+  required String rewardName,
+  required int rewardQuantity,
+  required int pointsRequired,
+  String? rewardType, // e.g., "stationery"
+  File? imageFile,    // optional updated image file
+}) async {
+  final uri = Uri.parse('$baseUrl/staff/edit-reward/$rewardId');
+  var request = http.MultipartRequest('PUT', uri);
+
+  // Add text fields
+  request.fields['reward_name'] = rewardName;
+  request.fields['reward_quantity'] = rewardQuantity.toString();
+  request.fields['points_required'] = pointsRequired.toString();
+  request.fields['reward_type'] = rewardType ?? "stationery";
+
+  // Add image file if updated
+  if (imageFile != null) {
+    var file = await http.MultipartFile.fromPath('reward_image', imageFile.path);
+    request.files.add(file);
+  }
+
+  final response = await request.send();
+  if (response.statusCode == 200) {
+    print("Reward updated successfully");
+  } else {
+    final respStr = await response.stream.bytesToString();
+    print("Failed to update reward. Status code: ${response.statusCode}");
+    print("Response: $respStr");
+    throw Exception('Failed to update reward');
+  }
+}
+
+  Future<void> deleteReward(int rewardId) async {
+  final uri = Uri.parse('$baseUrl/staff/delete-reward/$rewardId');
+  final response = await http.delete(uri);
+
+  if (response.statusCode == 200) {
+    print("Reward deleted successfully");
+  } else {
+    print("Failed to delete reward. Status code: ${response.statusCode}");
+    throw Exception('Failed to delete reward');
+  }
+}
 
 
 

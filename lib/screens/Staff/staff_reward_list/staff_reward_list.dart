@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/staff_reward_list/staff_add_reward.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/staff_reward_list/staff_edit_reward.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/RewardsWidget.dart';
 
@@ -9,13 +10,14 @@ class StaffRewardListPage extends StatefulWidget {
 
   @override
   State<StaffRewardListPage> createState() => _StaffRewardListPageState();
+  
 }
 
 class _StaffRewardListPageState extends State<StaffRewardListPage> {
   final ApiService apiService = ApiService();
   List<RewardsWidget> StationeryItems = [];
   bool isLoading = true;
-
+  
   @override
   void initState() {
     super.initState();
@@ -33,8 +35,7 @@ class _StaffRewardListPageState extends State<StaffRewardListPage> {
             points: item['points_required'],
             itemName: item['reward_name'],
             itemQuantity: item['reward_quantity'],
-            itemImageUrl:
-                "http://192.168.196.81:3000/images/reward_${item['reward_id']}.png",
+            itemImageUrl:"http://192.168.196.81:3000/images/${item['reward_image']}",
           );
         }).toList();
         isLoading = false;
@@ -44,6 +45,44 @@ class _StaffRewardListPageState extends State<StaffRewardListPage> {
       setState(() {
         isLoading = false;
       });
+    }
+  }
+
+  Future<void> _confirmAndDelete(BuildContext context, int rewardId) async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Delete Reward"),
+          content: Text("Are you sure you want to delete this reward?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false), // cancel
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true), // confirm
+              child: Text("Delete", style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirm == true) {
+      try {
+        await apiService.deleteReward(rewardId);
+        // Show a success message (optional)
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Reward deleted successfully')),
+        );
+        // Navigate back to the home or previous screen
+        Navigator.of(context).pop();
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to delete reward')),
+        );
+      }
     }
   }
 
@@ -204,7 +243,14 @@ class _StaffRewardListPageState extends State<StaffRewardListPage> {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            const StaffAddReward()),
+                                                            StaffEditReward(
+                                                              rewardId: item.rewardId,
+                                                              rewardName: item.itemName,
+                                                              rewardQuantity: item.itemQuantity,
+                                                              pointsRequired: item.points,
+                                                              rewardImageUrl: item.itemImageUrl,
+                                                              rewardType: "stationery", // or another type if needed
+                                                            )),
                                                   );
                                                   // showConfirmationDialog(
                                                   //     context, item.rewardId);
@@ -261,8 +307,7 @@ class _StaffRewardListPageState extends State<StaffRewardListPage> {
                                               ),
                                               InkWell(
                                                 onTap: () {
-                                                  // showConfirmationDialog(
-                                                  //     context, item.rewardId);
+                                                 _confirmAndDelete(context, item.rewardId);
                                                 },
                                                 child: Container(
                                                   width: 50,
@@ -334,7 +379,12 @@ class _StaffRewardListPageState extends State<StaffRewardListPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print("Add Reward button pressed");
+           Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    const StaffAddReward()),
+          );
         },
         backgroundColor: Color(0xffFCCA00),
         shape: CircleBorder(),

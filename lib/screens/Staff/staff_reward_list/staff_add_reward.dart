@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
 
 class StaffAddReward extends StatefulWidget {
   const StaffAddReward({super.key});
@@ -9,6 +12,84 @@ class StaffAddReward extends StatefulWidget {
 }
 
 class _StaffAddRewardState extends State<StaffAddReward> {
+   // Controllers for the text fields.
+  final TextEditingController _rewardNameController = TextEditingController();
+  final TextEditingController _pointsController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
+
+  File? _selectedImage;
+  final ImagePicker _picker = ImagePicker();
+  final ApiService apiService = ApiService();
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+      });
+    }
+  }
+
+  Future<void> _submitReward() async {
+  final rewardName = _rewardNameController.text.trim();
+  final pointsText = _pointsController.text.trim();
+  final quantityText = _quantityController.text.trim();
+
+  if (rewardName.isEmpty || pointsText.isEmpty || quantityText.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Please fill out all fields.')),
+    );
+    return;
+  }
+
+  final pointsRequired = int.tryParse(pointsText);
+  final rewardQuantity = int.tryParse(quantityText);
+
+  if (pointsRequired == null || rewardQuantity == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Please enter valid numbers for points and quantity.')),
+    );
+    return;
+  }
+
+  try {
+    // Call your API to add the reward
+    await apiService.addReward(
+      rewardName: rewardName,
+      rewardQuantity: rewardQuantity,
+      pointsRequired: pointsRequired,
+      rewardType: "stationery", // or adjust based on your UI
+      imageFile: _selectedImage,
+    );
+
+    // Show a success dialog
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Success"),
+          content: Text("Reward added successfully."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop(); // Pop the current screen to go back home
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  } catch (error) {
+    // If the API call fails, show an error message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error adding reward.')),
+    );
+  }
+}
+
+
   @override
   Widget build(BuildContext context) {
     final availableHeight = MediaQuery.of(context).size.height ;
@@ -70,29 +151,46 @@ class _StaffAddRewardState extends State<StaffAddReward> {
                             child: Column(
                               children: [
                                 SizedBox(height: 30),
-                                Container(
+ // Image display container
+                              InkWell(
+                                onTap: _pickImage,
+                                child: Container(
                                   height: 200,
                                   width: 200,
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 214, 214, 214),
+                                    color: _selectedImage == null
+                                        ? Color.fromARGB(255, 214, 214, 214)
+                                        : null,
                                     borderRadius: BorderRadius.vertical(
                                       top: Radius.circular(25),
                                       bottom: Radius.circular(25),
                                     ),
+                                    image: _selectedImage != null
+                                        ? DecorationImage(
+                                            image: FileImage(_selectedImage!),
+                                            fit: BoxFit.cover,
+                                          )
+                                        : null,
                                   ),
+                                  child: _selectedImage == null
+                                      ? Center(
+                                          child: Text(
+                                            "เพิ่มรูป",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        )
+                                      : null,
                                 ),
-                                SizedBox(height: 20),
-                                Text(
-                                  "เพิ่มรูป",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
+                              ),
                                 SizedBox(height: 20),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 35, vertical: 6),
                                   child: TextField(
+                                    controller: _rewardNameController,
                                     style: TextStyle(
                                       color: Color(0xff000000),
                                       fontSize: 18,
@@ -110,6 +208,8 @@ class _StaffAddRewardState extends State<StaffAddReward> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 35, vertical: 6),
                                   child: TextField(
+                                    controller: _pointsController,
+                                    keyboardType: TextInputType.number,
                                     style: TextStyle(
                                       color: Color(0xff000000),
                                       fontSize: 18,
@@ -133,6 +233,8 @@ class _StaffAddRewardState extends State<StaffAddReward> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 35, vertical: 6),
                                   child: TextField(
+                                    controller: _quantityController,
+                                    keyboardType: TextInputType.number,
                                     scrollPadding:
                                         EdgeInsets.symmetric(horizontal: 10),
                                     style: TextStyle(
@@ -156,47 +258,38 @@ class _StaffAddRewardState extends State<StaffAddReward> {
                                 ),
                                 SizedBox(height: 20),
                                 InkWell(
-                                  onTap: () {
-                                    // showConfirmationDialog(
-                                    //     context, item.rewardId);
-                                  },
-                                  child: Container(
-                                    width: 90,
-                                    height: 35,
-                                    child: Center(
-                                        child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "ยืนยัน",
-                                          style: TextStyle(
-                                            color: Color(0xffffffff),
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w700,
-                                            letterSpacing: -0.2,
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                                    decoration: BoxDecoration(
-                                        color: Color(0xffF9CA10),
-                                        shape: BoxShape.rectangle,
-                                        borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(10),
-                                            bottom: Radius.circular(10)),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Color(0xffEEC004),
-                                            spreadRadius: 1,
-                                            blurRadius: 0,
-                                            offset: const Offset(0, 2),
-                                          )
-                                        ]),
+                                onTap: _submitReward,
+                                child: Container(
+                                  width: 90,
+                                  height: 35,
+                                  child: Center(
+                                    child: Text(
+                                      "ยืนยัน",
+                                      style: TextStyle(
+                                        color: Color(0xffffffff),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: -0.2,
+                                      ),
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffF9CA10),
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(10),
+                                      bottom: Radius.circular(10),
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color(0xffEEC004),
+                                        spreadRadius: 1,
+                                        blurRadius: 0,
+                                        offset: Offset(0, 2),
+                                      )
+                                    ],
                                   ),
                                 ),
+                              ),
                                 SizedBox(height: 20),
                               ],
                             ),
