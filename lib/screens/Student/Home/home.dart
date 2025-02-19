@@ -94,7 +94,10 @@ class _HomeScreenState extends State<Home_Screen> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => const RewardListPage()),
-                );
+                ).then((_){
+                  PaintingBinding.instance.imageCache.clear();
+                  fetchUpdatedPoints();
+                });
               },
               textColor: Color(0xffFFFFFF),
               iconColor: Color(0xffFFFFFF),

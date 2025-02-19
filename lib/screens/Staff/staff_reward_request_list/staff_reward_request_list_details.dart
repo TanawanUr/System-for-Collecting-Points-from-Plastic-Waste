@@ -727,6 +727,7 @@ class _StaffRewardRequestListDetailsPageState extends State<StaffRewardRequestLi
           // Check if the dialog is still mounted in the widget tree.
           if (Navigator.of(dialogContext).canPop()) {
             Navigator.of(dialogContext).pop();
+            Navigator.of(dialogContext).pop();
           }
         });
 
@@ -761,6 +762,7 @@ class _StaffRewardRequestListDetailsPageState extends State<StaffRewardRequestLi
         // Schedule closing of the dialog using the dialog's own context.
         Future.delayed(Duration(seconds: 2), () {
           if (Navigator.of(dialogContext).canPop()) {
+            Navigator.of(dialogContext).pop();
             Navigator.of(dialogContext).pop();
           }
         });

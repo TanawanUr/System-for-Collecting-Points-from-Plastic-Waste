@@ -192,7 +192,10 @@ class _StaffHistoryPageState extends State<StaffHistoryPage> {
                                                   item:
                                                       item), // Passing the item data to the next page
                                         ),
-                                      );
+                                      ).then((_){
+                                        PaintingBinding.instance.imageCache.clear();
+                                        fetchHistory();
+                                      });
                                     },
                                   ),
                                 ),

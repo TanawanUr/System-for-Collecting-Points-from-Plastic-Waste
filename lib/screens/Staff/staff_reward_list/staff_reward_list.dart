@@ -173,6 +173,7 @@ class _StaffRewardListPageState extends State<StaffRewardListPage> {
                                           ),
                                           Image.network(
                                             item.itemImageUrl,
+                                            key: UniqueKey(),
                                             width: 120,
                                             height: 120,
                                           ),
@@ -251,9 +252,10 @@ class _StaffRewardListPageState extends State<StaffRewardListPage> {
                                                               rewardImageUrl: item.itemImageUrl,
                                                               rewardType: "stationery", // or another type if needed
                                                             )),
-                                                  );
-                                                  // showConfirmationDialog(
-                                                  //     context, item.rewardId);
+                                                  ).then((_){
+                                                    PaintingBinding.instance.imageCache.clear();
+                                                    fetchRewards();
+                                                  });
                                                 },
                                                 child: Container(
                                                   width: 50,

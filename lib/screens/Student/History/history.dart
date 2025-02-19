@@ -228,7 +228,10 @@ class _History_ScreenState extends State<History_Screen> {
                                               item:
                                                   item), // Passing the item data to the next page
                                         ),
-                                      );
+                                      ).then((_){
+                                        PaintingBinding.instance.imageCache.clear();
+                                        fetchHistory();
+                                      });
                                     },
                                   ),
                                 ),

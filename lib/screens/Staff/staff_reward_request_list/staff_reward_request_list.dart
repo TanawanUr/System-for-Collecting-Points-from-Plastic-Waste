@@ -190,7 +190,10 @@ class _StaffRewardRequestListPageState extends State<StaffRewardRequestListPage>
                                                 builder: (context) =>
                                                     StaffRewardRequestListDetailsPage(item: item),
                                               ),
-                                            );
+                                            ).then((_){
+                                                    PaintingBinding.instance.imageCache.clear();
+                                                    fetchHistory();
+                                                  });
                                           },
                                         ),
                                       ),
