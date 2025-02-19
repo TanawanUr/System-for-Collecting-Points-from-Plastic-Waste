@@ -33,7 +33,7 @@ class _Certificate_ScreenState extends State<Certificate_Screen> {
             points: item['points_required'],
             itemName: item['reward_name'],
             itemQuantity: item['reward_quantity'],
-            itemImageUrl: "http://192.168.196.81:3000/images/reward_${item['reward_id']}.png",
+            itemImageUrl: "http://192.168.196.81:3000/images/${item['reward_image']}",
           );
         }).toList();
         isLoading = false;

@@ -38,7 +38,7 @@ class _StaffRewardRequestListPageState extends State<StaffRewardRequestListPage>
             points: item['points_required'],
             itemName: item['reward_name'],
             itemQuantity: 1,
-            itemImageUrl: "http://192.168.196.81:3000/images/reward_${item['reward_id']}.png",
+            itemImageUrl: "http://192.168.196.81:3000/images/${item['reward_image']}",
             date: DateTime.parse(item['requested_at']),
             submitedDate: item['reviewed_at'] != null
                 ? DateTime.parse(item['reviewed_at'])
