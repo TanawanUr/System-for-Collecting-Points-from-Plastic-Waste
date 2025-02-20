@@ -2,22 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/login.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
 
-class StaffProfilePage extends StatelessWidget {
+class StaffProfilePage extends StatefulWidget {
   final Map<String, dynamic> userData;
-  const StaffProfilePage({super.key, required this.userData});
+  // final String ePassport;
+  StaffProfilePage({super.key, required this.userData});
+
+  @override
+  State<StaffProfilePage> createState() => _StaffProfilePageState();
+}
+
+class _StaffProfilePageState extends State<StaffProfilePage> {
+  final ApiService apiService = ApiService();
+  Map<String, dynamic>? userData;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserDetails();
+  }
+
+  Future<void> _fetchUserDetails() async {
+    try {
+      Map<String, dynamic> details = await apiService.getUserDetails(widget.userData['ePassport']);
+      setState(() {
+        userData = details;
+      });
+    } catch (e) {
+      print("Error fetching user details: $e");
+    }
+  }
 
   Future<void> _logout(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
-
-    // Clear the stored token
     await prefs.remove('authToken');
-
-    // Navigate back to the login page
     Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => LoginPage()),
-        (Route<dynamic> route) => false);
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+      (Route<dynamic> route) => false,
+    );
   }
 
   @override
@@ -79,7 +104,7 @@ return Scaffold(
                       children: [
                         Text(
                           // "staff",
-                          '${userData['fullname']}',
+                          '${widget.userData['firstname']} ${widget.userData['lastname']}',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 34,
