@@ -4,6 +4,7 @@ import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/st
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Staff/staff_reward_list/staff_edit_reward.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/RewardsWidget.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class StaffRewardListPage extends StatefulWidget {
   const StaffRewardListPage({super.key});
@@ -76,8 +77,6 @@ class _StaffRewardListPageState extends State<StaffRewardListPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Reward deleted successfully')),
         );
-        // Navigate back to the home or previous screen
-        Navigator.of(context).pop();
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to delete reward')),
@@ -180,24 +179,25 @@ class _StaffRewardListPageState extends State<StaffRewardListPage> {
                                           SizedBox(
                                             height: 15,
                                           ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Container(
-                                                alignment: Alignment.centerLeft,
-                                                child: Text(
-                                                  item.itemName,
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w600,
-                                                    letterSpacing: -0.2,
-                                                    height: 1,
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: AutoSizeText(
+                                                    item.itemName,
+                                                    style: TextStyle(
+                                                      fontSize: 20, // Default size
+                                                      fontWeight: FontWeight.w600,
+                                                      letterSpacing: -0.2,
+                                                      height: 1,
+                                                    ),
+                                                    maxLines: 1, // Limits to 2 lines before shrinking
+                                                    minFontSize: 12, // Minimum size it can shrink to
+                                                    overflow: TextOverflow.ellipsis, // Adds "..." if still too long
                                                   ),
                                                 ),
-                                              ),
-                                              Container(
-                                                child: Text(
+                                                SizedBox(width: 5),
+                                                Text(
                                                   '${item.points} แต้ม',
                                                   style: TextStyle(
                                                     fontSize: 16,
@@ -206,9 +206,9 @@ class _StaffRewardListPageState extends State<StaffRewardListPage> {
                                                     height: 1,
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
+                                              ],
+                                            ),
+
                                           SizedBox(
                                             height: 5,
                                           ),
@@ -309,7 +309,10 @@ class _StaffRewardListPageState extends State<StaffRewardListPage> {
                                               ),
                                               InkWell(
                                                 onTap: () {
-                                                 _confirmAndDelete(context, item.rewardId);
+                                                 _confirmAndDelete(context, item.rewardId).then((_){
+                                                    PaintingBinding.instance.imageCache.clear();
+                                                    fetchRewards();
+                                                  });
                                                 },
                                                 child: Container(
                                                   width: 50,
@@ -385,9 +388,12 @@ class _StaffRewardListPageState extends State<StaffRewardListPage> {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    const StaffAddReward()),
-          );
-        },
+                  const StaffAddReward()),
+          ).then((_){
+                  PaintingBinding.instance.imageCache.clear();
+                  fetchRewards();
+                });
+              },
         backgroundColor: Color(0xffFCCA00),
         shape: CircleBorder(),
         child: Icon(Icons.add, size: 30, color: Colors.white),
