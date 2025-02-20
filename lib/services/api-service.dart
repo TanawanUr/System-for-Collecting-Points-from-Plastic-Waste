@@ -336,8 +336,7 @@ Future<List<Map<String, dynamic>>> getStaffRewardRequestList() async {
         // Assuming data['setting_value'] is like "2025-12-31"
         DateTime parsedDate = DateTime.parse(data['setting_value']);
         // Format for display as "day/month/year"
-        String formattedDate = DateFormat('d/M/yyyy').format(parsedDate);
-        return formattedDate;
+        return parsedDate.toString();
       } else {
         print('Failed to load point expire date. Status code: ${response.statusCode}');
         return null;

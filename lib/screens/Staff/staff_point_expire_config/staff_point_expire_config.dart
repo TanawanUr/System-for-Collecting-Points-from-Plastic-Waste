@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
 
 class StaffPointExpireConfig extends StatefulWidget {
@@ -25,18 +26,21 @@ class _StaffPointExpireConfigState extends State<StaffPointExpireConfig> {
   if (fetchedDate != null) {
     setState(() {
       expireDate = fetchedDate;
-      dateController.text = fetchedDate; // Keep controller updated if needed elsewhere.
+      DateTime parsedDate = DateTime.parse(fetchedDate);
+      String formattedDate = DateFormat('d/M/yyyy').format(parsedDate);
+      dateController.text = formattedDate;
     });
   }
 }
 
   // For updating:
-  void _updateExpireDate() async {
-    bool success = await apiService.updatePointExpire(dateController.text);
-    if (success) {
-      _loadExpireDate();
-    }
+void _updateExpireDate() async {
+  bool success = await apiService.updatePointExpire(dateController.text);
+  if (success) {
+    _loadExpireDate();
+  }
 }
+
 
 
   Future<void> _selectDate(BuildContext context) async {
@@ -51,6 +55,34 @@ class _StaffPointExpireConfigState extends State<StaffPointExpireConfig> {
       setState(() {
         dateController.text = "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
       });
+    }
+  }
+
+    String formatThaiDate(String? isoDate) {
+    if (isoDate == null || isoDate.isEmpty) return 'ไม่มีวันหมดอายุ';
+
+    try {
+      // ✅ Fix: Remove 'Z' if exists to prevent UTC issues
+      isoDate = isoDate.replaceAll('Z', '');
+
+      // ✅ Parse to DateTime
+      DateTime date = DateTime.parse(isoDate).toLocal(); // Convert to local time
+
+      // ✅ Define Thai Month Names
+      List<String> thaiMonths = [
+        'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+        'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+      ];
+
+      // ✅ Convert to Thai Buddhist Era (BE)
+      int yearBE = date.year + 543;
+      String day = date.day.toString();
+      String month = thaiMonths[date.month - 1];
+
+      return '$day $month $yearBE';
+    } catch (e) {
+      print('❌ Error parsing date: $e');
+      return 'รูปแบบวันที่ไม่ถูกต้อง';
     }
   }
 
@@ -118,7 +150,8 @@ class _StaffPointExpireConfigState extends State<StaffPointExpireConfig> {
                               ),
                               const SizedBox(height: 20),
                                 Text(
-                                  expireDate.isNotEmpty ? expireDate : "กำลังโหลด...",
+                                  formatThaiDate(expireDate),
+                                  // expireDate.isNotEmpty ? expireDate : "กำลังโหลด...",
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 30,
