@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
@@ -326,6 +327,57 @@ Future<List<Map<String, dynamic>>> getStaffRewardRequestList() async {
     throw Exception('Failed to delete reward');
   }
 }
+
+  Future<String?> fetchPointExpire() async {
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/staff/point_expire'));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        // Assuming data['setting_value'] is like "2025-12-31"
+        DateTime parsedDate = DateTime.parse(data['setting_value']);
+        // Format for display as "day/month/year"
+        String formattedDate = DateFormat('d/M/yyyy').format(parsedDate);
+        return formattedDate;
+      } else {
+        print('Failed to load point expire date. Status code: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching point expire date: $e');
+      return null;
+    }
+  }
+
+  /// Update the point expiration date on the backend.
+  /// Expects [newDate] in "d/M/yyyy" format and converts it to "yyyy-MM-dd".
+  /// Returns true if the update was successful, otherwise false.
+  Future<bool> updatePointExpire(String newDate) async {
+    // Convert the date from "d/M/yyyy" (display) to "yyyy-MM-dd" (API expected)
+    DateFormat inputFormat = DateFormat('d/M/yyyy');
+    DateFormat apiFormat = DateFormat('yyyy-MM-dd');
+    DateTime parsedDate = inputFormat.parse(newDate);
+    String formattedDateForApi = apiFormat.format(parsedDate);
+
+    try {
+      final response = await http.put(
+        Uri.parse('$baseUrl/staff/point_expire'),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "setting_value": formattedDateForApi,
+        }),
+      );
+      if (response.statusCode == 200) {
+        print('Point expire date updated successfully.');
+        return true;
+      } else {
+        print('Failed to update point expire date. Status code: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('Error updating point expire date: $e');
+      return false;
+    }
+  }
 
 
 

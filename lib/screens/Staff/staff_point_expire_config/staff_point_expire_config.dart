@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
 
 class StaffPointExpireConfig extends StatefulWidget {
   const StaffPointExpireConfig({super.key});
@@ -9,7 +10,34 @@ class StaffPointExpireConfig extends StatefulWidget {
 }
 
 class _StaffPointExpireConfigState extends State<StaffPointExpireConfig> {
-    TextEditingController dateController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  final ApiService apiService = ApiService();
+  String expireDate = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadExpireDate();
+  }
+
+ Future<void> _loadExpireDate() async {
+  String? fetchedDate = await apiService.fetchPointExpire();
+  if (fetchedDate != null) {
+    setState(() {
+      expireDate = fetchedDate;
+      dateController.text = fetchedDate; // Keep controller updated if needed elsewhere.
+    });
+  }
+}
+
+  // For updating:
+  void _updateExpireDate() async {
+    bool success = await apiService.updatePointExpire(dateController.text);
+    if (success) {
+      _loadExpireDate();
+    }
+}
+
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
@@ -29,15 +57,15 @@ class _StaffPointExpireConfigState extends State<StaffPointExpireConfig> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff00154B),
+      backgroundColor: const Color(0xff00154B),
       appBar: AppBar(
         leading: IconButton(
-          icon: FaIcon(FontAwesomeIcons.angleLeft, color: Colors.white),
+          icon: const FaIcon(FontAwesomeIcons.angleLeft, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        backgroundColor: Color(0xff00154B),
+        backgroundColor: const Color(0xff00154B),
         surfaceTintColor: Colors.transparent,
-        title: Text(
+        title: const Text(
           'กำหนดวันหมดอายุ\nของแต้ม',
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -53,12 +81,10 @@ class _StaffPointExpireConfigState extends State<StaffPointExpireConfig> {
         child: Container(
           child: Column(
             children: [
-              SizedBox(
-                height: 15,
-              ),
+              const SizedBox(height: 15),
               Expanded(
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Color(0xffEAEAEA),
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(35),
@@ -66,170 +92,117 @@ class _StaffPointExpireConfigState extends State<StaffPointExpireConfig> {
                   ),
                   child: Column(
                     children: [
+                      // Display current point expiration date
                       Container(
                         width: double.infinity,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Color(0xffffffff),
                           borderRadius: BorderRadius.only(
                               topRight: Radius.circular(35),
                               topLeft: Radius.circular(35)),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 15,
-                            bottom: 15,
-                            left: 20,
-                            right: 20,
-                          ),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 20),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'วันหมดอายุของแต้มปัจจุบัน',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 28,
-                                      fontWeight: FontWeight.w700,
-                                      letterSpacing: -0.5,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text("12 กันยายน 2567",
-                                      // Text(data['expire_date'],
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.w400,
-                                        letterSpacing: -0.5,
-                                      )),
-                                ],
+                              const Text(
+                                'วันหมดอายุของแต้มปัจจุบัน',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: -0.5,
+                                ),
                               ),
+                              const SizedBox(height: 20),
+                                Text(
+                                  expireDate.isNotEmpty ? expireDate : "กำลังโหลด...",
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w400,
+                                    letterSpacing: -0.5,
+                                  ),
+                                ),
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 15,
-                      ),
+                      const SizedBox(height: 15),
+                      // Section for updating the point expiration date
                       Container(
                         width: double.infinity,
                         color: Colors.white,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                top: 15,
-                                bottom: 20,
-                                left: 20,
-                                right: 20,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 20),
+                          child: Column(
+                            children: [
+                              const Text(
+                                'อัปเดทวันหมดอายุของแต้ม',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: -0.5,
+                                ),
                               ),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    'อัปเดทวันหมดอายุของแต้ม',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 28,
-                                      fontWeight: FontWeight.w700,
-                                      letterSpacing: -0.5,
+                              const SizedBox(height: 30),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 30),
+                                child: TextField(
+                                  controller: dateController,
+                                  readOnly: true,
+                                  decoration: InputDecoration(
+                                    labelText: "Select Date",
+                                    suffixIcon: IconButton(
+                                      icon: const Icon(Icons.calendar_today),
+                                      onPressed: () => _selectDate(context),
                                     ),
+                                    border: const OutlineInputBorder(),
                                   ),
-                                  SizedBox(
-                                    height: 30,
+                                ),
+                              ),
+                              const SizedBox(height: 30),
+                              InkWell(
+                                onTap: () {
+                                  _updateExpireDate();
+                                },
+                                child: Container(
+                                  width: 100,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xff4AAF50),
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(10),
+                                        bottom: Radius.circular(10)),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Color.fromARGB(255, 66, 156, 72),
+                                        spreadRadius: 1,
+                                        blurRadius: 0,
+                                        offset: Offset(0, 2),
+                                      )
+                                    ],
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 30,
-                                    ),
-                                    child: TextField(
-                                      controller: dateController,
-                                      readOnly: true,
-                                      decoration: InputDecoration(
-                                        labelText: "Select Date",
-                                        suffixIcon: IconButton(
-                                          icon: Icon(Icons.calendar_today),
-                                          onPressed: () => _selectDate(context),
-                                        ),
-                                        border: OutlineInputBorder(),
+                                  child: const Center(
+                                    child: Text(
+                                      "ยืนยัน",
+                                      style: TextStyle(
+                                        color: Color(0xffffffff),
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: -0.2,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                    InkWell(
-                                      onTap: () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //       builder: (context) =>
-                                        //           const StaffAddReward()),
-                                        // );
-                                        // showConfirmationDialog(
-                                        //     context, item.rewardId);
-                                      },
-                                      child: Container(
-                                        width: 100,
-                                        height: 35,
-                                        child: Center(
-                                            child: Column(mainAxisAlignment:MainAxisAlignment.center,
-                                              crossAxisAlignment:CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "ยืนยัน",
-                                              style: TextStyle(
-                                                color:
-                                                    Color(0xffffffff),
-                                                fontSize: 24,
-                                                fontWeight:
-                                                    FontWeight.w700,
-                                                letterSpacing: -0.2,
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-                                        decoration: BoxDecoration(
-                                            color: Color(0xff4AAF50),
-                                            shape: BoxShape.rectangle,
-                                            borderRadius:
-                                                BorderRadius.vertical(
-                                                    top: Radius
-                                                        .circular(10),
-                                                    bottom: Radius
-                                                        .circular(
-                                                            10)),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color:
-                                                    Color.fromARGB(255, 66, 156, 72),
-                                                spreadRadius: 1,
-                                                blurRadius: 0,
-                                                offset: const Offset(
-                                                    0, 2),
-                                              )
-                                            ]),
-                                      ),
-                                    ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        color: Colors.white,
-                        child: Column(
-                          children: [
-                            // _builditemDetailsWidget(),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ],
