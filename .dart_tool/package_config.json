@@ -14,6 +14,12 @@
       "languageVersion": "3.4"
     },
     {
+      "name": "auto_size_text",
+      "rootUri": "file:///C:/Users/Kee/AppData/Local/Pub/Cache/hosted/pub.dev/auto_size_text-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "boolean_selector",
       "rootUri": "file:///C:/Users/Kee/AppData/Local/Pub/Cache/hosted/pub.dev/boolean_selector-2.1.2",
       "packageUri": "lib/",
@@ -494,7 +500,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2025-02-19T01:15:23.589737Z",
+  "generated": "2025-02-20T03:45:00.301347Z",
   "generator": "pub",
   "generatorVersion": "3.7.0-323.1.beta",
   "flutterRoot": "file:///C:/Users/Kee/AppData/Local/flutter",
