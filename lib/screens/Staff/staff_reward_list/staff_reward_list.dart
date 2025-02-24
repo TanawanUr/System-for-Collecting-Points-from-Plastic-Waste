@@ -170,11 +170,14 @@ class _StaffRewardListPageState extends State<StaffRewardListPage> {
                                           SizedBox(
                                             height: 15,
                                           ),
-                                          Image.network(
-                                            item.itemImageUrl,
-                                            key: UniqueKey(),
-                                            width: 120,
-                                            height: 120,
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(25),
+                                            child: Image.network(
+                                              item.itemImageUrl,
+                                              key: UniqueKey(),
+                                              width: 120,
+                                              height: 120,
+                                            ),
                                           ),
                                           SizedBox(
                                             height: 15,

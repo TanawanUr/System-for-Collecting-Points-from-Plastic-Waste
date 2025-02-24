@@ -128,10 +128,13 @@ class _Stationery_ScreenState extends State<Stationery_Screen> {
                                           SizedBox(
                                             height: 15,
                                           ),
-                                          Image.network(
-                                            item.itemImageUrl,
-                                            width: 120,
-                                            height: 120,
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(25),
+                                            child: Image.network(
+                                              item.itemImageUrl,
+                                              width: 120,
+                                              height: 120,
+                                            ),
                                           ),
                                           SizedBox(
                                             height: 15,

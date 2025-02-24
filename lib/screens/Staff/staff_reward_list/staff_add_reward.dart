@@ -154,35 +154,38 @@ class _StaffAddRewardState extends State<StaffAddReward> {
  // Image display container
                               InkWell(
                                 onTap: _pickImage,
-                                child: Container(
-                                  height: 200,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                    color: _selectedImage == null
-                                        ? Color.fromARGB(255, 214, 214, 214)
-                                        : null,
-                                    borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(25),
-                                      bottom: Radius.circular(25),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(25),
+                                  child: Container(
+                                    height: 200,
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                      color: _selectedImage == null
+                                          ? Color.fromARGB(255, 214, 214, 214)
+                                          : null,
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(25),
+                                        bottom: Radius.circular(25),
+                                      ),
+                                      image: _selectedImage != null
+                                          ? DecorationImage(
+                                              image: FileImage(_selectedImage!),
+                                              fit: BoxFit.cover,
+                                            )
+                                          : null,
                                     ),
-                                    image: _selectedImage != null
-                                        ? DecorationImage(
-                                            image: FileImage(_selectedImage!),
-                                            fit: BoxFit.cover,
+                                    child: _selectedImage == null
+                                        ? Center(
+                                            child: Text(
+                                              "เพิ่มรูป",
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.black,
+                                              ),
+                                            ),
                                           )
                                         : null,
                                   ),
-                                  child: _selectedImage == null
-                                      ? Center(
-                                          child: Text(
-                                            "เพิ่มรูป",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        )
-                                      : null,
                                 ),
                               ),
                                 SizedBox(height: 20),

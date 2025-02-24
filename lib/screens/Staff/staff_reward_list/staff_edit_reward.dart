@@ -153,17 +153,20 @@ class _StaffEditRewardState extends State<StaffEditReward> {
                                   SizedBox(height: 30),
                                     InkWell(
                                       onTap: _pickImage,
-                                      child: Container(
-                                        width: 200,
-                                        height: 200,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.grey),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(25),
+                                        child: Container(
+                                          width: 200,
+                                          height: 200,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(25),
+                                          ),
+                                          child: _selectedImage != null
+                                              ? Image.file(_selectedImage!, fit: BoxFit.cover)
+                                              : widget.rewardImageUrl.isNotEmpty
+                                                  ? Image.network(widget.rewardImageUrl, fit: BoxFit.cover)
+                                                  : Center(child: Text("Tap to select image")),
                                         ),
-                                        child: _selectedImage != null
-                                            ? Image.file(_selectedImage!, fit: BoxFit.cover)
-                                            : widget.rewardImageUrl.isNotEmpty
-                                                ? Image.network(widget.rewardImageUrl, fit: BoxFit.cover)
-                                                : Center(child: Text("Tap to select image")),
                                       ),
                                     ),
                                   SizedBox(height: 20),
