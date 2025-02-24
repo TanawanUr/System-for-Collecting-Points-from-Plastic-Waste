@@ -37,7 +37,7 @@ class _StaffHistoryPageState extends State<StaffHistoryPage> {
             itemName: item['reward_name'],
             itemQuantity: 1,
             itemImageUrl: "http://192.168.196.81:3000/images/${item['reward_image']}",
-            date: DateTime.parse(item['requested_at']),
+            date: DateTime.parse(item['reviewed_at']),
             status: item['status'],
             reason: item['reason']
           );
