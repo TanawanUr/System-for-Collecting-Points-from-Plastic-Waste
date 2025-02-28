@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/History/HistoryDetails.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/History/history_affective_details.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/StudentHistory.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
 
@@ -34,6 +35,9 @@ class _History_ScreenState extends State<History_Screen> {
           return StudentHistory(
             type: item['reward_type'],
             itemName: item['reward_name'],
+              // itemName: item['reward_type'] == 'affective_score' 
+              //   ? item['subject_name'] 
+              //   : item['reward_name'],
             date: DateTime.parse(item['requested_at']),
             submitedDate: item['reviewed_at'] != null
                 ? DateTime.parse(item['reviewed_at'])
@@ -41,9 +45,8 @@ class _History_ScreenState extends State<History_Screen> {
             status: item['status'],
             points: item['points_required'],
             itemQuantity: 1, 
-            itemImageUrl: "http://192.168.196.81:3000/images/${item['reward_image']}",
+            itemImageUrl: "http://192.168.196.81:3000/images/${item['reward_image']}",    
             reason: item['reason'],
-            // itemImageUrl: "",
           );
         }).toList();
         isLoading = false;
@@ -139,7 +142,11 @@ class _History_ScreenState extends State<History_Screen> {
                                     leading: SvgPicture.asset(
                                       item.type == 'collect'
                                           ? 'assets/svg/bottle_icon.svg'
-                                          : 'assets/svg/reward_icon.svg',
+                                          : item.type == 'affective_score'
+                                              ? 'assets/svg/book_icon.svg'
+                                              : item.type == 'certificate'
+                                                  ? 'assets/svg/certi_icon.svg'
+                                                  : 'assets/svg/reward_icon.svg',
                                       width: 55,
                                       height: 55,
                                     ),
@@ -175,6 +182,14 @@ class _History_ScreenState extends State<History_Screen> {
                                                     fontWeight: FontWeight.w500,
                                                     letterSpacing: -0.2)),
                                           if (item.type == 'certificate')
+                                            Text(item.status,
+                                                style: TextStyle(
+                                                    color: _getStatusColor(
+                                                        item.status),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    letterSpacing: -0.2)),
+                                          if (item.type == 'affective_score')
                                             Text(item.status,
                                                 style: TextStyle(
                                                     color: _getStatusColor(
@@ -224,9 +239,9 @@ class _History_ScreenState extends State<History_Screen> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => HistoryDetailsPage(
-                                              item:
-                                                  item), // Passing the item data to the next page
+                                          builder: (context) => item.type == 'affective_score'
+                                            ? HistoryAffectiveDetails(item: item)
+                                            : HistoryDetailsPage(item: item),
                                         ),
                                       ).then((_){
                                         PaintingBinding.instance.imageCache.clear();

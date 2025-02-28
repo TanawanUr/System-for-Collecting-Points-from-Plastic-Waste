@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/RewardList/AffectiveScore.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/RewardList/Certificate.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/RewardList/Stationery.dart';
@@ -84,11 +85,11 @@ class RewardListPage extends StatelessWidget {
                           children: [
                             AppButtons(
                               onPressed: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) => const Stationery_Screen()),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const AffectiveScore_Screen()),
+                                );
                               },
                               textColor: Color(0xff000000),
                               iconColor: Color(0xffEEC004),

@@ -138,6 +138,22 @@ class ApiService {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getAffectiveScore() async {
+    try {
+      final response = await http.get(Uri.parse("$baseUrl/api/rewards/affectivescore"));
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = jsonDecode(response.body);
+        return List<Map<String, dynamic>>.from(data);
+      } else {
+        throw Exception("Failed to load rewards");
+      }
+    } catch (e) {
+      print("Error fetching rewards: $e");
+      throw e;
+    }
+  }
+
   Future<bool> requestReward(int userId, int rewardId) async {
     final String apiUrl = "$baseUrl/api/request-reward";
 
@@ -157,6 +173,36 @@ class ApiService {
 
 
 /*PROFESSOR*/
+
+Future<List<Map<String, dynamic>>> getProffessorAffectiveReqList() async {
+    int? userId = await getUserId();
+    if (userId == null) {
+      throw Exception("User not found");
+    }
+
+    final response = await http.get(Uri.parse('$baseUrl/professor/request-list'));
+
+    if (response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load reward history');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> ProffessorHistory() async {
+    int? userId = await getUserId();
+    if (userId == null) {
+      throw Exception("User not found");
+    }
+
+    final response = await http.get(Uri.parse('$baseUrl/professor/affective-hisotry'));
+
+    if (response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load reward history');
+    }
+  }
 
 
 

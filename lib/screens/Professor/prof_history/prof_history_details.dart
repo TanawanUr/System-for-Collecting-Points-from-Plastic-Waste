@@ -20,7 +20,7 @@ class _ProfessorHistoryDetailsScreenState
   late String department;
   late String subject;
   late DateTime date;
-  late String reason;
+  late String? reason;
   late String status;
 
   @override
@@ -184,7 +184,7 @@ class _ProfessorHistoryDetailsScreenState
                           ),
                         ),
                         TextSpan(
-                          text: e_passport,
+                          text: e_passport.substring(1),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 16,
@@ -242,7 +242,7 @@ class _ProfessorHistoryDetailsScreenState
                           ),
                         ),
                         TextSpan(
-                          text: faculty,
+                          text: faculty.substring(3),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -361,7 +361,7 @@ class _ProfessorHistoryDetailsScreenState
                         fontSize: 16,
                         letterSpacing: -0.2,
                         color: Color(0xff6C6C6C))),
-                Text(reason,
+                Text(reason ?? '-',
                     style: TextStyle(
                         fontSize: 16,
                         letterSpacing: -0.2,
@@ -385,7 +385,7 @@ class _ProfessorHistoryDetailsScreenState
     switch (status.toLowerCase()) {
       case 'อนุมัติ':
         return Color(0xff4AAF50);
-      case 'ปฏิเสธ':
+      case 'ยกเลิก':
         return Color(0xffDB3232);
       default:
         return Colors.black;

@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Professor/prof_history/prof_history_details.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/prof_history_widget.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
+
 
 class ProfessorHistoryScreen extends StatefulWidget {
   const ProfessorHistoryScreen({super.key});
@@ -12,40 +14,78 @@ class ProfessorHistoryScreen extends StatefulWidget {
 }
 
 class _ProfessorHistoryScreenState extends State<ProfessorHistoryScreen> {
+  List<ProfessorHistory> fetchHistoryItem = [];
+  bool isLoading = true;
+  final ApiService apiService = ApiService();
+
   @override
+  void initState() {
+    super.initState();
+    fetchHistory();
+  }
+
+  Future<void> fetchHistory() async {
+    try {
+      List<Map<String, dynamic>> data = await apiService.ProffessorHistory();
+      setState(() {
+        fetchHistoryItem = data.map((item) {
+          return ProfessorHistory(
+            e_passport: item['e_passport'],
+            fullname: "${item['firstname']} ${item['lastname']}",
+            faculty: item['facname'],
+            department: item['depname'],
+            points: item['points_required'],
+            subject: item['reward_name'],
+            itemQuantity: 1,
+            date: DateTime.parse(item['reviewed_at']),
+            status: item['status'],
+            reason: item['reason']
+          );
+        }).toList();
+        isLoading = false;
+      });
+    } catch (e) {
+      print("Error fetching history: $e");
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+  @override
+
   Widget build(BuildContext context) {
-    List<ProfessorHistory> historyItems = [
-      ProfessorHistory(
-        e_passport: '164404140076',
-        fullname: 'ธนวันต์ อุรามา',
-        faculty: 'วิศวกรรมศาสตร์',
-        department: 'วิศวกรรมคอมพิวเตอร์',
-        subject: 'การเขียนโปรแกรม',
-        date: DateTime(2024, 09, 22, 10, 30),
-        // reason: '',
-        status: 'อนุมัติ',
-      ),
-      ProfessorHistory(
-        e_passport: '164404140050',
-        fullname: 'สุรัตน์ บุญเรือง',
-        faculty: 'วิศวกรรมศาสตร์',
-        department: 'วิศวกรรมคอมพิวเตอร์',
-        subject: 'การเขียนโปรแกรม',
-        date: DateTime(2024, 09, 22, 10, 30),
-        reason: 'ขาดเกินกำหนด',
-        status: 'ปฏิเสธ',
-      ),
-      ProfessorHistory(
-        e_passport: '164404140057',
-        fullname: 'ขจรจัด สุวันน้อย',
-        faculty: 'วิศวกรรมศาสตร์',
-        department: 'วิศวกรรมคอมพิวเตอร์',
-        subject: 'คิดนอกกรอบ',
-        date: DateTime(2024, 09, 22, 10, 30),
-        // reason: '',
-        status: 'อนุมัติ',
-      ),
-    ];
+    // List<ProfessorHistory> historyItems = [
+    //   ProfessorHistory(
+    //     e_passport: '164404140076',
+    //     fullname: 'ธนวันต์ อุรามา',
+    //     faculty: 'วิศวกรรมศาสตร์',
+    //     department: 'วิศวกรรมคอมพิวเตอร์',
+    //     subject: 'การเขียนโปรแกรม',
+    //     date: DateTime(2024, 09, 22, 10, 30),
+    //     // reason: '',
+    //     status: 'อนุมัติ',
+    //   ),
+    //   ProfessorHistory(
+    //     e_passport: '164404140050',
+    //     fullname: 'สุรัตน์ บุญเรือง',
+    //     faculty: 'วิศวกรรมศาสตร์',
+    //     department: 'วิศวกรรมคอมพิวเตอร์',
+    //     subject: 'การเขียนโปรแกรม',
+    //     date: DateTime(2024, 09, 22, 10, 30),
+    //     reason: 'ขาดเกินกำหนด',
+    //     status: 'ปฏิเสธ',
+    //   ),
+    //   ProfessorHistory(
+    //     e_passport: '164404140057',
+    //     fullname: 'ขจรจัด สุวันน้อย',
+    //     faculty: 'วิศวกรรมศาสตร์',
+    //     department: 'วิศวกรรมคอมพิวเตอร์',
+    //     subject: 'คิดนอกกรอบ',
+    //     date: DateTime(2024, 09, 22, 10, 30),
+    //     // reason: '',
+    //     status: 'อนุมัติ',
+    //   ),
+    // ];
 
     return Scaffold(
       backgroundColor: Color(0xff00154B),
@@ -124,9 +164,9 @@ class _ProfessorHistoryScreenState extends State<ProfessorHistoryScreen> {
                       ),
                       Expanded(
                         child: ListView.builder(
-                          itemCount: historyItems.length,
+                          itemCount: fetchHistoryItem.length,
                           itemBuilder: (context, index) {
-                            final item = historyItems[index];
+                            final item = fetchHistoryItem[index];
                             return Column(
                               children: [
                                 Container(

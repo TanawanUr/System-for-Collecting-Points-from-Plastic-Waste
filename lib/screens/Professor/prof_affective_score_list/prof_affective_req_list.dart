@@ -2,46 +2,63 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/Professor/prof_affective_score_list/prof_affective_score_details.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Professor/prof_affective_score_list/prof_affective_req_details.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/prof_affective_score_widget.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
 
-class ProfessorAffectiveScoreListScreen extends StatefulWidget {
-  const ProfessorAffectiveScoreListScreen({super.key});
+class ProfessorAffectiveReqListScreen extends StatefulWidget {
+  const ProfessorAffectiveReqListScreen({super.key});
 
   @override
-  State<ProfessorAffectiveScoreListScreen> createState() => _ProfessorAffectiveScoreListScreenState();
+  State<ProfessorAffectiveReqListScreen> createState() => _ProfessorAffectiveReqListScreenState();
 }
 
-class _ProfessorAffectiveScoreListScreenState extends State<ProfessorAffectiveScoreListScreen> {
+class _ProfessorAffectiveReqListScreenState extends State<ProfessorAffectiveReqListScreen> {
+ List<ProfessorAffectiveReqListWidget> affectiveReqList = [];
+  bool isLoading = true;
+  final ApiService apiService = ApiService();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchHistory();
+  }
+
+  Future<void> fetchHistory() async {
+    try {
+      List<Map<String, dynamic>> data = await apiService.getProffessorAffectiveReqList();
+      setState(() {
+        affectiveReqList = data.map((item) {
+          return ProfessorAffectiveReqListWidget(
+            requestId: item['request_id'],
+            e_passport: item['e_passport'],
+            fullname: "${item['firstname']} ${item['lastname']}",
+            faculty: item['facname'],
+            department: item['depname'],
+            subject: item['reward_name'],
+            points: item['points_required'],
+            itemQuantity: 1,
+            // itemImageUrl: "http://192.168.196.81:3000/images/${item['reward_image']}",
+            date: DateTime.parse(item['requested_at']),
+            submitedDate: item['reviewed_at'] != null
+                ? DateTime.parse(item['reviewed_at'])
+                : DateTime.parse(item['requested_at']),
+            status: item['status'],
+            reason: item['reason'],
+          );
+        }).toList();
+        isLoading = false;
+      });
+    } catch (e) {
+      print("Error fetching history: $e");
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
-    List<ProfessorAffectiveScore> historyItems = [
-      ProfessorAffectiveScore(
-        e_passport: '164404140076',
-        fullname: 'ธนวันต์ อุรามา',
-        faculty: 'วิศวกรรมศาสตร์',
-        department: 'วิศวกรรมคอมพิวเตอร์',
-        subject: 'การเขียนโปรแกรม',
-        date: DateTime(2024, 09, 22, 10, 30),
-      ),
-      ProfessorAffectiveScore(
-        e_passport: '164404140050',
-        fullname: 'สุรัตน์ บุญเรือง',
-        faculty: 'วิศวกรรมศาสตร์',
-        department: 'วิศวกรรมคอมพิวเตอร์',
-        subject: 'การเขียนโปรแกรม',
-        date: DateTime(2024, 09, 22, 10, 30),
-      ),
-      ProfessorAffectiveScore(
-        e_passport: '164404140057',
-        fullname: 'ขจรจัด สุวันน้อย',
-        faculty: 'วิศวกรรมศาสตร์',
-        department: 'วิศวกรรมคอมพิวเตอร์',
-        subject: 'คิดนอกกรอบ',
-        date: DateTime(2024, 09, 22, 10, 30),
-      ),
-    ];
-
     return Scaffold(
       backgroundColor: Color(0xff00154B),
       appBar: AppBar(
@@ -100,14 +117,14 @@ class _ProfessorAffectiveScoreListScreenState extends State<ProfessorAffectiveSc
                                       fontSize: 26,
                                       fontWeight: FontWeight.w700,
                                       letterSpacing: -0.5)),
-                              // IconButton(
-                              //   onPressed: () {},
-                              //   icon: FaIcon(
-                              //     FontAwesomeIcons.arrowDownShortWide,
-                              //     size: 25,
-                              //     color: Colors.black,
-                              //   ),
-                              // ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: FaIcon(
+                                  FontAwesomeIcons.arrowDownShortWide,
+                                  size: 25,
+                                  color: Colors.black,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -118,11 +135,13 @@ class _ProfessorAffectiveScoreListScreenState extends State<ProfessorAffectiveSc
                         height: 1.5,
                       ),
                       Expanded(
-                        child: ListView.builder(
-                          itemCount: historyItems.length,
-                          itemBuilder: (context, index) {
-                            final item = historyItems[index];
-                            return Column(
+                        child: isLoading
+                            ? Center(child: CircularProgressIndicator())
+                            : ListView.builder(
+                                itemCount: affectiveReqList.length,
+                                itemBuilder: (context, index) {
+                                  final item = affectiveReqList[index];
+                                  return Column(
                               children: [
                                 Container(
                                   color: Colors.white,
@@ -162,11 +181,17 @@ class _ProfessorAffectiveScoreListScreenState extends State<ProfessorAffectiveSc
                                       ),
                                     ),
                                     onTap: () {
-                                      Navigator.push(
-                                        context,MaterialPageRoute(builder: (context) => ProfAffectiveScoreDetailsScreen(item:item), // Passing the item data to the next page
-                                        ),
-                                      );
-                                    },
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ProfAffectiveScoreDetailsScreen(item: item),
+                                              ),
+                                            ).then((_){
+                                                    PaintingBinding.instance.imageCache.clear();
+                                                    fetchHistory();
+                                                  });
+                                          },
                                   ),
                                 ),
                                 Divider(

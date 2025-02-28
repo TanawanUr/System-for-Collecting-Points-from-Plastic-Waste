@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/widget/StudentHistory.dart';
 import 'package:intl/intl.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/widget/StudentHistory.dart';
 
-
-class HistoryDetailsPage extends StatefulWidget {
-  // const HistoryDetailsPage({super.key});
+class HistoryAffectiveDetails extends StatefulWidget {
+  // const HistoryAffectiveDetails({super.key});
   final StudentHistory item;
 
-  HistoryDetailsPage({required this.item});
+  HistoryAffectiveDetails({required this.item});
+
 
   @override
-  State<HistoryDetailsPage> createState() => _HistoryDetailsPageState();
+  State<HistoryAffectiveDetails> createState() => _HistoryAffectiveDetailsState();
 }
 
-class _HistoryDetailsPageState extends State<HistoryDetailsPage> {
+class _HistoryAffectiveDetailsState extends State<HistoryAffectiveDetails> {
   late String currentState;
   late String date;
   late String submitedDate;
@@ -23,7 +23,6 @@ class _HistoryDetailsPageState extends State<HistoryDetailsPage> {
   late String itemType;
   late String itemName;
   late String itemQuantity;
-  late String itemImageUrl;
   late String? reason;
 
 
@@ -39,7 +38,6 @@ class _HistoryDetailsPageState extends State<HistoryDetailsPage> {
     // description = widget.item.description;
     currentState = widget.item.status;
     itemQuantity = widget.item.itemQuantity.toString();
-    itemImageUrl = widget.item.itemImageUrl;
     reason = widget.item.reason;
   }
 
@@ -113,8 +111,8 @@ class _HistoryDetailsPageState extends State<HistoryDetailsPage> {
                               thickness: 1,
                               height: 1.5,
                             ),
-                            _getDetailsWidget(date, points, itemType, itemName,
-                                itemQuantity, itemImageUrl,reason),
+                            _buildSubjectDetailsWidget(date, points, itemType, itemName,
+                                itemQuantity,reason),
                           ],
                         ),
                       ),
@@ -196,137 +194,88 @@ class _HistoryDetailsPageState extends State<HistoryDetailsPage> {
   }
 }
 
-Widget _getDetailsWidget(date, points, itemType, itemName, itemQuantity, itemImageUrl, reason) {
-  return Padding(
-    padding: const EdgeInsets.only(top: 20),
-    child: Column(
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(left: 20, right: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0xff000000).withOpacity(0.1),
-                      spreadRadius: 2,
-                      blurRadius: 2,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    itemImageUrl,
-                    // child: Image.asset(
-                    //   'assets/images/pen.png',
-                    fit: BoxFit.cover,
+  Widget _buildSubjectDetailsWidget(date, points, itemType, subject, itemQuantity, reason) {
+    return Column(children: <Widget>[
+      Padding(
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text.rich(TextSpan(
+                  text: 'รายวิชา   ',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: -0.5,
                   ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0, bottom: 32),
-                  child: Text(
-                    itemName,
+                )),
+                Text.rich(TextSpan(
+                  text: subject,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: -0.5,
+                  ),
+                )),
+              ],
+            ),
+            // SizedBox(height: 10),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text("สถานะ",
+            //         style: TextStyle(
+            //             fontSize: 16,
+            //             letterSpacing: -0.2,
+            //             color: Color(0xff6C6C6C))),
+            //     Text(status,
+            //         style: TextStyle(
+            //             fontSize: 18,
+            //             fontWeight: FontWeight.w700,
+            //             letterSpacing: -0.2,
+            //             color: _getStatusColor(status))),
+            //   ],
+            // ),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("ยื่นคำขอเมื่อ",
                     style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: -0.5,
-                    ),
-                  ),
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    'x$itemQuantity',
+                        fontSize: 16,
+                        letterSpacing: -0.2,
+                        color: Color(0xff6C6C6C))),
+                Text(formatDateTime(date),
                     style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: -0.5,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: itemType == 'collect' ? '+ ' : '- ',
-                          style: TextStyle(
-                            color: itemType == 'collect'
-                                ? Colors.green
-                                : Colors.red,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-                        TextSpan(
-                          text: '$points แต้ม',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                        fontSize: 15,
+                        letterSpacing: -0.2,
+                        color: Colors.black)),
+              ],
+            ),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("เหตุผล",
+                    style: TextStyle(
+                        fontSize: 16,
+                        letterSpacing: -0.2,
+                        color: Color(0xff6C6C6C))),
+                Text(reason ?? '-',
+                    style: TextStyle(
+                        fontSize: 16,
+                        letterSpacing: -0.2,
+                        color: Colors.black)),
+              ],
+            ),
+          ],
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          child: Column(
-            children: [
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("ยื่นคำขอเมื่อ",
-                      style: TextStyle(
-                          fontSize: 16,
-                          letterSpacing: -0.2,
-                          color: Color(0xff6C6C6C))),
-                  Text(formatDateTime(date),
-                      style: TextStyle(fontSize: 16, letterSpacing: -0.2)),
-                ],
-              ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("เหตุผล",
-                      style: TextStyle(
-                          fontSize: 16,
-                          letterSpacing: -0.2,
-                          color: Color(0xff6C6C6C))),
-                  Text(reason ?? '-',
-                      style: TextStyle(fontSize: 16, letterSpacing: -0.2)),
-                ],
-              ), 
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
-}
+      ),
+    ]);
+  }
 
 String formatDateTime(date) {
   DateTime parsedDate = DateTime.parse(date); // Parse the string to DateTime
@@ -345,24 +294,24 @@ Widget _getTitleWidget(itemType) {
     child: Row(
       children: <Widget>[
         SvgPicture.asset(
-          itemType == 'collect' 
-          ? 'assets/svg/bottle_icon_black.svg' 
-          : itemType == 'affective_score'
-              ? 'assets/svg/book_icon_black.svg'
-              : itemType == 'certificate'
-                  ? 'assets/svg/certi_icon_black.svg'
-                  : 'assets/svg/reward_icon_black.svg',
+          itemType == 'collect'
+                    ? 'assets/svg/bottle_icon_black.svg'
+                    : itemType == 'affective_score'
+                        ? 'assets/svg/book_icon_black.svg'
+                        : itemType == 'certificate'
+                            ? 'assets/svg/certi_icon_black.svg'
+                            : 'assets/svg/reward_icon_black.svg',
           width: 55,
           height: 55,
         ),
         SizedBox(width: 16),
         Text(itemType == 'collect' 
-          ? 'ใส่ขวด' 
-          : itemType == 'affective_score'
-              ? 'คะแนนจิตพิสัย'
-              : itemType == 'certificate'
-                  ? 'เกียรติบัตร'
-                  : 'อุปกรณ์การเรียน',
+        ? 'ใส่ขวด' 
+        : itemType == 'affective_score'
+            ? 'คะแนนจิตพิสัย'
+            : itemType == 'certificate'
+                ? 'เกียติบัตร'
+                : 'ของรางวัล',
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,

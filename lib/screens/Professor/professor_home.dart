@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Professor/Profile/professor_profile.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/Professor/prof_affective_score_list/prof_affective_score_list.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Professor/prof_affective_score_list/prof_affective_req_list.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Professor/prof_history/prof_history.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
 
@@ -100,7 +100,7 @@ class _ProfessorHomePageState extends State<ProfessorHomePage> {
                                 Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                builder: (context) => const ProfessorAffectiveScoreListScreen()),
+                                builder: (context) => const ProfessorAffectiveReqListScreen()),
                                 );
                               },
                             ),
