@@ -1,79 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/QrCode/CountingBottle.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/navbar.dart';
 
 class QRScannerPage extends StatefulWidget {
-  const QRScannerPage({super.key});
-
   @override
-  State<QRScannerPage> createState() => _QRScannerPageState();
+  _QRScannerPageState createState() => _QRScannerPageState();
 }
 
-
 class _QRScannerPageState extends State<QRScannerPage> {
-   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  // QRViewController? controller; // Controller can be null
+  final List<String> validESPIds = ["ESP1", "ESP2", "ESP3"];
+  String? errorMessage;
+  bool _hasScanned = false; // Prevent multiple scans
 
-  @override
-  void reassemble() {
-    super.reassemble();
-    // controller?.resumeCamera(); // Safely resume the camera if controller is not null
+  void _onQRViewScanned(String code) {
+    if (_hasScanned) return; // Prevent multiple scans
+
+    if (validESPIds.contains(code)) {
+      _hasScanned = true; // Mark as scanned
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CountingBottle(result: code),
+        ),
+      ).then((_) {
+        // Reset flag when returning to the scanner screen
+        setState(() {
+          _hasScanned = false;
+        });
+      });
+    } else {
+      setState(() {
+        errorMessage = "Invalid QR Code. Please scan an ESP QR code.";
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      appBar: AppBar(title: Text("Scan QR Code")),
+      body: Column(
         children: [
-          // QRView(
-          //   key: qrKey,
-          //   onQRViewCreated: _onQRViewCreated,
-          //   overlay: QrScannerOverlayShape(
-          //     borderColor: Colors.red,
-          //     borderRadius: 10,
-          //     borderLength: 30,
-          //     borderWidth: 10,
-          //     cutOutSize: MediaQuery.of(context).size.width * 0.8,
-          //   ),
-          // ),
-          Positioned(
-            top: 40,
-            left: 20,
-            child: IconButton(
-              icon: Icon(Icons.close, color: Colors.white),
-              onPressed: () => Navigator.pop(context),
+          Expanded(
+            child: MobileScanner(
+              onDetect: (barcode) {
+                if (barcode.barcodes.isNotEmpty) {
+                  final String code = barcode.barcodes.first.rawValue ?? "";
+                  _onQRViewScanned(code);
+                }
+              },
             ),
           ),
+          if (errorMessage != null)
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                errorMessage!,
+                style: TextStyle(color: Colors.red, fontSize: 16),
+              ),
+            ),
         ],
       ),
     );
-  }
-
-  // void _onQRViewCreated(QRViewController controller) {
-  //   this.controller = controller;
-  //   controller.scannedDataStream.listen((scanData) {
-  //     // Debug log for scanned QR code
-  //     print("Scanned QR Code: ${scanData.code}");
-
-  //     // Navigate to the result page automatically when a QR code is scanned
-  //     // No additional flags are needed here
-  //     controller.pauseCamera(); // Stop the camera to prevent rapid scans
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => CountingBottle(result: scanData.code ?? ''),
-  //       ),
-  //     ).then((_) {
-  //       // Resume the camera after returning to the scanner
-  //       controller.resumeCamera();
-  //     });
-  //   });
-  // }
-
-  @override
-  void dispose() {
-    // controller?.dispose(); // Dispose of the controller safely
-    super.dispose();
   }
 }
