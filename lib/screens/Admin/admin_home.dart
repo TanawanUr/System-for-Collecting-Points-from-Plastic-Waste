@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:system_for_collecting_points_from_plastic_waste/screens/Admin/Home/admin_manage_rule.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Admin/Home/admin_manage_role.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Admin/Home/admin_summary.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Admin/Profile/admin_profile.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
@@ -80,8 +80,8 @@ class AdminHomePage extends StatelessWidget {
                               iconColor: Colors.white,
                               backgroundColor: Color(0xffF9CA10),
                               borderColor: Color(0xffEEC004),
-                              text: 'จัดการสิทธิ์เจ้าหน้าที่ผู้จัดการแต้มสะสม',
-                              textSize: 16,
+                              text: 'จัดการสิทธิ์\nเจ้าหน้าที่',
+                              textSize: 20,
                               iconSize: 60,
                               width: 165,
                               height: 160,
@@ -92,7 +92,7 @@ class AdminHomePage extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const AdminManageRulePage()),
+                                          const AdminManageRolePage()),
                                 );
                               },
                             ),

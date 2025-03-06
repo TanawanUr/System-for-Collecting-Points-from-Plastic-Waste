@@ -429,4 +429,81 @@ Future<List<Map<String, dynamic>>> getStaffRewardRequestList() async {
 
 /*ADMIN*/
 
+  Future<List<Map<String, dynamic>>> getStaff() async {
+    final response = await http.get(Uri.parse('$baseUrl/api/get-staff'));
+
+    if (response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load reward history');
+    }
+  }
+
+  Future<void> deleteRole(int requestId) async {
+    final uri = Uri.parse('$baseUrl/users/$requestId/role');
+    final response = await http.delete(uri);
+
+    if (response.statusCode == 200) {
+      print("Reward deleted successfully");
+    } else {
+      print("Failed to delete reward. Status code: ${response.statusCode}");
+      throw Exception('Failed to delete reward');
+    }
+  }
+
+  Future<void> addRole({
+    required String username,
+    required int role_id,
+  }) async {
+    final uri = Uri.parse('$baseUrl/users/role');
+
+    // Send as JSON
+    final response = await http.put(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'e_passport': username,
+        'new_role_id': role_id, 
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print("✅ Role updated successfully: ${response.body}");
+    } else {
+      print("❌ Failed to update role. Status code: ${response.statusCode}");
+      print("Response: ${response.body}");
+    }
+  }
+
+  Future<void> editRole({
+    required int userId,
+    required String username,
+    required int role_id,
+  }) async {
+
+    final uri = Uri.parse('$baseUrl/users/$userId/role');
+
+    // Send as JSON
+    final response = await http.put(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'username': username,
+        'new_role_id': role_id, 
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print("✅ Role updated successfully: ${response.body}");
+    } else {
+      print("❌ Failed to update role. Status code: ${response.statusCode}");
+      print("Response: ${response.body}");
+    }
+  }
+
+
 }
