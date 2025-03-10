@@ -40,7 +40,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => QRScannerPage()),
+            MaterialPageRoute(builder: (context) => QRScannerPage(userDetails: widget.userDetails)),
           );
         },
         child: Image.asset(

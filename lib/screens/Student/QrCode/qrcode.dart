@@ -3,6 +3,9 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Student/QrCode/CountingBottle.dart';
 
 class QRScannerPage extends StatefulWidget {
+  final Map<String, dynamic> userDetails; // Contains user_id
+  const QRScannerPage({super.key, required this.userDetails});
+
   @override
   _QRScannerPageState createState() => _QRScannerPageState();
 }
@@ -17,10 +20,13 @@ class _QRScannerPageState extends State<QRScannerPage> {
 
     if (validESPIds.contains(code)) {
       _hasScanned = true; // Mark as scanned
+
+      String userId = widget.userDetails["user_id"].toString(); // Get user_id
+
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => CountingBottle(result: code),
+          builder: (context) => CountingBottle(result: code, userId: userId),
         ),
       ).then((_) {
         // Reset flag when returning to the scanner screen
