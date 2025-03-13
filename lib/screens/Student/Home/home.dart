@@ -25,9 +25,9 @@ class _HomeScreenState extends State<Home_Screen> {
     super.initState();
     fetchUpdatedPoints();
   }
-  
-   // Function to format date to Thai Buddhist Era (BE)
-   String formatThaiDate(String? isoDate) {
+
+  // Function to format date to Thai Buddhist Era (BE)
+  String formatThaiDate(String? isoDate) {
     if (isoDate == null || isoDate.isEmpty) return 'ไม่มีวันหมดอายุ';
 
     try {
@@ -35,12 +35,23 @@ class _HomeScreenState extends State<Home_Screen> {
       isoDate = isoDate.replaceAll('Z', '');
 
       // ✅ Parse to DateTime
-      DateTime date = DateTime.parse(isoDate).toLocal(); // Convert to local time
+      DateTime date =
+          DateTime.parse(isoDate).toLocal(); // Convert to local time
 
       // ✅ Define Thai Month Names
       List<String> thaiMonths = [
-        'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
-        'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+        'มกราคม',
+        'กุมภาพันธ์',
+        'มีนาคม',
+        'เมษายน',
+        'พฤษภาคม',
+        'มิถุนายน',
+        'กรกฎาคม',
+        'สิงหาคม',
+        'กันยายน',
+        'ตุลาคม',
+        'พฤศจิกายน',
+        'ธันวาคม'
       ];
 
       // ✅ Convert to Thai Buddhist Era (BE)
@@ -54,7 +65,7 @@ class _HomeScreenState extends State<Home_Screen> {
       return 'รูปแบบวันที่ไม่ถูกต้อง';
     }
   }
-  
+
   // Fetch updated user details (points & expiration date)
   Future<Map<String, dynamic>> getUserDetails(String ePassport) async {
     // Implement the logic to fetch user details using the ePassport
@@ -65,7 +76,8 @@ class _HomeScreenState extends State<Home_Screen> {
   Future<void> fetchUpdatedPoints() async {
     try {
       if (widget.userDetails?['e_passport'] != null) {
-        var updatedData = await getUserDetails(widget.userDetails!['e_passport']);
+        var updatedData =
+            await getUserDetails(widget.userDetails!['e_passport']);
         setState(() {
           totalPoints = updatedData['total_points'] ?? 0;
           pointExpireDate = updatedData['point_expire'] ?? '';
@@ -76,42 +88,47 @@ class _HomeScreenState extends State<Home_Screen> {
       print('❌ Error fetching updated points: $e');
     }
   }
-  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(),
-      body: Center(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 35,
+      body: RefreshIndicator(
+        onRefresh: fetchUpdatedPoints,
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40),
+              child: Column(
+                children: [
+                  AppButtons(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RewardListPage()),
+                      ).then((_) {
+                        PaintingBinding.instance.imageCache.clear();
+                        fetchUpdatedPoints();
+                      });
+                    },
+                    textColor: Color(0xffFFFFFF),
+                    iconColor: Color(0xffFFFFFF),
+                    backgroundColor: Color(0xffF9CA10),
+                    borderColor: Color(0xffEEC004),
+                    text: 'แลกของรางวัล',
+                    textSize: 20,
+                    iconSize: 60,
+                    width: 160,
+                    height: 140,
+                    blurRadius: 0,
+                    icon: "assets/svg/reward.svg",
+                  ),
+                ],
+              ),
             ),
-            AppButtons(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const RewardListPage()),
-                ).then((_){
-                  PaintingBinding.instance.imageCache.clear();
-                  fetchUpdatedPoints();
-                });
-              },
-              textColor: Color(0xffFFFFFF),
-              iconColor: Color(0xffFFFFFF),
-              backgroundColor: Color(0xffF9CA10),
-              borderColor: Color(0xffEEC004),
-              text: 'แลกของรางวัล',
-              textSize: 20,
-              iconSize: 60,
-              width: 160,
-              height: 140,
-              blurRadius: 0,
-              icon: "assets/svg/reward.svg",
-            ),
-          ],
+          ),
         ),
       ),
       backgroundColor: Color(0xffEAEAEA),
