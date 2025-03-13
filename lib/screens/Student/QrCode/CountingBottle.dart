@@ -82,17 +82,19 @@ class _CountingBottleState extends State<CountingBottle> {
                           bottom: Radius.circular(35)),
                     ),
                     child: _image == null
-                      ? Center(child: Text('ยังไม่ได้รับรูปภาพ', style: TextStyle(color: Colors.white)))
-                      : ClipRRect(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(35),
-                            bottom: Radius.circular(35),
+                        ? Center(
+                            child: Text('ยังไม่ได้รับรูปภาพ',
+                                style: TextStyle(color: Colors.white)))
+                        : ClipRRect(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(35),
+                              bottom: Radius.circular(35),
+                            ),
+                            child: FittedBox(
+                              fit: BoxFit.cover,
+                              child: _image,
+                            ),
                           ),
-                          child: FittedBox(
-                            fit: BoxFit.cover,
-                            child: _image,
-                          ),
-                        ),
                   ),
                 ),
                 SizedBox(height: 20),
