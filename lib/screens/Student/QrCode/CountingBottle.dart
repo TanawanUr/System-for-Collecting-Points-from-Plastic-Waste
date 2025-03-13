@@ -5,73 +5,57 @@ import 'package:web_socket_channel/io.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:typed_data';
+import 'dart:convert'; // For base64 decoding
+import 'dart:typed_data'; // For Uint8List
 
 class CountingBottle extends StatefulWidget {
   final String result; // ESP ID
   final String userId;
-    const CountingBottle({super.key, required this.result, required this.userId});
+  const CountingBottle({super.key, required this.result, required this.userId});
 
   @override
   State<CountingBottle> createState() => _CountingBottleState();
 }
 
 class _CountingBottleState extends State<CountingBottle> {
-  late IOWebSocketChannel channel;
+  final channel = IOWebSocketChannel.connect('ws://192.168.196.21:8080');
   int scanCount = 0;
-  Image? image;
-  final String serverUrl = "http://192.168.137.21:3000/save-count";
+  String imageUrl = '';
+  Image? _image;
 
   @override
   void initState() {
     super.initState();
-    connectWebSocket();
-  }
+    // Check if connection is successful
+    channel.stream.listen((message) {
+      print("Received: $message");
+      if (message.startsWith("COUNT:")) {
+        setState(() => scanCount = int.parse(message.split(":")[1]));
+      } else if (message.startsWith("IMAGE:")) {
+        String base64Image = message.split(":")[1];
+        Uint8List bytes = base64Decode(base64Image);
 
-  void connectWebSocket() {
-    channel = IOWebSocketChannel.connect('ws://192.168.1.132:8080');
-
-    channel.sink.add("user:${widget.userId}"); // Send user ID
-    channel.sink.add("start"); // Start automatic counting on ESP32
-
-    channel.stream.listen(
-      (message) {
-        if (message.startsWith("count:")) {
-          setState(() {
-            scanCount = int.tryParse(message.split(":").last) ?? scanCount;
-          });
-        } else if (message.startsWith("image:")) {
-        String base64Image = message.substring(6);
-        Uint8List imageBytes = base64Decode(base64Image);
+        // Now, you can display the image using Image.memory in Flutter
         setState(() {
-          image = Image.memory(imageBytes);  // Store image in UI
+          _image = Image.memory(bytes);
         });
       }
-      },
-      onDone: () {
-        print("WebSocket closed.");
-      },
-      onError: (error) {
-        print("WebSocket error: $error");
-      },
-    );
+    }, onDone: () {
+      print("WebSocket connection closed");
+    }, onError: (error) {
+      print("WebSocket error: $error");
+    });
+
+    channel.sink.add("FLUTTER_CONNECTED");
+    sendUserID(widget.userId);
   }
 
-  void sendScanSignal() {
-    channel.sink.add("scan");
+  void sendUserID(String userID) {
+    channel.sink.add("USER_ID:$userID");
   }
 
-  Future<void> sendCountToDB() async {
-    channel.sink.add("done"); // Notify ESP32 to stop
-    final response = await http.post(
-      Uri.parse(serverUrl),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({"user_id": widget.userId, "count": scanCount}),
-    );
-    if (response.statusCode == 200) {
-      print("Data sent successfully");
-    } else {
-      print("Failed to send data");
-    }
+  void fetchImage() {
+    setState(() => imageUrl = "http://192.168.1.123/uploads/latest.jpg");
   }
 
   @override
@@ -85,10 +69,6 @@ class _CountingBottleState extends State<CountingBottle> {
           child: Center(
             child: Column(
               children: [
-                Text(
-                  'UserID: ${widget.userId}',
-                  style: TextStyle(fontSize: 20),
-                ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
                   child: Container(
@@ -101,7 +81,18 @@ class _CountingBottleState extends State<CountingBottle> {
                           top: Radius.circular(35),
                           bottom: Radius.circular(35)),
                     ),
-                    
+                    child: _image == null
+                      ? Center(child: Text('ยังไม่ได้รับรูปภาพ', style: TextStyle(color: Colors.white)))
+                      : ClipRRect(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(35),
+                            bottom: Radius.circular(35),
+                          ),
+                          child: FittedBox(
+                            fit: BoxFit.cover,
+                            child: _image,
+                          ),
+                        ),
                   ),
                 ),
                 SizedBox(height: 20),
@@ -155,11 +146,9 @@ class _CountingBottleState extends State<CountingBottle> {
                     ),
                   ),
                 ),
-                
                 SizedBox(height: 20),
                 InkWell(
                   onTap: () {
-                    sendCountToDB();
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   },
