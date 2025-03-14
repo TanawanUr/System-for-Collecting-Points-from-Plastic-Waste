@@ -106,52 +106,52 @@ class Profile_Screen extends StatelessWidget {
               padding: const EdgeInsets.only(left: 20, right: 20,top: 20, bottom: 55),
               child: Column(
                 children: [
-                  InkWell(
-                    onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => const BottomNavBar()),
-                      // );
-                    },
-                    child: Container(
-                      width: 360,
-                      height: 50,
-                      child: Center(
-                          child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'ตั้งค่า',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w800,
-                              letterSpacing: -0.2,
-                            ),
-                          ),
-                        ],
-                      )),
-                      decoration: BoxDecoration(
-                          color: Color(0xffffffff),
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(10),
-                              bottom: Radius.circular(10)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color.fromARGB(63, 0, 0, 0),
-                              spreadRadius: 0,
-                              blurRadius: 5,
-                              offset: const Offset(0, 1),
-                            )
-                          ]),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
+                  // InkWell(
+                  //   onTap: () {
+                  //     // Navigator.push(
+                  //     //   context,
+                  //     //   MaterialPageRoute(
+                  //     //       builder: (context) => const BottomNavBar()),
+                  //     // );
+                  //   },
+                  //   child: Container(
+                  //     width: 360,
+                  //     height: 50,
+                  //     child: Center(
+                  //         child: Column(
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       crossAxisAlignment: CrossAxisAlignment.center,
+                  //       children: [
+                  //         Text(
+                  //           'ตั้งค่า',
+                  //           style: TextStyle(
+                  //             color: Colors.black,
+                  //             fontSize: 22,
+                  //             fontWeight: FontWeight.w800,
+                  //             letterSpacing: -0.2,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     )),
+                  //     decoration: BoxDecoration(
+                  //         color: Color(0xffffffff),
+                  //         shape: BoxShape.rectangle,
+                  //         borderRadius: BorderRadius.vertical(
+                  //             top: Radius.circular(10),
+                  //             bottom: Radius.circular(10)),
+                  //         boxShadow: [
+                  //           BoxShadow(
+                  //             color: Color.fromARGB(63, 0, 0, 0),
+                  //             spreadRadius: 0,
+                  //             blurRadius: 5,
+                  //             offset: const Offset(0, 1),
+                  //           )
+                  //         ]),
+                  //   ),
+                  // ),
+                  // SizedBox(
+                  //   height: 15,
+                  // ),
                   InkWell(
                     onTap: () => _logout(context),
                     child: Container(
