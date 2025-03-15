@@ -100,9 +100,7 @@ class _Certificate_ScreenState extends State<Certificate_Screen> {
                               child: Padding(
                                 padding: EdgeInsets.only(
                                     left: 50, right: 50, top: 20),
-                                child: Column(
-                                  children: [
-                                    Container(
+                                    child: Container(
                                       padding:
                                           EdgeInsets.only(left: 15, right: 15),
                                       width: 450,
@@ -237,8 +235,6 @@ class _Certificate_ScreenState extends State<Certificate_Screen> {
                                         ],
                                       ),
                                     ),
-                                  ],
-                                ),
                               ),
                             );
                           },
