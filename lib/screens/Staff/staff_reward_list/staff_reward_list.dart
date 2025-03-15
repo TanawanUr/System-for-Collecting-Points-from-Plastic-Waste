@@ -36,6 +36,7 @@ class _StaffRewardListPageState extends State<StaffRewardListPage> {
             points: item['points_required'],
             itemName: item['reward_name'],
             itemQuantity: item['reward_quantity'],
+            itemQuantityTotal: item['reward_quantity_total'],
             itemImageUrl:"http://192.168.196.21:3000/images/${item['reward_image']}",
           );
         }).toList();
@@ -222,7 +223,7 @@ class _StaffRewardListPageState extends State<StaffRewardListPage> {
                                               Container(
                                                 alignment: Alignment.centerLeft,
                                                 child: Text(
-                                                  '${item.itemQuantity}/100',
+                                                  '${item.itemQuantity}/${item.itemQuantityTotal}',
                                                   style: TextStyle(
                                                     color: Color(0xff136BFF),
                                                     fontSize: 14,

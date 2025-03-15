@@ -172,28 +172,28 @@ class _AffectiveScore_ScreenState extends State<AffectiveScore_Screen> {
                                                   ),
                                               ],
                                             ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Container(
-                                                alignment: Alignment.centerLeft,
-                                                child: Text(
-                                                  '${item.itemQuantity}/100',
-                                                  style: TextStyle(
-                                                    color: Color(0xff136BFF),
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w700,
-                                                    letterSpacing: -0.2,
-                                                    height: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                          // SizedBox(
+                                          //   height: 5,
+                                          // ),
+                                          // Row(
+                                          //   mainAxisAlignment:
+                                          //       MainAxisAlignment.end,
+                                          //   children: [
+                                          //     Container(
+                                          //       alignment: Alignment.centerLeft,
+                                          //       child: Text(
+                                          //         '${item.itemQuantity}/100',
+                                          //         style: TextStyle(
+                                          //           color: Color(0xff136BFF),
+                                          //           fontSize: 14,
+                                          //           fontWeight: FontWeight.w700,
+                                          //           letterSpacing: -0.2,
+                                          //           height: 1,
+                                          //         ),
+                                          //       ),
+                                          //     ),
+                                          //   ],
+                                          // ),
                                           SizedBox(
                                             height: 15
                                           ),

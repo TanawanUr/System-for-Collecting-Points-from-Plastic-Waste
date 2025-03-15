@@ -3,6 +3,7 @@ class RewardsWidget {
   final int points;
   final String itemName;
   final int itemQuantity;
+  final int itemQuantityTotal;
   final String itemImageUrl;
 
   RewardsWidget({
@@ -10,6 +11,7 @@ class RewardsWidget {
     this.points = 0, 
     required this.itemName,
     required this.itemQuantity,
+    required this.itemQuantityTotal,
     required this.itemImageUrl,
   });
 }
