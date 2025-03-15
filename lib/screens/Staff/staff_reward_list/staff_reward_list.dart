@@ -36,7 +36,7 @@ class _StaffRewardListPageState extends State<StaffRewardListPage> {
             points: item['points_required'],
             itemName: item['reward_name'],
             itemQuantity: item['reward_quantity'],
-            itemImageUrl:"http://192.168.196.81:3000/images/${item['reward_image']}",
+            itemImageUrl:"http://192.168.196.21:3000/images/${item['reward_image']}",
           );
         }).toList();
         isLoading = false;

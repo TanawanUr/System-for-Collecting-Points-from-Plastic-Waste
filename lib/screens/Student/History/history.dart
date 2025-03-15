@@ -45,7 +45,7 @@ class _History_ScreenState extends State<History_Screen> {
             status: item['status'],
             points: item['points_required'],
             itemQuantity: 1, 
-            itemImageUrl: "http://192.168.196.81:3000/images/${item['reward_image']}",    
+            itemImageUrl: "http://192.168.196.21:3000/images/${item['reward_image']}",    
             reason: item['reason'],
           );
         }).toList();

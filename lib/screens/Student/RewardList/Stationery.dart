@@ -34,7 +34,7 @@ class _Stationery_ScreenState extends State<Stationery_Screen> {
             itemName: item['reward_name'],
             itemQuantity: item['reward_quantity'],
             itemImageUrl:
-                "http://192.168.196.81:3000/images/${item['reward_image']}",
+                "http://192.168.196.21:3000/images/${item['reward_image']}",
           );
         }).toList();
         isLoading = false;

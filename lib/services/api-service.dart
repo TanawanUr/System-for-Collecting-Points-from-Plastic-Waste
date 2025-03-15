@@ -30,10 +30,10 @@ class ePassport {
 
 class ApiService {
   // final String baseUrl = 'http://localhost:3000';
-  final String baseUrl = 'http://192.168.196.81:3000';
+  // final String baseUrl = 'http://192.168.196.81:3000';
   // final String baseUrl = 'http://172.20.10.4:3000';
-  // final String baseUrl = 'http://192.168.43.51:3000';
-  // final String baseUrl = 'http://192.168.1.106:3000';
+  final String baseUrl = 'http://192.168.196.21:3000';
+  // final String baseUrl = 'http://192.168.1.109:3000';
 
   Future saveUser(String e_passport, String firstname, String lastname, String email, String token, String facname, String depname) async {
     final url = Uri.parse('$baseUrl/saveUser');
