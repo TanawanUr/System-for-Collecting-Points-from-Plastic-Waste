@@ -1,8 +1,10 @@
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/marker_widget.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Map_Screen extends StatefulWidget {
   const Map_Screen({super.key});
@@ -11,63 +13,85 @@ class Map_Screen extends StatefulWidget {
   State<Map_Screen> createState() => _Map_ScreenState();
 }
 
-List<MarkerWidget> historyItems = [
-  MarkerWidget(
-    lat: 7.198425,
-    lng: 100.6023688,
-    location: 'สาขาวิศวคอมพิวเตอร์',
-    location1: 'มทร. สงขลา',
-    status: 'Active',
-    type: 'bottle',
-  ),
-];
-
 class _Map_ScreenState extends State<Map_Screen> {
   String selectedName = '';
   String selectedName1 = '';
-  String selectedStatus = '';
+  String selectedStatus = 'Inactive'; // Default status
   String selectedSvgPath = '';
   double selectedMarkerLatitude = 0.0;
   double selectedMarkerLongitude = 0.0;
   bool isMarkerSelected = false;
 
-  void _onMarkerTapped(
-      String name, String name1, String status, String svgPath) {
-    setState(() {
-      selectedName = name;
-      selectedName1 = name1;
-      selectedStatus = status;
-      selectedSvgPath = svgPath;
-      isMarkerSelected = true;
-    });
+  List<MarkerWidget> historyItems = [
+    MarkerWidget(
+      lat: 7.198425,
+      lng: 100.6023688,
+      location: 'สาขาวิศวคอมพิวเตอร์',
+      location1: 'มทร. สงขลา',
+      status: 'Inactive', // Initially set as Inactive
+      type: 'bottle',
+    ),
+    MarkerWidget(
+      lat: 7.198125,
+      lng: 100.6027788,
+      location: 'อาคาร 59 ICT',
+      location1: 'มทร. สงขลา',
+      status: 'Disable', // Initially set as Inactive
+      type: 'reward',
+    ),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchStatusFromApi(); // Fetch the status from the API
   }
 
-  Color getStatusColor(String status) {
-    switch (status) {
-      case 'Active':
-        return Colors.green;
-      case 'Inactive':
-        return Colors.red;
-      case 'Pending':
-        return Colors.orange;
-      default:
-        return Colors.grey;
+Future<void> fetchStatusFromApi() async {
+  try {
+    final response =
+        await http.get(Uri.parse('http://192.168.196.21:3000/esp-status'));
+
+    if (response.statusCode == 200) {
+      // Decode the response body as a map
+      Map<String, dynamic> data = json.decode(response.body);
+
+      // Extract the 'status' value from the response
+      String status = data['status'];
+
+      setState(() {
+        // Update the status of the marker based on the response
+        for (var marker in historyItems) {
+          // Match the marker based on location or any unique identifier
+          if (marker.location == 'สาขาวิศวคอมพิวเตอร์') {
+            marker.status = status; // Update status
+          }
+        }
+      });
+    } else {
+      throw Exception('Failed to load status');
     }
+  } catch (e) {
+    print('Error fetching status: $e');
   }
+}
 
-  void _onMapTapped() {
+
+  // Function to add a new marker manually (this still uses the static data)
+  void addNewMarker(
+      double lat, double lng, String location, String location1, String type) {
     setState(() {
-      isMarkerSelected = false;
+      historyItems.add(MarkerWidget(
+        lat: lat,
+        lng: lng,
+        location: location,
+        location1: location1,
+        status: 'Inactive', // Initially set as Inactive
+        type: type,
+      ));
     });
-  }
-
-  final MapController mapController = MapController();
-
-  void moveToMarker(double latitude, double longitude) {
-    mapController.move(
-      LatLng(latitude, longitude),
-      18.0,
-    );
+    // After adding, fetch the status from API again
+    fetchStatusFromApi();
   }
 
   @override
@@ -80,15 +104,11 @@ class _Map_ScreenState extends State<Map_Screen> {
         child: Stack(
           children: [
             FlutterMap(
-                mapController: mapController,
                 options: MapOptions(
                   initialCenter: LatLng(7.198925, 100.6024488),
                   initialZoom: 17.00,
                   interactionOptions:
                       const InteractionOptions(flags: ~InteractiveFlag.rotate),
-                  onTap: (tapPosition, latLng) {
-                    _onMapTapped();
-                  },
                 ),
                 children: [
                   TileLayer(
@@ -97,39 +117,28 @@ class _Map_ScreenState extends State<Map_Screen> {
                     subdomains: ['a', 'b', 'c', 'd'],
                   ),
                   MarkerLayer(
-                    markers: [
-                      Marker(
-                        point: LatLng(7.198425, 100.6023688),
+                    markers: historyItems.map((item) {
+                      return Marker(
+                        point: LatLng(item.lat, item.lng),
                         width: 60,
                         height: 60,
                         alignment: Alignment.centerLeft,
                         child: GestureDetector(
                           onTap: () {
-                            _onMarkerTapped("สาขาวิศวคอมพิวเตอร์", "มทร. สงขลา",
-                                "Active", 'assets/svg/bottle_icon.svg');
-                            moveToMarker(7.198425, 100.6023688);
+                            _onMarkerTapped(
+                              item.location,
+                              item.location1,
+                              item.status,
+                              'assets/svg/${item.type}_icon.svg',
+                            );
+                            fetchStatusFromApi();
                           },
                           child: Image.asset(
-                              'assets/icons/bottle_location_icon.png'),
-                        ),
-                      ),
-                      Marker(
-                        point: LatLng(7.198125, 100.6027788),
-                        width: 60,
-                        height: 60,
-                        alignment: Alignment.centerLeft,
-                        child: GestureDetector(
-                          onTap: () {
-                            _onMarkerTapped("อาคาร 59 ICT", "มทร. สงขลา",
-                                "Inactive", 'assets/svg/reward_icon.svg');
-                            moveToMarker(7.198125, 100.6027788);
-                          },
-                          child: Image.asset(
-                            'assets/icons/reward_location_icon.png',
+                            'assets/icons/${item.type}_location_icon.png',
                           ),
                         ),
-                      ),
-                    ],
+                      );
+                    }).toList(),
                   ),
                 ]),
             if (isMarkerSelected)
@@ -139,9 +148,7 @@ class _Map_ScreenState extends State<Map_Screen> {
                 right: 15,
                 child: GestureDetector(
                   onTap: () {
-                    //tap on selected marker
-                    // moveToMarker(
-                    //     selectedMarkerLatitude, selectedMarkerLongitude);
+                    fetchStatusFromApi();
                   },
                   child: Stack(
                     children: [
@@ -240,5 +247,31 @@ class _Map_ScreenState extends State<Map_Screen> {
             ),
           )),
     );
+  }
+
+  Color getStatusColor(String status) {
+    switch (status) {
+      case 'Active':
+        return Colors.green;
+      case 'Inactive':
+        return Colors.red;
+      case 'Pending':
+        return Colors.orange;
+      case 'Disable':
+        return Colors.white;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  void _onMarkerTapped(
+      String name, String name1, String status, String svgPath) {
+    setState(() {
+      selectedName = name;
+      selectedName1 = name1;
+      selectedStatus = status;
+      selectedSvgPath = svgPath;
+      isMarkerSelected = true;
+    });
   }
 }

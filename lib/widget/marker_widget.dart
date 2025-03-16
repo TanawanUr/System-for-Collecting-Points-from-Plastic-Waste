@@ -3,7 +3,7 @@ class MarkerWidget {
   final double lng;
   final String location;
   final String location1;
-  final String status;
+  String status;
   final String type;
 
   MarkerWidget({
