@@ -117,14 +117,14 @@ class _StaffRewardRequestListPageState extends State<StaffRewardRequestListPage>
                                       fontSize: 26,
                                       fontWeight: FontWeight.w700,
                                       letterSpacing: -0.5)),
-                              IconButton(
-                                onPressed: () {},
-                                icon: FaIcon(
-                                  FontAwesomeIcons.arrowDownShortWide,
-                                  size: 25,
-                                  color: Colors.black,
-                                ),
-                              ),
+                              // IconButton(
+                              //   onPressed: () {},
+                              //   icon: FaIcon(
+                              //     FontAwesomeIcons.arrowDownShortWide,
+                              //     size: 25,
+                              //     color: Colors.black,
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),

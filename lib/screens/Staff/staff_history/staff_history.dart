@@ -29,18 +29,18 @@ class _StaffHistoryPageState extends State<StaffHistoryPage> {
       setState(() {
         rewardApproved = data.map((item) {
           return StaffHistoryWidget(
-            e_passport: item['e_passport'],
-            fullname: "${item['firstname']} ${item['lastname']}",
-            faculty: item['facname'],
-            department: item['depname'],
-            points: item['points_required'],
-            itemName: item['reward_name'],
-            itemQuantity: 1,
-            itemImageUrl: "http://192.168.196.21:3000/images/${item['reward_image']}",
-            date: DateTime.parse(item['reviewed_at']),
-            status: item['status'],
-            reason: item['reason']
-          );
+              e_passport: item['e_passport'],
+              fullname: "${item['firstname']} ${item['lastname']}",
+              faculty: item['facname'],
+              department: item['depname'],
+              points: item['points_required'],
+              itemName: item['reward_name'],
+              itemQuantity: 1,
+              itemImageUrl:
+                  "http://192.168.196.21:3000/images/${item['reward_image']}",
+              date: DateTime.parse(item['reviewed_at']),
+              status: item['status'],
+              reason: item['reason']);
         }).toList();
         isLoading = false;
       });
@@ -51,6 +51,7 @@ class _StaffHistoryPageState extends State<StaffHistoryPage> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,14 +112,6 @@ class _StaffHistoryPageState extends State<StaffHistoryPage> {
                                       fontSize: 26,
                                       fontWeight: FontWeight.w700,
                                       letterSpacing: -0.5)),
-                              // IconButton(
-                              //   onPressed: () {},
-                              //   icon: FaIcon(
-                              //     FontAwesomeIcons.arrowDownShortWide,
-                              //     size: 25,
-                              //     color: Colors.black,
-                              //   ),
-                              // ),
                             ],
                           ),
                         ),
@@ -135,79 +128,88 @@ class _StaffHistoryPageState extends State<StaffHistoryPage> {
                                 itemCount: rewardApproved.length,
                                 itemBuilder: (context, index) {
                                   final item = rewardApproved[index];
-                            return Column(
-                              children: [
-                                Container(
-                                  color: Colors.white,
-                                  child: ListTile(
-                                    leading: FaIcon(
-                                        FontAwesomeIcons.solidCircleUser,
-                                        color: Colors.black,
-                                        size: 50),
-                                    title: Text(item.fullname,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w700,
-                                            letterSpacing: -0.5)),
-                                    subtitle: Container(
-                                      padding: const EdgeInsets.only(top: 8),
-                                      child: Text(formatDateTime(item.date),
-                                          style: TextStyle(
-                                              color: Color(0xff136BFF),
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w400,
-                                              letterSpacing: -0.2)),
-                                    ),
-                                                                        trailing: Padding(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                            Text(item.status,
-                                                style: TextStyle(
-                                                    color: _getStatusColor(
-                                                        item.status),
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
-                                                    letterSpacing: -0.2)),
-                                          Text('แสดงเพิ่มเติม',
+                                  return Column(
+                                    children: [
+                                      Container(
+                                        color: Colors.white,
+                                        child: ListTile(
+                                          leading: FaIcon(
+                                              FontAwesomeIcons.solidCircleUser,
+                                              color: Colors.black,
+                                              size: 50),
+                                          title: Text(item.fullname,
                                               style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: Color(0xff136BFF),
-                                                  fontWeight: FontWeight.w400,
-                                                  letterSpacing: -0.2)),
-                                        ],
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              StaffHistoryDetailsPage(
-                                                  item:
-                                                      item), // Passing the item data to the next page
+                                                  color: Colors.black,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w700,
+                                                  letterSpacing: -0.5)),
+                                          subtitle: Container(
+                                            padding:
+                                                const EdgeInsets.only(top: 8),
+                                            child: Text(
+                                                formatDateTime(item.date),
+                                                style: TextStyle(
+                                                    color: Color(0xff136BFF),
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w400,
+                                                    letterSpacing: -0.2)),
+                                          ),
+                                          trailing: Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 5),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Text(item.status,
+                                                    style: TextStyle(
+                                                        color: _getStatusColor(
+                                                            item.status),
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        letterSpacing: -0.2)),
+                                                Text('แสดงเพิ่มเติม',
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        color:
+                                                            Color(0xff136BFF),
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        letterSpacing: -0.2)),
+                                              ],
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    StaffHistoryDetailsPage(
+                                                        item:
+                                                            item), // Passing the item data to the next page
+                                              ),
+                                            ).then((_) {
+                                              PaintingBinding
+                                                  .instance.imageCache
+                                                  .clear();
+                                              fetchHistory();
+                                            });
+                                          },
                                         ),
-                                      ).then((_){
-                                        PaintingBinding.instance.imageCache.clear();
-                                        fetchHistory();
-                                      });
-                                    },
-                                  ),
-                                ),
-                                Divider(
-                                  color: Color(0xffEAEAEA),
-                                  thickness: 1,
-                                  height: 1.5,
-                                ),
-                              ],
-                            );
-                          },
-                        ),
+                                      ),
+                                      Divider(
+                                        color: Color(0xffEAEAEA),
+                                        thickness: 1,
+                                        height: 1.5,
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
                       ),
                     ],
                   ),
@@ -220,7 +222,7 @@ class _StaffHistoryPageState extends State<StaffHistoryPage> {
     );
   }
 
-   Color _getStatusColor(String status) {
+  Color _getStatusColor(String status) {
     switch (status.toLowerCase()) {
       case 'อนุมัติ':
         return Color(0xff4AAF50);
