@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/login.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
 
 class ProfessorProfilePage extends StatefulWidget {
   final Map<String, dynamic> userData;
@@ -12,17 +13,34 @@ class ProfessorProfilePage extends StatefulWidget {
 }
 
 class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
+  final ApiService apiService = ApiService();
+  Map<String, dynamic>? userData;
+
+   @override
+  void initState() {
+    super.initState();
+    _fetchUserDetails();
+  }
+
+  Future<void> _fetchUserDetails() async {
+    try {
+      Map<String, dynamic> details = await apiService.getUserDetails(widget.userData['ePassport']);
+      setState(() {
+        userData = details;
+      });
+    } catch (e) {
+      print("Error fetching user details: $e");
+    }
+  }
+
   Future<void> _logout(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
-
-    // Clear the stored token
     await prefs.remove('authToken');
-
-    // Navigate back to the login page
     Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => LoginPage()),
-        (Route<dynamic> route) => false);
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+      (Route<dynamic> route) => false,
+    );
   }
 
   @override
@@ -83,7 +101,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                     child: Column(
                       children: [
                         Text(
-                          '${widget.userData['fullname']}',
+                           '${widget.userData['firstname']} ${widget.userData['lastname']}',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 34,
@@ -93,7 +111,7 @@ class _ProfessorProfilePageState extends State<ProfessorProfilePage> {
                           ),
                         ),
                         Text(
-                          "อาจารย์,\nหัวหน้าหลักสูตรสาขาวิศวกรรมคอมพิวเตอร์",
+                          "อาจารย์",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
