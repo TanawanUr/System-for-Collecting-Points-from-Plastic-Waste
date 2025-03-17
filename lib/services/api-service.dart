@@ -443,6 +443,15 @@ class ApiService {
     }
   }
 
+  Future<Map<String, dynamic>> getSummary() async {
+    final response = await http.get(Uri.parse('$baseUrl/summary'));
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body); // Return the entire response as a Map
+    } else {
+      throw Exception('Failed to load summary');
+    }
+  }
   Future<void> deleteRole(int requestId) async {
     final uri = Uri.parse('$baseUrl/users/$requestId/role');
     final response = await http.delete(uri);
