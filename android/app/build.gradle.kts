@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.example.system_for_collecting_points_from_plastic_waste"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
