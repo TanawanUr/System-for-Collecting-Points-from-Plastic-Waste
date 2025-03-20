@@ -37,7 +37,7 @@ class _StaffHistoryPageState extends State<StaffHistoryPage> {
               itemName: item['reward_name'],
               itemQuantity: 1,
               itemImageUrl:
-                  "http://192.168.196.21:3000/images/${item['reward_image']}",
+                  "https://c7bd-171-6-139-219.ngrok-free.app/images/${item['reward_image']}",
               date: DateTime.parse(item['reviewed_at']),
               status: item['status'],
               reason: item['reason']);
@@ -190,7 +190,7 @@ class _StaffHistoryPageState extends State<StaffHistoryPage> {
                                                 builder: (context) =>
                                                     StaffHistoryDetailsPage(
                                                         item:
-                                                            item), // Passing the item data to the next page
+                                                            item), 
                                               ),
                                             ).then((_) {
                                               PaintingBinding
@@ -236,9 +236,8 @@ class _StaffHistoryPageState extends State<StaffHistoryPage> {
   }
 
   String formatDateTime(date) {
-    // DateTime parsedDate = DateTime.parse(date); // Parse the string to DateTime
     String formattedDateTime = DateFormat('dd/MM/yyyy HH:mm')
-        .format(date); // Format to dd/MM/yyyy HH:mm
+        .format(date);
     return formattedDateTime;
   }
 }

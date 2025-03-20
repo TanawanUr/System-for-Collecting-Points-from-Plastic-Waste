@@ -18,7 +18,7 @@ class CountingBottle extends StatefulWidget {
 }
 
 class _CountingBottleState extends State<CountingBottle> {
-  final channel = IOWebSocketChannel.connect('ws://192.168.196.21:8080');
+  final channel = IOWebSocketChannel.connect('ws://192.168.1.198:8080');
   int scanCount = 0;
   String imageUrl = '';
   Image? _image;

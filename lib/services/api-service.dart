@@ -31,8 +31,8 @@ class ePassport {
 class ApiService {
   // final String baseUrl = 'http://localhost:3000';
   // final String baseUrl = 'http://192.168.196.81:3000';
-  // final String baseUrl = 'http://172.20.10.4:3000';
-  final String baseUrl = 'http://192.168.196.21:3000';
+  final String baseUrl = 'https://c7bd-171-6-139-219.ngrok-free.app';
+  // final String baseUrl = 'http://192.168.196.21:3000';
   // final String baseUrl = 'http://192.168.1.109:3000';
 
   Future saveUser(String e_passport, String firstname, String lastname,
@@ -91,14 +91,16 @@ class ApiService {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getRewardHistory({String fetchType = 'all'}) async {
+  Future<List<Map<String, dynamic>>> getRewardHistory(
+      {String fetchType = 'all'}) async {
     int? userId = await getUserId();
     if (userId == null) {
       throw Exception("User not found");
     }
 
     // Construct the URL with the fetchType query parameter
-    final url = Uri.parse('$baseUrl/api/reward-history/$userId?fetchType=$fetchType');
+    final url =
+        Uri.parse('$baseUrl/api/reward-history/$userId?fetchType=$fetchType');
 
     final response = await http.get(url);
 
@@ -108,7 +110,6 @@ class ApiService {
       throw Exception('Failed to load reward history');
     }
   }
-
 
   Future<List<Map<String, dynamic>>> getRewards() async {
     try {
@@ -452,6 +453,7 @@ class ApiService {
       throw Exception('Failed to load summary');
     }
   }
+
   Future<void> deleteRole(int requestId) async {
     final uri = Uri.parse('$baseUrl/users/$requestId/role');
     final response = await http.delete(uri);

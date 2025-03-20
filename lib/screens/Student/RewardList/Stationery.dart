@@ -9,9 +9,11 @@ class Stationery_Screen extends StatefulWidget {
 
   @override
   State<Stationery_Screen> createState() => _Stationery_ScreenState();
+  
 }
 
 class _Stationery_ScreenState extends State<Stationery_Screen> {
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   final ApiService apiService = ApiService();
   List<RewardsWidget> StationeryItems = [];
   bool isLoading = true;
@@ -35,7 +37,7 @@ class _Stationery_ScreenState extends State<Stationery_Screen> {
             itemQuantity: item['reward_quantity'],
             itemQuantityTotal: item['reward_quantity_total'],
             itemImageUrl:
-                "http://192.168.196.21:3000/images/${item['reward_image']}",
+                "https://c7bd-171-6-139-219.ngrok-free.app/images/${item['reward_image']}",
           );
         }).toList();
         isLoading = false;
@@ -51,6 +53,7 @@ class _Stationery_ScreenState extends State<Stationery_Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldMessengerKey, 
       backgroundColor: Color(0xff00154B),
       appBar: AppBar(
         backgroundColor: Color(0xff00154B),
@@ -130,7 +133,8 @@ class _Stationery_ScreenState extends State<Stationery_Screen> {
                                             height: 15,
                                           ),
                                           ClipRRect(
-                                            borderRadius: BorderRadius.circular(25),
+                                            borderRadius:
+                                                BorderRadius.circular(25),
                                             child: Image.network(
                                               item.itemImageUrl,
                                               width: 120,
@@ -318,11 +322,9 @@ class _Stationery_ScreenState extends State<Stationery_Screen> {
                   onTap: () async {
                     Navigator.of(context).pop(); // Close the dialog
                     try {
-                      int? userId =
-                          await apiService.getUserId(); // Get user ID from API
+                    int? userId = await apiService.getUserId(); // Get user ID from API
                       if (userId != null) {
-                        bool success =
-                            await apiService.requestReward(userId, rewardId);
+                        bool success = await apiService.requestReward(userId, rewardId);
                         if (success) {
                           showSuccessDialog(context, "ส่งคำขอแลกสำเร็จ");
                         } else {
@@ -370,7 +372,7 @@ class _Stationery_ScreenState extends State<Stationery_Screen> {
     );
   }
 
-  void showSuccessDialog(BuildContext context, String message) {
+void showSuccessDialog(BuildContext context, String message) {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {

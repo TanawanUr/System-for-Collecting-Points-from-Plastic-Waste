@@ -37,7 +37,7 @@ class _StaffRewardListPageState extends State<StaffRewardListPage> {
             itemName: item['reward_name'],
             itemQuantity: item['reward_quantity'],
             itemQuantityTotal: item['reward_quantity_total'],
-            itemImageUrl:"http://192.168.196.21:3000/images/${item['reward_image']}",
+            itemImageUrl:"https://c7bd-171-6-139-219.ngrok-free.app/images/${item['reward_image']}",
           );
         }).toList();
         isLoading = false;

@@ -50,7 +50,7 @@ class _Map_ScreenState extends State<Map_Screen> {
 Future<void> fetchStatusFromApi() async {
   try {
     final response =
-        await http.get(Uri.parse('http://192.168.196.21:3000/esp-status'));
+        await http.get(Uri.parse('https://c7bd-171-6-139-219.ngrok-free.app/esp-status'));
 
     if (response.statusCode == 200) {
       // Decode the response body as a map
