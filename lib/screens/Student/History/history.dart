@@ -31,88 +31,58 @@ class _History_ScreenState extends State<History_Screen> {
     fetchHistory();
   }
 
-Future<void> fetchHistory() async {
-  try {
-    List<Map<String, dynamic>> data = await apiService.getRewardHistory(fetchType: fetchType);
+  Future<void> fetchHistory() async {
+    try {
+      List<Map<String, dynamic>> data =
+          await apiService.getRewardHistory(fetchType: fetchType);
 
-    setState(() {
-      historyItems = [];
+      setState(() {
+        historyItems = [];
 
-      data.forEach((item) {
-        // Filter based on fetchType
-        if (fetchType == 'all' || fetchType == item['reward_type']) {
-          if (item['reward_name'] != null) {
-            historyItems.add(StudentHistory(
-              type: item['reward_type'],
-              itemName: item['reward_name'],
-              date: DateTime.parse(item['requested_at']),
-              submitedDate: item['reviewed_at'] != null
-                  ? DateTime.parse(item['reviewed_at'])
-                  : DateTime.parse(item['requested_at']),
-              status: item['status'],
-              points: item['points_required'],
-              itemQuantity: 1,
-              itemImageUrl:
-                  "http://192.168.196.21:3000/images/${item['reward_image']}",
-              reason: item['reason'],
-            ));
-          } else if (item['reward_points_id'] != null) {
-            // If it's a reward point, use the specific name
-            historyItems.add(RewardPoints(
-              type: item['reward_type'],
-              itemName: item['reward_type'] == 'bottle' ? 'แต้มจากขวด' : 'อื่นๆ',  // Add a condition for non-bottle types
-              date: DateTime.parse(item['requested_at']),
-              points: item['points'],
-            ));
+        data.forEach((item) {
+          // Filter based on fetchType
+          if (fetchType == 'all' || fetchType == item['reward_type']) {
+            if (item['reward_name'] != null) {
+              historyItems.add(StudentHistory(
+                type: item['reward_type'],
+                itemName: item['reward_name'],
+                date: DateTime.parse(item['requested_at']),
+                submitedDate: item['reviewed_at'] != null
+                    ? DateTime.parse(item['reviewed_at'])
+                    : DateTime.parse(item['requested_at']),
+                status: item['status'],
+                points: item['points_required'],
+                itemQuantity: 1,
+                itemImageUrl:
+                    "https://c7bd-171-6-139-219.ngrok-free.app/images/${item['reward_image']}",
+                reason: item['reason'],
+              ));
+            } else if (item['reward_points_id'] != null) {
+              // If it's a reward point, use the specific name
+              historyItems.add(RewardPoints(
+                type: item['reward_type'],
+                itemName: item['reward_type'] == 'bottle'
+                    ? 'แต้มจากขวด'
+                    : 'อื่นๆ', // Add a condition for non-bottle types
+                date: DateTime.parse(item['requested_at']),
+                points: item['points'],
+              ));
+            }
           }
-        }
+        });
+
+        isLoading = false;
       });
-
-      isLoading = false;
-    });
-  } catch (e) {
-    print("Error fetching history: $e");
-    setState(() {
-      isLoading = false;
-    });
-  }
-}
-
-
-  // Future<void> fetchHistory() async {
-  //   try {
-  //     // Fetch reward history with fetchType (no sortType)
-  //      List<Map<String, dynamic>> data = await apiService.getRewardHistory(fetchType: fetchType);
-
-  //     setState(() {
-  //       historyItems = data.map((item) {
-  //         return StudentHistory(
-  //           type: item['reward_type'],
-  //           itemName: item['reward_name'],
-  //           date: DateTime.parse(item['requested_at']),
-  //           submitedDate: item['reviewed_at'] != null
-  //               ? DateTime.parse(item['reviewed_at'])
-  //               : DateTime.parse(item['requested_at']),
-  //           status: item['status'],
-  //           points: item['points_required'],
-  //           itemQuantity: 1,
-  //           itemImageUrl:
-  //               "http://192.168.196.21:3000/images/${item['reward_image']}",
-  //           reason: item['reason'],
-  //         );
-  //       }).toList();
-  //       isLoading = false;
-  //     });
-  //   } catch (e) {
-  //     print("Error fetching history: $e");
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //   }
-  // }
+      } catch (e) {
+        print("Error fetching history: $e");
+      } finally {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
 
   void _showFilterDialog() {
-    // Mapping display names to actual fetchType values
     Map<String, String> displayNames = {
       "ทั้งหมด": "all",
       "ขวด": "bottle",
@@ -121,9 +91,7 @@ Future<void> fetchHistory() async {
       "คะแนนจิตพิสัย": "affective_score",
     };
 
-    // Initial tempFetchType value from the current fetchType
     String tempFetchType = fetchType;
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -136,23 +104,17 @@ Future<void> fetchHistory() async {
                   fontSize: 26,
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
-                  // letterSpacing: 0.5,
                 ),
               ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // DropdownButton to select the filter type
                   DropdownButton<String>(
-                    // Bind the dropdown value to tempFetchType
                     value: displayNames.keys.firstWhere(
                         (key) => displayNames[key] == tempFetchType,
-                        orElse: () => "ทั้งหมด"), // Default value when no match
-
+                        orElse: () => "ทั้งหมด"),
                     onChanged: (String? newDisplayName) {
-                      // Use the local setState of the dialog to update the value immediately
                       setStateDialog(() {
-                        // Update tempFetchType immediately
                         tempFetchType = displayNames[newDisplayName!]!;
                       });
                     },
@@ -166,7 +128,6 @@ Future<void> fetchHistory() async {
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
                             color: Colors.black,
-                            // letterSpacing: 0.5,
                           ),
                         ),
                       );
@@ -211,8 +172,8 @@ Future<void> fetchHistory() async {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      fetchType = tempFetchType; // Update the main fetchType
-                      fetchHistory(); // Fetch updated data with the new fetchType
+                      fetchType = tempFetchType; 
+                      fetchHistory();
                     });
                     Navigator.of(context).pop();
                   },
@@ -245,7 +206,6 @@ Future<void> fetchHistory() async {
                     ),
                   ),
                 )
-
               ],
             );
           },
@@ -330,8 +290,8 @@ Future<void> fetchHistory() async {
                           itemCount: historyItems.length,
                           itemBuilder: (context, index) {
                             final item = historyItems[index];
-                              if (item is StudentHistory) {
-                                return Column(
+                            if (item is StudentHistory) {
+                              return Column(
                                 children: [
                                   Container(
                                     color: Colors.white,
@@ -376,7 +336,8 @@ Future<void> fetchHistory() async {
                                                       color: _getStatusColor(
                                                           item.status),
                                                       fontSize: 14,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       letterSpacing: -0.2)),
                                             if (item.type == 'certificate')
                                               Text(item.status,
@@ -384,7 +345,8 @@ Future<void> fetchHistory() async {
                                                       color: _getStatusColor(
                                                           item.status),
                                                       fontSize: 14,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       letterSpacing: -0.2)),
                                             if (item.type == 'affective_score')
                                               Text(item.status,
@@ -392,7 +354,8 @@ Future<void> fetchHistory() async {
                                                       color: _getStatusColor(
                                                           item.status),
                                                       fontSize: 14,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       letterSpacing: -0.2)),
                                             if (item.type == 'bottle')
                                               Text.rich(
@@ -410,7 +373,8 @@ Future<void> fetchHistory() async {
                                                       ),
                                                     ),
                                                     TextSpan(
-                                                      text: '${item.points} แต้ม',
+                                                      text:
+                                                          '${item.points} แต้ม',
                                                       style: TextStyle(
                                                         color: _getStatusColor(item
                                                             .status), // Color based on status
@@ -436,11 +400,12 @@ Future<void> fetchHistory() async {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => item.type ==
-                                                    'affective_score'
-                                                ? HistoryAffectiveDetails(
-                                                    item: item)
-                                                : HistoryDetailsPage(item: item),
+                                            builder: (context) =>
+                                                item.type == 'affective_score'
+                                                    ? HistoryAffectiveDetails(
+                                                        item: item)
+                                                    : HistoryDetailsPage(
+                                                        item: item),
                                           ),
                                         ).then((_) {
                                           PaintingBinding.instance.imageCache
@@ -457,89 +422,92 @@ Future<void> fetchHistory() async {
                                   ),
                                 ],
                               );
-                              } else if (item is RewardPoints) {
-                            return Column(
-                              children: [
-                                Container(
-                                  color: Colors.white,
-                                  child: ListTile(
-                                    leading: SvgPicture.asset(
-                                      item.type == 'bottle'
-                                          ? 'assets/svg/bottle_icon.svg'
-                                          : item.type == 'affective_score'
-                                              ? 'assets/svg/book_icon.svg'
-                                              : item.type == 'certificate'
-                                                  ? 'assets/svg/certi_icon.svg'
-                                                  : 'assets/svg/reward_icon.svg',
-                                      width: 55,
-                                      height: 55,
-                                    ),
-                                    title: Text(item.itemName,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w700,
-                                            letterSpacing: -0.5)),
-                                    subtitle: Container(
-                                      padding: const EdgeInsets.only(top: 8),
-                                      child: Text(_formatTime(item.date),
+                            } else if (item is RewardPoints) {
+                              return Column(
+                                children: [
+                                  Container(
+                                    color: Colors.white,
+                                    child: ListTile(
+                                      leading: SvgPicture.asset(
+                                        item.type == 'bottle'
+                                            ? 'assets/svg/bottle_icon.svg'
+                                            : item.type == 'affective_score'
+                                                ? 'assets/svg/book_icon.svg'
+                                                : item.type == 'certificate'
+                                                    ? 'assets/svg/certi_icon.svg'
+                                                    : 'assets/svg/reward_icon.svg',
+                                        width: 55,
+                                        height: 55,
+                                      ),
+                                      title: Text(item.itemName,
                                           style: TextStyle(
-                                              color: Color(0xff136BFF),
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w400,
-                                              letterSpacing: -0.2)),
-                                    ),
-                                    trailing: Padding(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          if (item.type == 'bottle')
-                                            Text.rich(
-                                              TextSpan(
-                                                children: [
-                                                  TextSpan(
-                                                    text: '+ ',
-                                                    style: TextStyle(
-                                                      color: Colors
-                                                          .green, // Set the '+' to green
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      letterSpacing: -0.2,
+                                              color: Colors.black,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w700,
+                                              letterSpacing: -0.5)),
+                                      subtitle: Container(
+                                        padding: const EdgeInsets.only(top: 8),
+                                        child: Text(_formatTime(item.date),
+                                            style: TextStyle(
+                                                color: Color(0xff136BFF),
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w400,
+                                                letterSpacing: -0.2)),
+                                      ),
+                                      trailing: Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            if (item.type == 'bottle')
+                                              Text.rich(
+                                                TextSpan(
+                                                  children: [
+                                                    TextSpan(
+                                                      text: '+ ',
+                                                      style: TextStyle(
+                                                        color: Colors
+                                                            .green, // Set the '+' to green
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        letterSpacing: -0.2,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  TextSpan(
-                                                    text: '${item.points} แต้ม',
-                                                    style: TextStyle(
-                                                      color: Color(0xff4AAF50), // Color based on status
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      letterSpacing: -0.2,
+                                                    TextSpan(
+                                                      text:
+                                                          '${item.points} แต้ม',
+                                                      style: TextStyle(
+                                                        color: Color(
+                                                            0xff4AAF50), // Color based on status
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        letterSpacing: -0.2,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Divider(
-                                  color: Color(0xffEAEAEA),
-                                  thickness: 1,
-                                  height: 1.5,
-                                ),
-                              ],
-                                );
-                              } else {
-                                return SizedBox.shrink(); // In case there's any unexpected item
-                              }
+                                  Divider(
+                                    color: Color(0xffEAEAEA),
+                                    thickness: 1,
+                                    height: 1.5,
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return SizedBox
+                                  .shrink(); // In case there's any unexpected item
+                            }
                           },
                         ),
                       ),
