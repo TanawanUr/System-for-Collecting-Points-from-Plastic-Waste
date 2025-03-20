@@ -12,7 +12,6 @@ class StaffAddReward extends StatefulWidget {
 }
 
 class _StaffAddRewardState extends State<StaffAddReward> {
-   // Controllers for the text fields.
   final TextEditingController _rewardNameController = TextEditingController();
   final TextEditingController _pointsController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
@@ -53,12 +52,11 @@ class _StaffAddRewardState extends State<StaffAddReward> {
   }
 
   try {
-    // Call your API to add the reward
     await apiService.addReward(
       rewardName: rewardName,
       rewardQuantity: rewardQuantity,
       pointsRequired: pointsRequired,
-      rewardType: "stationery", // or adjust based on your UI
+      rewardType: "stationery",
       imageFile: _selectedImage,
     );
 
@@ -72,8 +70,8 @@ class _StaffAddRewardState extends State<StaffAddReward> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-                Navigator.of(context).pop(); // Pop the current screen to go back home
+                Navigator.of(context).pop(); 
+                Navigator.of(context).pop();
               },
               child: Text("OK"),
             ),
@@ -82,7 +80,6 @@ class _StaffAddRewardState extends State<StaffAddReward> {
       },
     );
   } catch (error) {
-    // If the API call fails, show an error message
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Error adding reward.')),
     );
@@ -151,7 +148,6 @@ class _StaffAddRewardState extends State<StaffAddReward> {
                             child: Column(
                               children: [
                                 SizedBox(height: 30),
- // Image display container
                               InkWell(
                                 onTap: _pickImage,
                                 child: ClipRRect(
@@ -224,7 +220,7 @@ class _StaffAddRewardState extends State<StaffAddReward> {
                                         fontSize: 18,
                                       ),
                                       suffixText:
-                                          'แต้ม', // This text appears at the end
+                                          'แต้ม',
                                       suffixStyle: TextStyle(
                                         color: Color.fromARGB(255, 80, 80, 80),
                                         fontSize: 18,
@@ -251,7 +247,7 @@ class _StaffAddRewardState extends State<StaffAddReward> {
                                         fontSize: 18,
                                       ),
                                       suffixText:
-                                          'ชิ้น', // This text appears at the end
+                                          'ชิ้น',
                                       suffixStyle: TextStyle(
                                         color: Color.fromARGB(255, 80, 80, 80),
                                         fontSize: 18,

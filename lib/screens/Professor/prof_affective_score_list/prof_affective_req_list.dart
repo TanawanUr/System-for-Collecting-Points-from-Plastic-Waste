@@ -38,7 +38,6 @@ class _ProfessorAffectiveReqListScreenState extends State<ProfessorAffectiveReqL
             subject: item['reward_name'],
             points: item['points_required'],
             itemQuantity: 1,
-            // itemImageUrl: "http://192.168.196.81:3000/images/${item['reward_image']}",
             date: DateTime.parse(item['requested_at']),
             submitedDate: item['reviewed_at'] != null
                 ? DateTime.parse(item['reviewed_at'])
@@ -216,8 +215,7 @@ class _ProfessorAffectiveReqListScreenState extends State<ProfessorAffectiveReqL
   }
 
   String formatDateTime(date) {
-    // DateTime parsedDate = DateTime.parse(date); // Parse the string to DateTime
-    String formattedDateTime = DateFormat('dd/MM/yyyy HH:mm').format(date); // Format to dd/MM/yyyy HH:mm
+    String formattedDateTime = DateFormat('dd/MM/yyyy HH:mm').format(date);
     return formattedDateTime;
   }
 
