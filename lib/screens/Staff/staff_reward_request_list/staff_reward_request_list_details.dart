@@ -540,7 +540,6 @@ class _StaffRewardRequestListDetailsPageState extends State<StaffRewardRequestLi
                 ),
                 InkWell(
                   onTap: () async {
-                    Navigator.of(context).pop(); // Close the dialog
                     try {
                       int? userId = await apiService.getUserId(); // Get user ID from API
                       if (userId != null) {
@@ -662,7 +661,7 @@ class _StaffRewardRequestListDetailsPageState extends State<StaffRewardRequestLi
                       showErrorDialog(context, "กรุณาใส่เหตุผล");
                       return;
                     }
-                    Navigator.of(context).pop(); // Close the dialog
+                    // Navigator.of(context).pop(); // Close the dialog
                     try {
                       int? userId = await apiService.getUserId(); // Get user ID from API
                       if (userId != null) {
@@ -728,6 +727,7 @@ class _StaffRewardRequestListDetailsPageState extends State<StaffRewardRequestLi
           if (Navigator.of(dialogContext).canPop()) {
             Navigator.of(dialogContext).pop();
             Navigator.of(dialogContext).pop();
+            Navigator.of(dialogContext).pop();
           }
         });
 
@@ -762,6 +762,7 @@ class _StaffRewardRequestListDetailsPageState extends State<StaffRewardRequestLi
         // Schedule closing of the dialog using the dialog's own context.
         Future.delayed(Duration(seconds: 2), () {
           if (Navigator.of(dialogContext).canPop()) {
+            Navigator.of(dialogContext).pop();
             Navigator.of(dialogContext).pop();
             Navigator.of(dialogContext).pop();
           }

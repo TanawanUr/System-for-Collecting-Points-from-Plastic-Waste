@@ -301,7 +301,6 @@ class _Certificate_ScreenState extends State<Certificate_Screen> {
                 ),
                 InkWell(
                   onTap: () async {
-                    Navigator.of(context).pop(); // Close the dialog
                     try {
                       int? userId =
                           await apiService.getUserId(); // Get user ID from API
@@ -364,6 +363,8 @@ class _Certificate_ScreenState extends State<Certificate_Screen> {
           // Check if the dialog is still mounted in the widget tree.
           if (Navigator.of(dialogContext).canPop()) {
             Navigator.of(dialogContext).pop();
+            Navigator.of(dialogContext).pop();
+            fetchRewards();
           }
         });
 
@@ -399,6 +400,8 @@ class _Certificate_ScreenState extends State<Certificate_Screen> {
         Future.delayed(Duration(seconds: 2), () {
           if (Navigator.of(dialogContext).canPop()) {
             Navigator.of(dialogContext).pop();
+            Navigator.of(dialogContext).pop();
+            fetchRewards();
           }
         });
 

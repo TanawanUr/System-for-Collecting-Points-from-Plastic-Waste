@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Professor/Profile/professor_profile.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Professor/prof_affective_score_list/prof_affective_req_list.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/screens/Professor/prof_history/prof_history.dart';
+import 'package:system_for_collecting_points_from_plastic_waste/screens/Professor/professor_list.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/widget/app_buttons.dart';
 
 class ProfessorHomePage extends StatefulWidget {
@@ -81,48 +82,80 @@ class _ProfessorHomePageState extends State<ProfessorHomePage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Column(
                           children: [
-                            AppButtons(
-                              textColor: Colors.white,
-                              iconColor: Colors.white,
-                              backgroundColor: Color(0xffF9CA10),
-                              borderColor: Color(0xffEEC004),
-                              text: 'รายการขอจิตพิสัย',
-                              textSize: 20,
-                              iconSize: 60,
-                              width: 165,
-                              height: 160,
-                              blurRadius: 0,
-                              icon: 'assets/svg/list_check_icon.svg',
-                              onPressed: () {
-                                Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                builder: (context) => const ProfessorAffectiveReqListScreen()),
-                                );
-                              },
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                AppButtons(
+                                  textColor: Colors.white,
+                                  iconColor: Colors.white,
+                                  backgroundColor: Color(0xffF9CA10),
+                                  borderColor: Color(0xffEEC004),
+                                  text: 'รายการขอจิตพิสัย',
+                                  textSize: 20,
+                                  iconSize: 60,
+                                  width: 165,
+                                  height: 160,
+                                  blurRadius: 0,
+                                  icon: 'assets/svg/list_check_icon.svg',
+                                  onPressed: () {
+                                    Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                    builder: (context) => const ProfessorAffectiveReqListScreen()),
+                                    );
+                                  },
+                                ),
+                                AppButtons(
+                                  textColor: Colors.white,
+                                  iconColor: Colors.white,
+                                  backgroundColor: Color(0xffF9CA10),
+                                  borderColor: Color(0xffEEC004),
+                                  text: 'ประวิติการทำรายการ',
+                                  textSize: 20,
+                                  iconSize: 60,
+                                  width: 165,
+                                  height: 160,
+                                  blurRadius: 0,
+                                  icon: 'assets/svg/history_icon.svg',
+                                  onPressed: () {
+                                    Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                    builder: (context) => const ProfessorHistoryScreen()),
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
-                            AppButtons(
-                              textColor: Colors.white,
-                              iconColor: Colors.white,
-                              backgroundColor: Color(0xffF9CA10),
-                              borderColor: Color(0xffEEC004),
-                              text: 'ประวิติการทำรายการ',
-                              textSize: 20,
-                              iconSize: 60,
-                              width: 165,
-                              height: 160,
-                              blurRadius: 0,
-                              icon: 'assets/svg/history_icon.svg',
-                              onPressed: () {
-                                Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                builder: (context) => const ProfessorHistoryScreen()),
-                                );
-                              },
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                AppButtons(
+                                  textColor: Colors.white,
+                                  iconColor: Colors.white,
+                                  backgroundColor: Color(0xffF9CA10),
+                                  borderColor: Color(0xffEEC004),
+                                  text: 'ตารางรายชื่อนักศึกษา',
+                                  textSize: 20,
+                                  iconSize: 60,
+                                  width: 165,
+                                  height: 160,
+                                  blurRadius: 0,
+                                  icon: 'assets/svg/list_icon.svg',
+                                  onPressed: () {
+                                    Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                    builder: (context) => const ProfessorList()),
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
                           ],
                         ),

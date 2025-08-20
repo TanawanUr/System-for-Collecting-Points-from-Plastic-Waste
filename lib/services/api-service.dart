@@ -31,9 +31,9 @@ class ePassport {
 class ApiService {
   // final String baseUrl = 'http://localhost:3000';
   // final String baseUrl = 'http://192.168.196.81:3000';
-  final String baseUrl = 'https://c7bd-171-6-139-219.ngrok-free.app';
+  // final String baseUrl = 'https://c7bd-171-6-139-219.ngrok-free.app';
   // final String baseUrl = 'http://192.168.196.21:3000';
-  // final String baseUrl = 'http://192.168.1.109:3000';
+  final String baseUrl = 'http://192.168.1.3:3000';
 
   Future saveUser(String e_passport, String firstname, String lastname,
       String email, String token, String facname, String depname) async {
@@ -163,23 +163,61 @@ class ApiService {
   }
 
   Future<bool> requestReward(int userId, int rewardId) async {
-    final String apiUrl = "$baseUrl/api/request-reward";
+  final String apiUrl = "$baseUrl/api/request-reward";
 
-    try {
-      final response = await http.post(
-        Uri.parse(apiUrl),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"user_id": userId, "reward_id": rewardId}),
-      );
+  try {
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"user_id": userId, "reward_id": rewardId}),
+    );
 
-      return response.statusCode == 201; // Success if status 201
-    } catch (e) {
-      print("Error requesting reward: $e");
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      print("Error: ${response.body}"); // Print backend error message
       return false;
+    }
+  } catch (e) {
+    print("Error requesting reward: $e");
+    return false;
+  }
+}
+
+
+  // Future<bool> requestReward(int userId, int rewardId) async {
+  //   final String apiUrl = "$baseUrl/api/request-reward";
+
+  //   try {
+  //     final response = await http.post(
+  //       Uri.parse(apiUrl),
+  //       headers: {"Content-Type": "application/json"},
+  //       body: jsonEncode({"user_id": userId, "reward_id": rewardId}),
+  //     );
+
+  //     return response.statusCode == 201; 
+  //   } catch (e) {
+  //     print("Error requesting reward: $e");
+  //     return false;
+  //   }
+  // }
+
+/*PROFESSOR*/
+
+  Future<List<Map<String, dynamic>>>  getProfessorList() async {
+    int? userId = await getUserId();
+    if (userId == null) {
+      throw Exception("User not found");
+    }
+    final response = await http.get(Uri.parse('$baseUrl/professor/list/$userId'));
+
+    if (response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load user details');
     }
   }
 
-/*PROFESSOR*/
 
   Future<List<Map<String, dynamic>>> getProffessorAffectiveReqList() async {
     int? userId = await getUserId();
@@ -188,7 +226,7 @@ class ApiService {
     }
 
     final response =
-        await http.get(Uri.parse('$baseUrl/professor/request-list'));
+        await http.get(Uri.parse('$baseUrl/professor/request-list/$userId'));
 
     if (response.statusCode == 200) {
       return List<Map<String, dynamic>>.from(json.decode(response.body));
@@ -400,11 +438,7 @@ class ApiService {
     }
   }
 
-  /// Update the point expiration date on the backend.
-  /// Expects [newDate] in "d/M/yyyy" format and converts it to "yyyy-MM-dd".
-  /// Returns true if the update was successful, otherwise false.
   Future<bool> updatePointExpire(String newDate) async {
-    // Convert the date from "d/M/yyyy" (display) to "yyyy-MM-dd" (API expected)
     DateFormat inputFormat = DateFormat('d/M/yyyy');
     DateFormat apiFormat = DateFormat('yyyy-MM-dd');
     DateTime parsedDate = inputFormat.parse(newDate);

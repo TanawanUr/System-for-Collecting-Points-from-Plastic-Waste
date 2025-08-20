@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:system_for_collecting_points_from_plastic_waste/services/api-service.dart';
@@ -89,7 +90,7 @@ class _AffectiveScore_ScreenState extends State<AffectiveScore_Screen> {
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 1,
-                            childAspectRatio: 1.35,
+                            childAspectRatio: 2.5,
                           ),
                           itemCount: AffectiveScoreItem.length,
                           itemBuilder: (context, index) {
@@ -142,15 +143,22 @@ class _AffectiveScore_ScreenState extends State<AffectiveScore_Screen> {
                                                   letterSpacing: -0.5,
                                                 ),
                                               )),
-                                              Text.rich(TextSpan(
-                                                text: item.itemName,
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w500,
-                                                  letterSpacing: -0.5,
+                                              Flexible(
+                                                child: AutoSizeText.rich(
+                                                  TextSpan(
+                                                    text: item.itemName,
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 20,
+                                                      fontWeight: FontWeight.w500,
+                                                      letterSpacing: -0.5,
+                                                    ),
+                                                  ),
+                                                  maxLines: 1,
+                                                  minFontSize: 12,
+                                                  overflow: TextOverflow.ellipsis,
                                                 ),
-                                              )),
+                                              ),
                                             ],
                                           ),
                                           SizedBox(
@@ -317,7 +325,6 @@ class _AffectiveScore_ScreenState extends State<AffectiveScore_Screen> {
                 ),
                 InkWell(
                   onTap: () async {
-                    Navigator.of(context).pop(); // Close the dialog
                     try {
                     int? userId = await apiService.getUserId(); // Get user ID from API
                       if (userId != null) {
@@ -378,6 +385,8 @@ void showSuccessDialog(BuildContext context, String message) {
           // Check if the dialog is still mounted in the widget tree.
           if (Navigator.of(dialogContext).canPop()) {
             Navigator.of(dialogContext).pop();
+            Navigator.of(dialogContext).pop();
+            fetchRewards();
           }
         });
 
@@ -413,6 +422,8 @@ void showSuccessDialog(BuildContext context, String message) {
         Future.delayed(Duration(seconds: 2), () {
           if (Navigator.of(dialogContext).canPop()) {
             Navigator.of(dialogContext).pop();
+            Navigator.of(dialogContext).pop();
+            fetchRewards();
           }
         });
 

@@ -14,6 +14,8 @@ class _StaffPointExpireConfigState extends State<StaffPointExpireConfig> {
   TextEditingController dateController = TextEditingController();
   final ApiService apiService = ApiService();
   String expireDate = '';
+  // String? isoDateForBackend
+
 
   @override
   void initState() {
@@ -21,27 +23,25 @@ class _StaffPointExpireConfigState extends State<StaffPointExpireConfig> {
     _loadExpireDate();
   }
 
- Future<void> _loadExpireDate() async {
-  String? fetchedDate = await apiService.fetchPointExpire();
-  if (fetchedDate != null) {
-    setState(() {
-      expireDate = fetchedDate;
-      DateTime parsedDate = DateTime.parse(fetchedDate);
-      String formattedDate = DateFormat('d/M/yyyy').format(parsedDate);
-      dateController.text = formattedDate;
-    });
+  Future<void> _loadExpireDate() async {
+    String? fetchedDate = await apiService.fetchPointExpire();
+    if (fetchedDate != null) {
+      setState(() {
+        expireDate = fetchedDate;
+        DateTime parsedDate = DateTime.parse(fetchedDate);
+        String formattedDate = DateFormat('d/M/yyyy').format(parsedDate);
+        dateController.text = formattedDate;
+      });
+    }
   }
-}
 
   // For updating:
-void _updateExpireDate() async {
-  bool success = await apiService.updatePointExpire(dateController.text);
-  if (success) {
-    _loadExpireDate();
+  void _updateExpireDate() async {
+    bool success = await apiService.updatePointExpire(dateController.text);
+    if (success) {
+      _loadExpireDate();
+    }
   }
-}
-
-
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
@@ -53,12 +53,21 @@ void _updateExpireDate() async {
 
     if (pickedDate != null) {
       setState(() {
-        dateController.text = "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
+        // ✅ Buddhist year for display
+        int buddhistYear = pickedDate.year + 543;
+        final formattedThaiDate =
+            "${pickedDate.day.toString().padLeft(2, '0')}/"
+            "${pickedDate.month.toString().padLeft(2, '0')}/"
+            "$buddhistYear";
+        dateController.text = formattedThaiDate;
+
+        // // ✅ Store ISO format (yyyy-MM-dd) for backend
+        // isoDateForBackend = DateFormat('yyyy-MM-dd').format(pickedDate);
       });
     }
   }
 
-    String formatThaiDate(String? isoDate) {
+  String formatThaiDate(String? isoDate) {
     if (isoDate == null || isoDate.isEmpty) return 'ไม่มีวันหมดอายุ';
 
     try {
@@ -66,16 +75,28 @@ void _updateExpireDate() async {
       isoDate = isoDate.replaceAll('Z', '');
 
       // ✅ Parse to DateTime
-      DateTime date = DateTime.parse(isoDate).toLocal(); // Convert to local time
+      DateTime date =
+          DateTime.parse(isoDate).toLocal(); // Convert to local time
 
       // ✅ Define Thai Month Names
       List<String> thaiMonths = [
-        'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
-        'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+        'มกราคม',
+        'กุมภาพันธ์',
+        'มีนาคม',
+        'เมษายน',
+        'พฤษภาคม',
+        'มิถุนายน',
+        'กรกฎาคม',
+        'สิงหาคม',
+        'กันยายน',
+        'ตุลาคม',
+        'พฤศจิกายน',
+        'ธันวาคม'
       ];
 
       // ✅ Convert to Thai Buddhist Era (BE)
-      int yearBE = date.year + 543;
+      int yearBE = date.year ;
+      // int yearBE = date.year + 543;
       String day = date.day.toString();
       String month = thaiMonths[date.month - 1];
 
@@ -149,16 +170,16 @@ void _updateExpireDate() async {
                                 ),
                               ),
                               const SizedBox(height: 20),
-                                Text(
-                                  formatThaiDate(expireDate),
-                                  // expireDate.isNotEmpty ? expireDate : "กำลังโหลด...",
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: -0.5,
-                                  ),
+                              Text(
+                                formatThaiDate(expireDate),
+                                // expireDate.isNotEmpty ? expireDate : "กำลังโหลด...",
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: -0.5,
                                 ),
+                              ),
                             ],
                           ),
                         ),

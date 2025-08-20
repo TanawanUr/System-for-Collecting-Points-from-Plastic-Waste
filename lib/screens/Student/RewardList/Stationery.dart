@@ -320,9 +320,9 @@ class _Stationery_ScreenState extends State<Stationery_Screen> {
                 ),
                 InkWell(
                   onTap: () async {
-                    Navigator.of(context).pop(); // Close the dialog
+                    // Navigator.of(context).pop(); 
                     try {
-                    int? userId = await apiService.getUserId(); // Get user ID from API
+                    int? userId = await apiService.getUserId(); 
                       if (userId != null) {
                         bool success = await apiService.requestReward(userId, rewardId);
                         if (success) {
@@ -381,6 +381,8 @@ void showSuccessDialog(BuildContext context, String message) {
           // Check if the dialog is still mounted in the widget tree.
           if (Navigator.of(dialogContext).canPop()) {
             Navigator.of(dialogContext).pop();
+            Navigator.of(context).pop(); 
+            fetchRewards();
           }
         });
 
@@ -416,6 +418,8 @@ void showSuccessDialog(BuildContext context, String message) {
         Future.delayed(Duration(seconds: 2), () {
           if (Navigator.of(dialogContext).canPop()) {
             Navigator.of(dialogContext).pop();
+            Navigator.of(dialogContext).pop();
+            fetchRewards();
           }
         });
 
